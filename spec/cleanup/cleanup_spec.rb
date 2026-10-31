@@ -267,7 +267,7 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(doc))
       .to be_xml_equivalent_to output
     sym = Nokogiri::XML(doc).xpath("//xmlns:dt").to_xml
-    expect(strip_guid(sym)).to be_equivalent_to <<~OUTPUT
+    expect(strip_guid(sym)).to be_xml_equivalent_to <<~OUTPUT
           <dt id="_" anchor="symbol-x">x</dt><dt id="_" anchor="symbol-x_m">
         <stem type="MathML" block="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">

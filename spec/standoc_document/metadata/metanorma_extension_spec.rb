@@ -28,7 +28,7 @@ RSpec.describe "StandardDocument metadata classes" do
     end
 
     it "round-trips the full extension" do
-      expect(described_class.from_xml(full_xml).to_xml).to be_equivalent_to(full_xml)
+      expect(described_class.from_xml(full_xml).to_xml).to be_xml_equivalent_to(full_xml)
     end
 
     it "round-trips an extension without UnitsML" do
@@ -37,7 +37,7 @@ RSpec.describe "StandardDocument metadata classes" do
             "<presentation-metadata><document-scheme>current</document-scheme></presentation-metadata>" \
             "<source-highlighter-css>css</source-highlighter-css>" \
             "</metanorma-extension>"
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe "StandardDocument metadata classes" do
             "<doc-toc-heading-levels>3</doc-toc-heading-levels>" \
             "<pdf-toc-heading-levels>3</pdf-toc-heading-levels>" \
             "<html-details-open>true</html-details-open></presentation-metadata>"
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
 
     it "parses the legacy name/value serialization", :aggregate_failures do
@@ -77,7 +77,7 @@ RSpec.describe "StandardDocument metadata classes" do
     it "round-trips the legacy name/value serialization" do
       xml = "<presentation-metadata><name>TOC Heading Levels</name>" \
             "<value>2</value></presentation-metadata>"
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
 
     it "parses doctype-alias and repeated fonts (OIML shape)", :aggregate_failures do
@@ -120,7 +120,7 @@ RSpec.describe "StandardDocument metadata classes" do
             "<html-toc-heading-levels>2</html-toc-heading-levels>" \
             "<doc-toc-heading-levels>2</doc-toc-heading-levels>" \
             "<pdf-toc-heading-levels>2</pdf-toc-heading-levels></presentation-metadata>"
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 
@@ -132,7 +132,7 @@ RSpec.describe "StandardDocument metadata classes" do
 
     it "round-trips" do
       xml = "<semantic-metadata><stage-published>false</stage-published></semantic-metadata>"
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 end

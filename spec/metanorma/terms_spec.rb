@@ -779,7 +779,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
   end
 
   it "varies terms symbols & abbreviated terms title" do
@@ -926,7 +926,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
   end
 
   it "processes terminal nodes in terms with term subsection names" do
@@ -1051,7 +1051,7 @@ RSpec.describe Metanorma::Standoc do
       </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
   end
 
   it "ignores second terms section" do
@@ -1090,7 +1090,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
   end
 
   it "does not ignore second terms section if specified as heading" do
@@ -1135,6 +1135,6 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
   end
 end

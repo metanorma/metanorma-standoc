@@ -657,7 +657,7 @@ RSpec.describe Metanorma::Standoc do
     entry = db.load_entry("ISO(ISO 123:2001)")
     # expect(db.fetched("ISO(ISO 123:2001)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today - 2}</fetched>")
-    # expect(entry).to be_equivalent_to(ISO_123_DATED)
+    # expect(entry).to be_xml_equivalent_to(ISO_123_DATED)
     entry = db.load_entry("ISO(ISO 124:2014)")
     # expect(db.fetched("ISO(ISO 124:2014)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today}</fetched>")
@@ -696,7 +696,7 @@ RSpec.describe Metanorma::Standoc do
     entry = db.load_entry("ISO(ISO 123)")
     # expect(db.fetched("ISO(ISO 123)")).to eq(Date.today.to_s)
     expect(entry).to include("<fetched>#{Date.today}</fetched>")
-    # expect(entry).to be_equivalent_to(ISO_123_UNDATED)  # NN TEMP
+    # expect(entry).to be_xml_equivalent_to(ISO_123_UNDATED)  # NN TEMP
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")
     FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"),
@@ -730,7 +730,7 @@ RSpec.describe Metanorma::Standoc do
     entry = db.load_entry("ISO(ISO 123:2001)")
     # expect(db.fetched("ISO(ISO 123:2001)")).to eq((Date.today - 90).to_s)
     expect(entry).to include("<fetched>#{Date.today - 90}</fetched>")
-    # expect(entry).to be_equivalent_to(ISO_123_DATED)
+    # expect(entry).to be_xml_equivalent_to(ISO_123_DATED)
     # It can't be true since fetched date is changed
 
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")

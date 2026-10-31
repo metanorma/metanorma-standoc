@@ -15,7 +15,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     output = <<~OUTPUT
       [[:doc, "doc"], [:html, "html"], [:pdf, "pdf"], [:presentation, "presentation.xml"], [:rxl, "rxl"], [:xml, "xml"]]
     OUTPUT
-    expect(processor.output_formats.sort.to_s).to be_equivalent_to output.strip
+    expect(processor.output_formats.sort.to_s).to be_xml_equivalent_to output.strip
   end
 
   it "registers version against metanorma" do
@@ -52,7 +52,7 @@ RSpec.describe Metanorma::Standoc::Processor do
     expect(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>")))
-      .to be_equivalent_to <<~OUTPUT
+      .to be_xml_equivalent_to <<~OUTPUT
            <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><div id="H"><h1><a class="anchor" href="#H"></a><a class="header" href="#H">Terms, Definitions, Symbols and Abbreviated Terms</a></h1>
          <div id="J"><h2 class="TermNum" id="_"><a class="anchor" href="#J"></a><a class="header" href="#J"></a></h2></div>
          <p class="Terms" style="text-align:left;">Term2</p>

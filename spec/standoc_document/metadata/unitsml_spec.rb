@@ -40,7 +40,7 @@ RSpec.describe "StandardDocument metadata classes" do
 
     it "round-trips the full tree (semx-id, lang, MathML symbol, default namespace)" do
       expect(described_class.from_xml(unitsml_xml).to_xml)
-        .to be_equivalent_to(unitsml_xml)
+        .to be_xml_equivalent_to(unitsml_xml)
     end
 
     it "serializes with the default (unprefixed) UnitsML namespace" do
@@ -81,14 +81,14 @@ RSpec.describe "StandardDocument metadata classes" do
     it "round-trips an HTML symbol with inline sup markup" do
       xml = '<UnitSymbol xmlns="https://schema.unitsml.org/unitsml/1.0" ' \
             'type="HTML">nmol mol <sup>−1</sup></UnitSymbol>'
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
 
     it "round-trips a MathMl symbol with its MathML content" do
       xml = '<UnitSymbol xmlns="https://schema.unitsml.org/unitsml/1.0" ' \
             'type="MathMl"><math xmlns="http://www.w3.org/1998/Math/MathML">' \
             '<mi mathvariant="normal">mm</mi></math></UnitSymbol>'
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 
@@ -140,7 +140,7 @@ RSpec.describe "StandardDocument metadata classes" do
             '<ThermodynamicTemperature symbol="Theta" powerNumerator="1"/>' \
             '<AmountOfSubstance symbol="N" powerNumerator="0"/>' \
             "</Dimension>"
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 
@@ -165,7 +165,7 @@ RSpec.describe "StandardDocument metadata classes" do
             '<PrefixSymbol type="unicode">k</PrefixSymbol>' \
             '<PrefixSymbol type="LaTeX">k</PrefixSymbol>' \
             '<PrefixSymbol type="HTML">k</PrefixSymbol></Prefix>'
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 
@@ -186,7 +186,7 @@ RSpec.describe "StandardDocument metadata classes" do
       xml = '<Quantity xmlns="https://schema.unitsml.org/unitsml/1.0" ' \
             'id="NISTq2" quantityType="base" dimensionURL="#NISTd2" semx-id="NISTq2">' \
             '<QuantityName lang="en-US">mass</QuantityName></Quantity>'
-      expect(described_class.from_xml(xml).to_xml).to be_equivalent_to(xml)
+      expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
   end
 end

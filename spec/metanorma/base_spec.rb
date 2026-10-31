@@ -25,9 +25,9 @@ RSpec.describe Metanorma::Standoc do
       :no-pdf:
     INPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
-    expect(xml.root["version"]).to be_equivalent_to Metanorma::Standoc::VERSION
+    expect(xml.root["version"]).to be_xml_equivalent_to Metanorma::Standoc::VERSION
     expect(xml.root["schema-version"])
-      .to be_equivalent_to Metanorma::Standoc::Converter.new(nil, nil)
+      .to be_xml_equivalent_to Metanorma::Standoc::Converter.new(nil, nil)
         .schema_version
   end
 
@@ -1525,7 +1525,7 @@ RSpec.describe Metanorma::Standoc do
     expect(File.exist?("spec/examples/test.asciidoc.log.txt")).to be true
     log = File.read("spec/examples/test.asciidoc.log.txt")
     source = File.read("spec/examples/test.adoc")
-    expect(log).to be_equivalent_to(source.strip)
+    expect(log).to be_xml_equivalent_to(source.strip)
     FileUtils.rm_rf("spec/examples/test.asciidoc.log.txt")
 
     FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
@@ -1568,7 +1568,7 @@ RSpec.describe Metanorma::Standoc do
       image::subdir/rice_image2.png[]
 
     ADOC
-    expect(log).to be_equivalent_to(adoc.strip)
+    expect(log).to be_xml_equivalent_to(adoc.strip)
     FileUtils.rm_rf("spec/assets/a1.asciidoc.log.txt")
   end
 
