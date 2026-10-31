@@ -65,7 +65,7 @@ module Metanorma
 
       def process(parent, target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        id = "_#{UUIDTools::UUID.random_create}"
+        id = "_#{Metanorma::Utils.random_uuid}"
         %{<span id='#{id}' anchor='#{target}'>#{out}</span>}
       end
     end
@@ -77,7 +77,7 @@ module Metanorma
 
       def process(parent, target, attrs)
         out = Asciidoctor::Inline.new(parent, :quoted, attrs["text"]).convert
-        id = "_#{UUIDTools::UUID.random_create}"
+        id = "_#{Metanorma::Utils.random_uuid}"
         %{<span id='#{id}' source='#{target}'>#{out}</span>}
       end
     end

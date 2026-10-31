@@ -12,7 +12,7 @@ module Metanorma
         m = %w(id name value disabled readonly checked maxlength minlength)
           .map { |a| attr[a] ? " #{map_attr_name(a)}='#{attr[a]}'" : nil }
           .compact
-        m << " id='_#{UUIDTools::UUID.random_create}'"
+        m << " id='_#{Metanorma::Utils.random_uuid}'"
         %{<input type='#{target}' #{m.join}/>}
       end
     end
@@ -41,7 +41,7 @@ module Metanorma
         m = %w(id name rows cols value)
           .map { |a| attr[a] ? " #{map_attr_name(a)}='#{attr[a]}'" : nil }
           .compact
-        m << " id='_#{UUIDTools::UUID.random_create}'"
+        m << " id='_#{Metanorma::Utils.random_uuid}'"
         %{<textarea #{m.join}/>}
       end
     end
@@ -59,7 +59,7 @@ module Metanorma
         m = %w(id name size disabled multiple value)
           .map { |a| attr[a] ? " #{map_attr_name(a)}='#{attr[a]}'" : nil }
           .compact
-        m << " id='_#{UUIDTools::UUID.random_create}'"
+        m << " id='_#{Metanorma::Utils.random_uuid}'"
         out = Asciidoctor::Inline.new(parent, :quoted, attr["text"]).convert
         %{<select #{m.join}>#{out}</select>}
       end

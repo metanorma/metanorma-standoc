@@ -41,11 +41,11 @@ module Metanorma
       end
 
       def add_id(node)
-        node["id"] = "_#{UUIDTools::UUID.random_create}"
+        node["id"] = "_#{Metanorma::Utils.random_uuid}"
       end
 
       def add_id_text
-        %(id = "_#{UUIDTools::UUID.random_create}")
+        %(id = "_#{Metanorma::Utils.random_uuid}")
       end
 
       def csv_split(text, delim = ";", encode: true)
@@ -162,7 +162,7 @@ module Metanorma
       # from that of current doc
       def separate_numbering_footnotes(docxml)
         docxml.xpath("//xmlns:fn").each do |f|
-          f["reference"] = "_#{UUIDTools::UUID.random_create}_#{f['reference']}"
+          f["reference"] = "_#{Metanorma::Utils.random_uuid}_#{f['reference']}"
         end
         docxml
       end

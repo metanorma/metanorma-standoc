@@ -26,7 +26,7 @@ module Metanorma
         init_attachments
         f = File.basename(path)
         File.exist?(File.join(@attachmentsdir, f)) and
-          f += "_#{UUIDTools::UUID.random_create}"
+          f += "_#{Metanorma::Utils.random_uuid}"
         out_fld = File.join(@attachmentsdir, f)
         FileUtils.cp(path, out_fld)
         datauri_attachment(out_fld, bib.document)
