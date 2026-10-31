@@ -55,9 +55,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "relaton-iev", "~> 2.0"
   spec.add_dependency "svg_conform", "~> 0.2"
 
-  spec.add_development_dependency "canon" # , "= 0.2.3"
   spec.add_development_dependency "debug"
-  spec.add_development_dependency "equivalent-xml", "~> 0.6"
+  spec.add_development_dependency "canon", "~> 0.3"
   spec.add_development_dependency "guard", "~> 2.14"
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "openssl"

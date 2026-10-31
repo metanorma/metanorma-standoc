@@ -1559,7 +1559,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     expect(strip_guid(Canon.format_xml(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .to be_xml_equivalent_to Canon.format_xml(output)
   end
 
   it "automates terms & definitions titles if there are no extraneous sections" do
@@ -1675,7 +1675,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms, Definitions, Symbols and Abbreviated Terms
@@ -1740,6 +1740,6 @@ RSpec.describe Metanorma::Standoc do
          </sections>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to output
+      .to be_xml_equivalent_to output
   end
 end

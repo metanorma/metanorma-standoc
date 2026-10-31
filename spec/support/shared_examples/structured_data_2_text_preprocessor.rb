@@ -646,7 +646,7 @@ RSpec.shared_examples "structured data 2 text preprocessor" do
 
       it "renders liquid markup" do
         expect(xml_string_content(metanorma_process(input)))
-          .to(be_equivalent_to(output))
+          .to(be_xml_equivalent_to(output))
       end
     end
   end

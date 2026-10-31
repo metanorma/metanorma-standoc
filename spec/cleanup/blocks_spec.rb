@@ -1485,7 +1485,7 @@ RSpec.describe Metanorma::Standoc do
        </metanorma>
     OUTPUT
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
-      .to be_equivalent_to (output)
+      .to be_xml_equivalent_to (output)
   end
 
   it "moves identifier of empty source-id:[] macro to its parent node" do
@@ -1506,7 +1506,7 @@ RSpec.describe Metanorma::Standoc do
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:sections")
     expect(strip_guid(xml.to_xml))
-      .to be_equivalent_to (output)
+      .to be_xml_equivalent_to (output)
   end
 
   it "preserves asciidoctor source linebreaks in blocks as space, but not in CJK, and not incorrectly inserting space or stripping space before inline markup" do
@@ -1575,7 +1575,7 @@ RSpec.describe Metanorma::Standoc do
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:sections")
     expect(strip_guid(xml.to_xml))
-      .to be_equivalent_to (output)
+      .to be_xml_equivalent_to (output)
   end
 
   it "processes keys" do

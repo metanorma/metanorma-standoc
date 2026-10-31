@@ -802,7 +802,7 @@ RSpec.describe Metanorma::Standoc do
     end
 
     it "converts macro into the correct xml" do
-      expect(convert).to be_equivalent_to output
+      expect(convert).to be_xml_equivalent_to output
     end
 
     context "default params" do
