@@ -41,7 +41,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.55" # LutamlDataPreprocessor shipped in 0.7.55
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
   spec.add_dependency "metanorma-utils", "~> 2.0.10"
-  spec.add_dependency "moxml", "~> 0.5.84"
+  # moxml 0.6.0 removed the Opal surface (lutaml/moxml#516, the
+  # cross-language program's phase 4); standoc's CRuby faces are
+  # unaffected. Owner call: forward-pin the 0.6 series, matching
+  # lutaml-model (lutaml/lutaml-model#1075) and canon (canon#298).
+  spec.add_dependency "moxml", "~> 0.6.0"
   spec.add_dependency "leptris", "~> 1.9"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "png_conform", "~> 0.1.0"
