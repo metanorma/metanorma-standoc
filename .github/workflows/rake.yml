@@ -19,7 +19,7 @@ jobs:
       # compact-index line cached in ~/.bundle still carries the old
       # (lens_core) record and fails every install against it.
       # (File is cimas-generated; drop this input when cimas regenerates.)
-      before-setup-ruby: rm -rf ~/.bundle/cache/compact_index
+      before-setup-ruby: rm -rf ~/.bundle/cache/compact_index vendor/bundle/cache
       setup-tools: ghostscript
       submodules: true
       choco-cache: true
