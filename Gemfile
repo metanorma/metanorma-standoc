@@ -30,11 +30,6 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
 gem "relaton", "~> 3.0"
 gem "pubid", "~> 2.0"
-# parsanol 1.3.120 removed the pre-1.3.113 `mode` grammar-header alias,
-# which pubid <= 2.0.1's baked artifacts still embed ("the grammar header
-# keyword is edition" ParseError at first Pubid.parse_by_prefix use).
-# Hold the corpus-proven 1.3.114 until pubid re-bakes its artifacts.
-gem "parsanol", "1.3.114"
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
