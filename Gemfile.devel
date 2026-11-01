@@ -1,0 +1,1 @@
+gem "svg_conform", "0.2.4" # bridge: 0.2.5 pushed with a broken compact index (APIResponseMismatchError) — drop when a corrected push lands
