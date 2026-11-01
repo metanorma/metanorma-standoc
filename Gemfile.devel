@@ -1,1 +1,2 @@
 gem "svg_conform", "0.2.4" # bridge: 0.2.5 pushed with a broken compact index (APIResponseMismatchError) — drop when a corrected push lands
+gem "parsanol", "1.3.114" # bridge: pubid 2.0.1 grammars carry the mode header alias removed in parsanol 1.3.113+ — drop at pubid PARG edition 2
