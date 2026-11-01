@@ -219,7 +219,7 @@ module Metanorma
       def init_bib_caches(node)
         @no_isobib and return
         global = !@no_isobib_cache && !node.attr("local-cache-only")
-        local = node.attr("local-cache") || node.attr("local-cache-only")
+        local = local_cache_dir(node)
         local = nil if @no_isobib_cache
         flush_bib_caches_force(node) if node.attr("flush-caches") &&
           @no_isobib_cache
@@ -228,6 +228,23 @@ module Metanorma
           flush_caches: node.attr("flush-caches"),
           global_cache: global,
         )
+      end
+
+      # The local bibliographic cache belongs to the document, not to
+      # wherever the compile was invoked from (metanorma#627): an empty
+      # `:local-cache:`/`:local-cache-only:` attribute anchors the cache
+      # at the docfile's directory (docfile/relaton/cache) instead of the
+      # process working directory, and a relative path is resolved against
+      # the docfile directory. Absolute paths pass through untouched.
+      def local_cache_dir(node)
+        local = node.attr("local-cache") || node.attr("local-cache-only")
+        return local if local.nil?
+
+        docfile = node.attributes["docfile"]
+        return local unless docfile
+
+        File.expand_path(local.empty? ? "relaton" : local,
+                         File.dirname(docfile))
       end
 
       # `:flush-caches:` must clear stale cache state regardless of whether
