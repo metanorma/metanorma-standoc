@@ -19,6 +19,6 @@ module Metanorma
   end
 
   module Standoc
-    VERSION = "3.5.5".freeze
+    VERSION = "3.5.6".freeze
   end
 end
