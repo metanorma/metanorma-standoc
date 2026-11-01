@@ -135,8 +135,42 @@ module Metanorma
         else
           organization(xml, org[:name], node, !node.attr("publisher"), org)
           org_address(org, xml)
-          org_logo(xml, org[:logo])
+          org_logo(xml, org[:logo] || authoritative_org_logo(node, org))
         end
+      end
+
+      # Authoritative sourcing of copublisher logos
+      # (https://github.com/metanorma/metanorma/issues/346 ,
+      # https://github.com/metanorma/metanorma/issues/582 ): when the document
+      # attributes provide no logo for an organization, take it from the
+      # Relaton SDO logo store, embedded as a data URI. This is enabled by the
+      # `:sdo-logos:` document attribute, applies to copublishers only (the
+      # document's own default publisher is branded by the flavor, not the
+      # SDO store), and is best effort: an organization the store does not
+      # know, a store entry without logos, or an unreachable store leaves the
+      # logo out, and never fails the compile.
+      def authoritative_org_logo(node, org)
+        node.attr("sdo-logos") or return
+        abbr = org_name_and_abbrev(org, org[:name])[1].to_s.strip
+        abbr.empty? and return
+        own_publisher?(org, abbr) and return
+        logo = sdo_org_logo(abbr)
+        logo.nil? and return
+        logo.data_uri
+      rescue StandardError => e
+        @log.add("STANDOC_66", nil, params: [abbr, e.message])
+        nil
+      end
+
+      def own_publisher?(org, abbr)
+        d = default_publisher
+        !d.nil? && (org[:name] == d || abbr == d)
+      end
+
+      def sdo_org_logo(abbr)
+        store_org = Relaton.organization(abbr) or return
+        store_org.logo_query(format: "png").first ||
+          store_org.logo_query.first
       end
 
       def org_attrs_parse_core(node, opts)
