@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.55" # LutamlDataPreprocessor shipped in 0.7.55
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
   spec.add_dependency "metanorma-utils", "~> 2.0.10"
-  spec.add_dependency "moxml", "~> 0.5.84"
+  spec.add_dependency "moxml", ">= 0.5.84", "< 0.7" # 0.6.x verified: canon floors 0.6.0, corpus runs ~> 0.6.0
   spec.add_dependency "leptris", "~> 1.9"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "png_conform", "~> 0.1.0"
