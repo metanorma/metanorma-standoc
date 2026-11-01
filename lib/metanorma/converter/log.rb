@@ -201,6 +201,10 @@ module Metanorma
         STANDOC_65: { category: "AsciiDoc Input",
                       error: "Unbalanced sourcecode markup: unclosed %s",
                       severity: 0 },
+        STANDOC_66: { category: "Images",
+                      error: "Could not fetch the authoritative logo for " \
+                             "organization %s: %s",
+                      severity: 2 },
         RELATON_1: { category: "Relaton",
                      error: "(Error from Relaton) %s",
                      severity: 0 },
