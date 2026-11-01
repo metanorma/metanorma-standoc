@@ -29,7 +29,11 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
 gem "relaton", "~> 3.0"
-gem "pubid", "~> 2.0"
+# TEMPORARY: pubid main carries the PARG edition-2 baked artifacts; the
+# released 2.0.1 embeds pre-edition-2 sources whose `mode:` headers the
+# latest parsanol (1.3.120) rejects at first Pubid.parse_by_prefix use.
+# Flip to the released line when 2.0.2 ships.
+gem "pubid", github: "metanorma/pubid", branch: "main"
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
