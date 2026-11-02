@@ -15,11 +15,6 @@ jobs:
   rake:
     uses: metanorma/ci/.github/workflows/generic-rake.yml@main
     with:
-      # svg_conform 0.2.5 was re-pushed with corrected metadata; the
-      # compact-index line cached in ~/.bundle still carries the old
-      # (lens_core) record and fails every install against it.
-      # (File is cimas-generated; drop this input when cimas regenerates.)
-      before-setup-ruby: rm -rf ~/.bundle/cache/compact_index vendor/bundle/cache && mkdir -p vendor/bundle/cache && curl -sfL https://rubygems.org/gems/svg_conform-0.2.5.gem -o vendor/bundle/cache/svg_conform-0.2.5.gem
       setup-tools: ghostscript
       submodules: true
       choco-cache: true
