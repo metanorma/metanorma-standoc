@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-utils", "~> 2.0.10"
   # moxml 0.6.0 removed the Opal surface (lutaml/moxml#516); owner
   # call to update all to the latest moxml line.
-  spec.add_dependency "moxml", "~> 0.6.0"
+  spec.add_dependency "moxml", "~> 0.6.1"
   spec.add_dependency "leptris", "~> 1.9"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "png_conform", "~> 0.1.0"
