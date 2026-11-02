@@ -28,8 +28,9 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # release. Prefer the released gem over a git pin: relaton main has since
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
-# parsanol 1.3.120 removed the pre-1.3.113 grammar-header alias (mode), breaking pubid 2.0.1's baked self-description grammar at compile (81 suite failures). Pin below the break until pubid regenerates its artifacts against the current compiler.
-gem "parsanol", "< 1.3.120"
+# parsanol 1.3.120's mode-alias removal broke pubid 2.0.1's baked
+# self-description grammar; pubid 2.0.3 re-vendored every artifact at the
+# current compiler (including PgMeta), so the below-the-break pin is lifted.
 gem "relaton", "~> 3.0"
 gem "pubid", "~> 2.0"
 
