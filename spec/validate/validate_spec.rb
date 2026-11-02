@@ -659,10 +659,14 @@ RSpec.describe Metanorma::Standoc, type: :validation do
         input.sub(":no-isobib-cache:",
                   ":log-filter-severity: 2\n:no-isobib-cache:"),
       )
-      # relaton >= db9840bdf classifies the malformed-identifier line
-      # at a lower severity than the old RELATON_3 info, so a
-      # severity-2 filter keeps it visible
-      expect(errors).to include("<code>ISO 0a</code>")
+      # relaton >= 3.0.x logs the malformed-identifier line at INFO
+      # (relaton-db INFO: "Failed to match ..."), so the severity-2
+      # filter now drops it — and with it the parse-expectation
+      # listing that accompanied it. Standoc's own severities are
+      # unchanged. (Was: kept visible, per the db9840bdf
+      # classification this example has tracked through two drifts.)
+      expect(errors).not_to include("<code>ISO 0a</code>")
+      expect(errors).not_to include("expected one of")
       expect(errors).to include("STANDOC_38")
       expect(errors).to include("Crossreference target X is undefined")
       expect(errors).not_to include("STANDOC_7")
