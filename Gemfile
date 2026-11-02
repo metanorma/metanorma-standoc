@@ -42,3 +42,9 @@ gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciido
 # 0.2.4 is the last clean release and rides moxml ~> 0.5 (= satisfied by
 # the 0.6 line). Lift when a clean 0.2.6 ships.
 gem "svg_conform", "0.2.4"
+
+# parsanol 1.3.120+/1.3.121 removed the pre-1.3.113 `mode` grammar
+# header alias that pubid 2.0.2's edition-1 iso artifact still embeds;
+# every fresh resolution dies at the first Pubid.parse (the iso-10303
+# corpus carries the same pin). Lift when pubid re-bakes iso.json.
+gem "parsanol", "1.3.114"
