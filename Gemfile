@@ -29,7 +29,7 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
 gem "relaton", "~> 3.0"
-gem "pubid", "~> 2.0"
+gem "pubid", ">= 2.0.3" # 2.0.3: edition-2 iso artifact
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
 
@@ -37,14 +37,5 @@ eval_gemfile("Gemfile.devel") rescue nil
 
 gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56), released in 2.0.8, github: "metanorma/metanorma-utils", branch: "main"
 
-# svg_conform 0.2.5's rubygems object is stale on some CDN edges (the
-# re-pushed build carries a lens_core dependency that is not published);
-# 0.2.4 is the last clean release and rides moxml ~> 0.5 (= satisfied by
-# the 0.6 line). Lift when a clean 0.2.6 ships.
-gem "svg_conform", "0.2.4"
+gem "svg_conform", "~> 0.2.6" # 0.2.6 ships the corrected metadata
 
-# parsanol 1.3.120+/1.3.121 removed the pre-1.3.113 `mode` grammar
-# header alias that pubid 2.0.2's edition-1 iso artifact still embeds;
-# every fresh resolution dies at the first Pubid.parse (the iso-10303
-# corpus carries the same pin). Lift when pubid re-bakes iso.json.
-gem "parsanol", "1.3.114"
