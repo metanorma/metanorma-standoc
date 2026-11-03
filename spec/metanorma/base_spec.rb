@@ -1611,6 +1611,33 @@ RSpec.describe Metanorma::Standoc do
                   "index-case-sensitive")).to be_nil
   end
 
+  # metanorma/metanorma-cli#155
+  it "emits presentation metadata for mn-output-extensions" do
+    hdr = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+    INPUT
+    path = "//metanorma-extension/presentation-metadata/output-extensions"
+    xml = Nokogiri::XML(Asciidoctor.convert(
+                          "#{hdr}:mn-output-extensions: xml, html ,pdf\n\n" \
+                          "== Clause", *OPTIONS
+                        )).remove_namespaces!
+    expect(xml.xpath(path).map(&:text)).to eq ["xml,html,pdf"]
+    xml = Nokogiri::XML(Asciidoctor.convert(
+                          "#{hdr}:mn-output-extensions: all\n\n== Clause",
+                          *OPTIONS
+                        )).remove_namespaces!
+    expect(xml.at(path)&.text).to eq "all"
+    xml = Nokogiri::XML(Asciidoctor
+      .convert(ASCIIDOC_BLANK_HDR + "\n== Clause", *OPTIONS))
+      .remove_namespaces!
+    expect(xml.at(path)).to be_nil
+  end
+
   private
 
   def mock_org_abbrevs

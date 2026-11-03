@@ -42,6 +42,7 @@ module Metanorma
         attribute :doc_toc_heading_levels, :string
         attribute :pdf_toc_heading_levels, :string
         attribute :html_details_open, :string
+        attribute :output_extensions, :string
         attribute :fonts, :string, collection: true
         attribute :name, :string
         attribute :value, :string
@@ -97,6 +98,7 @@ module Metanorma
           map_element "doc-toc-heading-levels", to: :doc_toc_heading_levels
           map_element "pdf-toc-heading-levels", to: :pdf_toc_heading_levels
           map_element "html-details-open", to: :html_details_open
+          map_element "output-extensions", to: :output_extensions
           map_element "fonts", to: :fonts
           map_element "name", to: :name
           map_element "value", to: :value

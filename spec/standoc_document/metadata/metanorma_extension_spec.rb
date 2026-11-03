@@ -66,6 +66,16 @@ RSpec.describe "StandardDocument metadata classes" do
       expect(described_class.from_xml(xml).to_xml).to be_xml_equivalent_to(xml)
     end
 
+    # metanorma/metanorma-cli#155
+    it "round-trips output-extensions" do
+      xml = "<presentation-metadata><document-scheme>2013</document-scheme>" \
+            "<output-extensions>xml,html</output-extensions>" \
+            "</presentation-metadata>"
+      pm = described_class.from_xml(xml)
+      expect(pm.output_extensions).to eq("xml,html")
+      expect(pm.to_xml).to be_xml_equivalent_to(xml)
+    end
+
     it "parses the legacy name/value serialization", :aggregate_failures do
       xml = "<presentation-metadata><name>TOC Heading Levels</name>" \
             "<value>2</value></presentation-metadata>"
