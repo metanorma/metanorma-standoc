@@ -237,7 +237,8 @@ module Metanorma
             end
           end
         end.join
-        out + document_scheme_metadata(node) + index_metadata(node)
+        out + document_scheme_metadata(node) + index_metadata(node) +
+          output_extensions_metadata(node)
       end
 
       def document_scheme_metadata(node)
@@ -254,6 +255,16 @@ module Metanorma
         a.nil? || a == "false" and return ""
         "<presentation-metadata><index-case-sensitive>" \
           "true</index-case-sensitive></presentation-metadata>"
+      end
+
+      # persist the requested output formats, so that a later compile of
+      # the semantic XML honours them (metanorma/metanorma-cli#155)
+      def output_extensions_metadata(node)
+        a = node.attr("mn-output-extensions") or return ""
+        a = a.split(",").map(&:strip).reject(&:empty?).join(",")
+        a.empty? and return ""
+        "<presentation-metadata><output-extensions>" \
+          "#{a}</output-extensions></presentation-metadata>"
       end
 
       def document_scheme(node)
