@@ -74,10 +74,20 @@ module Metanorma
         severity = node.attr("log-filter-severity")&.to_i || 4
         category = csv_split(node.attr("log-filter-category"), ",")
         error_ids = csv_split(node.attr("log-filter-error-ids"), ",")
+        error_regexes = extract_log_filter_error_regex(node)
         locations = cleanup_log_filter_error_log(
           extract_log_filter_error_loc(node),
         )
-        @log.suppress_log = { severity:, category:, error_ids:, locations: }
+        @log.suppress_log = { severity:, category:, error_ids:,
+                              error_regexes:, locations: }
+      end
+
+      # `log-filter-error-regex`: comma-separated regexes matched against the
+      # interpolated message text, suppressing matching entries without
+      # suppressing the other messages sharing the code (utils Log).
+      def extract_log_filter_error_regex(node)
+        csv_split(node.attr("log-filter-error-regex"), ",")
+          &.map { |r| Regexp.new(r) } || []
       end
 
       def extract_log_filter_error_loc(node)
