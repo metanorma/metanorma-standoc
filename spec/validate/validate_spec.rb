@@ -1413,8 +1413,61 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     errors = convert_and_capture_errors(input)
     expect(errors).not_to include("Corrupt SVG image detected")
     expect(errors).not_to include("SVG image warning")
-    expect(errors).to include("SVG unresolved internal reference") # ref1
+    # The svgmap carries eref targets, so it survives cleanup as the
+    # wrapper of its diagram: the diagram is a machine-generated emission
+    # and its SvgConform validation (including the internal reference
+    # check) is skipped. See "skips SvgConform validation of
+    # svgmap-emitted diagrams".
+    expect(errors).not_to include("SVG unresolved internal reference")
     expect(File.exist?("test.xml")).to be true
+  end
+
+  it "skips SvgConform validation of svgmap-emitted diagrams" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/gibberish.svg", "gibberish.svg"
+
+    # Wrapped in a surviving svgmap (one with eref targets), the diagram
+    # is a machine-generated emission, not an author asset: SvgConform
+    # validation and remediation are skipped for it.
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref2]]
+      [svgmap%unnumbered,number=8,subsequence=A,keep-with-next=true,keep-lines-together=true]
+      ====
+      [alt=Workmap]
+      image::gibberish.svg[]
+
+      * <<express:action_schema:action_schema.basic,Coffee>>; mn://support_resource_schema
+      ====
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(errors).not_to include("SVG image warning")
+    expect(errors).not_to include("could not be fixed")
+    expect(File.exist?("test.xml")).to be true
+  end
+
+  it "still validates author SVG images outside svgmap" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/gibberish.svg", "gibberish.svg"
+
+    # The same invalid SVG asset, referenced as a plain author image,
+    # keeps being validated.
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      .SVG title
+      image::gibberish.svg[]
+    INPUT
+    errors = convert_and_capture_errors(input)
+    expect(errors).to include("Corrupt SVG image detected")
   end
 
   it "validates SVG by profile" do
