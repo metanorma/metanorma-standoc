@@ -710,6 +710,19 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       expect(errors).to include("value of attribute \"align\" is invalid")
     end
 
+    it "filters errors by message regex in Metanorma log" do
+      errors = convert_and_capture_errors(
+        input.sub(":no-isobib-cache:",
+                  ":log-filter-error-regex: Crossreference target," \
+                  "value of attribute\n" \
+                  ":no-isobib-cache:"),
+      )
+      expect(errors).not_to include("Crossreference target X is undefined")
+      expect(errors).not_to include("value of attribute \"align\" is invalid")
+      # other messages under the same codes survive the text filter
+      expect(errors).to include("STANDOC_7")
+    end
+
     it "filters errors by location in Metanorma log" do
       l = ":log-filter-error-loc: "
       errors = convert_and_capture_errors(
