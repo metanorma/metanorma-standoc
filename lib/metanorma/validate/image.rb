@@ -62,18 +62,38 @@ module Metanorma
         end
 
         # Use SAX for fast validation
+        #
+        # Machine-emitted diagram images are skipped: the svgmap blocks
+        # emitted for EXPRESS-G and other generated diagrams (e.g. by
+        # stepmod2mn) wrap pre-baked placeholder SVG/GIF assets which are
+        # not author-authored content, and their eref integrity is
+        # enforced separately when svgmap targets are resolved at render
+        # time. Validating them through SvgConform costs heavily on
+        # diagram-heavy corpora and yields nothing the render does not
+        # already catch.
         def svg_validate(doc)
           profile = SvgConform::Profiles.get(@svg_conform_profile)
           validator = SvgConform::Validator.new(mode: :sax)
           engine = SvgConform::RemediationEngine.new(profile)
           @svg_remediation_cache = {}
           doc.xpath("//m:svg", "m" => SVG_NS).each do |svg_element|
+            svgmap_emission?(svg_element) and next
             result = svg_validate1(validator, profile, svg_element)
             if profile.remediation_count.positive? && !result.valid?
               svg_remediate(validator, profile, engine, svg_element,
                             result)
             end
           end
+        end
+
+        # Is this inline SVG a machine-generated diagram emission, rather
+        # than an author-provided SVG asset? svgmaps that carry eref
+        # targets survive cleanup as wrappers of their diagram, so a
+        # svgmap ancestor marks the diagram as svgmap-emitted. Author
+        # SVGs (plain image elements) have no svgmap ancestor and keep
+        # being validated.
+        def svgmap_emission?(svg)
+          !svg.at_xpath("ancestor::svgmap").nil?
         end
 
         def svg_validate1(validator, profile, svg)
