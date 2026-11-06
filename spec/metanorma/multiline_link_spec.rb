@@ -5,8 +5,8 @@ RSpec.describe "multi-line link macros" do
   # (ISO 32000-2 clause 14.8.4.7.3 errata): the break must survive into
   # the semantic XML as a <br/> between two link segments with the same
   # target, and the link text must not leak as literal bracket content.
-  # RED until the segment emission retarget lands (WIP:
-  # wip/multiline-link-protect).
+  # The anchor consumes the break itself and emits one link per
+  # segment (metanorma-pdfa#102).
   it "preserves link text across a hard break in an auto-link macro" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}

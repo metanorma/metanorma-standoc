@@ -35,9 +35,23 @@ module Metanorma
         !pass && text.include?(":") ? inlinelinkmacro(inlinelink(text)) : text
       end
 
-      # the line opens a bracket it never closes: a multi-line macro
-      # (or a genuinely unterminated fragment, flushed verbatim at EOF)
+      # Buffer only lines that open a link macro's bracketed text:
+      # buffering any other open-bracket line would defer that line's
+      # own substitution passes (e.g. character expansions), so the
+      # bracket-unclosed test is reserved for the URL/link/mailto
+      # prefixes the escape pass below actually rewrites.
+      #
+      # NOTE: no /x mode or comments in this pattern — TruffleRuby's
+      # TRegex parser rejects /x-commented patterns in this file (see
+      # PASS_INLINE_MACRO_STR).
+      LINK_MACRO_OPEN_RX =
+        /(?:\b(?:https?|file|ftp|irc):\/\/|\blink:(?!\+)|\bmailto:)/.freeze
+
+      # the line opens a bracket it never closes: a multi-line link
+      # macro (or a genuinely unterminated fragment, flushed verbatim
+      # at EOF)
       def bracket_open?(line)
+        LINK_MACRO_OPEN_RX.match?(line) or return false
         open = line.index("[") or return false
         !bracket_closed?(line)
       end
