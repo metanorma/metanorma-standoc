@@ -36,7 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-core", "~> 0.2.3"
   spec.add_dependency "metanorma-document", "~> 0.5.3"
   spec.add_dependency "metanorma-mirror"
-  spec.add_dependency "metanorma-plugin-asciichem", "~> 0.1.0"
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.5"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.55" # LutamlDataPreprocessor shipped in 0.7.55
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
@@ -51,9 +50,7 @@ Gem::Specification.new do |spec|
   # content back (the 0.13 SvgMapping contract: vectory processes its own
   # tree and returns the result instead of mutating the caller's document).
   spec.add_dependency "vectory", "~> 0.13", ">= 0.13.2"
-  # Stable relaton-cli 3.0.0 is out; the ecosystem target is relaton 3.0+
-  # (glossarist 2.14+ requires relaton ~> 3.0.0.pre.alpha).
-  spec.add_dependency "relaton", "~> 3.0"
+  spec.add_dependency "relaton", "~> 3.1"
   spec.add_dependency "relaton-iev", "~> 2.0"
   spec.add_dependency "svg_conform", "~> 0.2"
 
