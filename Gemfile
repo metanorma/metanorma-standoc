@@ -29,7 +29,7 @@ gem "isodoc", github: "metanorma/isodoc", branch: "main"
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
 gem "parsanol", "~> 1.3.123"
-gem "relaton", "~> 3.1"
+gem "relaton", "~> 3.1.1"
 gem "pubid", "~> 2.0" # 2.0.3+: edition-2 iso artifact
 
 gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
