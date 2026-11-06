@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="3.5.7" schema-version="v2.3.0" flavor="standoc">
+<bibdata type="standard">
+<title language="en" type="main">T</title>
+<docidentifier primary="true">1</docidentifier><docnumber>1</docnumber><language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2026</from></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><semantic-metadata><stage-published>true</stage-published></semantic-metadata>
+<presentation-metadata><toc-heading-levels>2</toc-heading-levels><html-toc-heading-levels>2</html-toc-heading-levels><doc-toc-heading-levels>2</doc-toc-heading-levels><pdf-toc-heading-levels>2</pdf-toc-heading-levels></presentation-metadata></metanorma-extension>
+<sections><p id="_aa9c54ec-760c-47c1-f06b-566a89d6e07b">This is some text with 2 separate URL <link target="https://pdfa.org">links that</link><br/> <link target="https://pdfa.org">breaks over a line</link> hopefully.</p>
+
+<p id="_2f575a14-67c9-b934-3d76-e4550c92231f">Some more text with a <link target="https://pdfa.org"/>[auto-link macro that<br/> breaks over a line] hopefully.</p>
+
+<p id="_c4f3c857-5771-90cd-66f0-838528a4edd0">Yet more text a <link target="https://pdfa.org"/>[explicit link macro that<br/> breaks over a line] hopefully.</p>
+</sections>
+</metanorma>

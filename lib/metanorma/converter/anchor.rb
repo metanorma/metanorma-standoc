@@ -81,8 +81,23 @@ module Metanorma
       def inline_anchor_link(node)
         contents, attributes = inline_anchor_link_attrs(node)
         noko do |xml|
-          xml.link **attr_code(attributes) do |l|
-            l << contents
+          # A hard break inside the link text arrives as markup in the
+          # contents string; a raw append would carry any embedded tag
+          # fragments and can tear the link element open. Emit one link
+          # per break-separated segment, reopening the same target
+          # after each break.
+          segs = contents.split(%r{</?link[^>]*>|<br\s*/>}).reject(&:empty?)
+          if segs.size <= 1
+            xml.link **attr_code(attributes) do |l|
+              l << contents
+            end
+          else
+            segs.each_with_index do |seg, i|
+              xml.link **attr_code(attributes) do |l|
+                l << seg
+              end
+              xml.br unless i == segs.size - 1
+            end
           end
         end
       end
