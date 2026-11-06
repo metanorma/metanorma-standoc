@@ -81,24 +81,42 @@ module Metanorma
       def inline_anchor_link(node)
         contents, attributes = inline_anchor_link_attrs(node)
         noko do |xml|
-          # A hard break inside the link text arrives as markup in the
-          # contents string; a raw append would carry any embedded tag
-          # fragments and can tear the link element open. Emit one link
-          # per break-separated segment, reopening the same target
-          # after each break.
-          segs = contents.split(%r{</?link[^>]*>|<br\s*/>}).reject(&:empty?)
-          if segs.size <= 1
-            xml.link **attr_code(attributes) do |l|
-              l << contents
-            end
-          else
-            segs.each_with_index do |seg, i|
-              xml.link **attr_code(attributes) do |l|
-                l << seg
-              end
-              xml.br unless i == segs.size - 1
-            end
+          link_hardbreak_segments(xml, contents, attr_code(attributes))
+        end
+      end
+
+      # A hard break inside link macro text is a " +" at end of line
+      # (asciidoctor HardLineBreakRx). Inline macros are substituted
+      # before post-replacements, so the break still arrives here in
+      # the raw node text, and the anchor's own markup is already in
+      # the paragraph string when sub_post_replacements expands that
+      # break: the expansion re-emits the whole preceding line through
+      # the break node, and the fragment parse of that line closes the
+      # still-open <link> early, leaking the tail as text with an
+      # orphaned close (metanorma-pdfa#102). Consume the break here
+      # instead: emit one link per break-separated segment, reopening
+      # the same target after each break, so no " +" survives into
+      # post-replacements and the emitted markup is well-formed.
+      HARD_BREAK_RX = / \+\n| \+\z/.freeze
+
+      def link_hardbreak_segments(xml, contents, attributes)
+        segs = contents.split(HARD_BREAK_RX, -1)
+        if segs.size <= 1
+          xml.link **attributes do |l|
+            l << contents
           end
+          return
+        end
+        trailing = segs.last.empty?
+        segs.pop if trailing
+        segs.each_with_index do |seg, i|
+          xml.link **attributes do |l|
+            l << seg
+          end
+          last = i == segs.size - 1
+          br = !last || trailing
+          xml.br if br
+          xml << "\n" if br && !last
         end
       end
 
