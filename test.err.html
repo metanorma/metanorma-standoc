@@ -1,0 +1,53 @@
+<html><head><title>./test.err.html errors</title>
+<meta charset="UTF-8"/>
+<style> pre { white-space: pre-wrap; }
+thead th { font-weight: bold; background-color: aqua; }
+.severity0 { font-weight: bold; background-color: lightpink }
+.severity1 { font-weight: bold; }
+.severity2 { }
+.severity3 { font-style: italic; color: grey; }
+</style>
+</head><body><h1>./test.err.html errors</h1>
+<ul><li><p><b><a href="#Relaton">Relaton</a></b>: Severity 3: <b>2</b> errors</p></li>
+
+<li><p><b><a href="#Anchors">Anchors</a></b>: Severity 1: <b>1</b> error</p></li>
+
+<li><p><b><a href="#Metanorma_XML_Syntax">Metanorma XML Syntax</a></b>: Severity 2: <b>3</b> errors</p></li>
+</ul>
+<h2 id="Relaton">Relaton</h2>
+<table border="1">
+<thead><th width="5%">Line</th><th width="20%">ID</th><th width="10%">Error</th>
+<th width="20%">Message</th><th width="40%">Context</th><th width="5%">Severity</th></thead>
+<tbody>
+<tr class="severity3">
+<td></td><th><code>--</code></th><td>RELATON_4</td>
+<td>(Error from Relaton) <code>ISO 0a</code> -- Failed to match: expected one of [[\x30-\x39], '-', '‑', '‐', '/', '.', ' ', ':', 'Edition', 'Ed.', 'ED', 'Ed', '|', '(', '(all parts)'] at line 1 char 6.</td><td><pre></pre></td><td>3</td></tr>
+<tr class="severity3">
+<td></td><th><code>ISO 0a</code></th><td>RELATON_4</td>
+<td>(Error from Relaton) does not parse as this flavor's pubid; passing the reference to the flavor as written</td><td><pre></pre></td><td>3</td></tr>
+</tbody></table>
+<h2 id="Anchors">Anchors</h2>
+<table border="1">
+<thead><th width="5%">Line</th><th width="20%">ID</th><th width="10%">Error</th>
+<th width="20%">Message</th><th width="40%">Context</th><th width="5%">Severity</th></thead>
+<tbody>
+<tr class="severity1">
+<td>000009</td><th><code><a href='./test.html#_bf45d634-e2a6-9943-0797-99a28f1e37be'>_bf45d634-e2a6-9943-0797-99a28f1e37be</a></code></th><td>STANDOC_38</td>
+<td>Crossreference target X is undefined</td><td><pre>&lt;xref target=&quot;X&quot;/&gt;</pre></td><td>1</td></tr>
+</tbody></table>
+<h2 id="Metanorma_XML_Syntax">Metanorma XML Syntax</h2>
+<table border="1">
+<thead><th width="5%">Line</th><th width="20%">ID</th><th width="10%">Error</th>
+<th width="20%">Message</th><th width="40%">Context</th><th width="5%">Severity</th></thead>
+<tbody>
+<tr class="severity2">
+<td></td><th><code>XML Line 000005:11</code></th><td>STANDOC_7</td>
+<td>element "language" not allowed yet; missing required element "docidentifier"</td><td><pre></pre></td><td>2</td></tr>
+<tr class="severity2">
+<td></td><th><code>XML Line 000005:126</code></th><td>STANDOC_7</td>
+<td>element "copyright" incomplete; missing required element "owner"</td><td><pre></pre></td><td>2</td></tr>
+<tr class="severity2">
+<td></td><th><code>XML Line 000009:63</code></th><td>STANDOC_7</td>
+<td>value of attribute "align" is invalid; must be equal to "center",​ "justified", "left" or "right"</td><td><pre></pre></td><td>2</td></tr>
+</tbody></table>
+</body></html>

@@ -6,12 +6,46 @@ module Metanorma
     class LinkProtectPreprocessor < Asciidoctor::Extensions::Preprocessor
       def process(document, reader)
         p = Metanorma::Utils::LineStatus.new
-        lines = reader.lines.map do |t|
+        out = []
+        buf = nil
+        reader.lines.each do |t|
           p.process(t)
-          !p.pass && t.include?(":") and t = inlinelinkmacro(inlinelink(t))
-          t
+          if buf
+            buf = "#{buf}\n#{t}"
+            next unless bracket_closed?(buf)
+
+            out << escape_line(buf, p.pass)
+            buf = nil
+          elsif bracket_open?(t)
+            # an inline macro's bracketed text may span lines (a hard
+            # break inside the link text); hold the fragment so the
+            # escape pass sees the whole macro instead of the first
+            # line's unclosed bracket, which it rewrites as a bare
+            # empty-text link
+            buf = t
+          else
+            out << escape_line(t, p.pass)
+          end
         end
-        ::Asciidoctor::PreprocessorReader.new document, lines
+        out << buf if buf
+        ::Asciidoctor::PreprocessorReader.new document, out
+      end
+
+      def escape_line(text, pass)
+        !pass && text.include?(":") ? inlinelinkmacro(inlinelink(text)) : text
+      end
+
+      # the line opens a bracket it never closes: a multi-line macro
+      # (or a genuinely unterminated fragment, flushed verbatim at EOF)
+      def bracket_open?(line)
+        open = line.index("[") or return false
+        !bracket_closed?(line)
+      end
+
+      def bracket_closed?(text)
+        open = text.index("[") or return false
+        close = text.index("]", open) or return false
+        text[close - 1] != "\\"
       end
 
       PASS_INLINE_MACROS = %w(pass pass-format identifier std-link stem)
