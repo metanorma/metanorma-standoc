@@ -131,10 +131,8 @@ module Metanorma
       # document-wide, or unique within the domain of the term containing
       # the mention.
       def unique_term_fallback(target, node)
-        cands = @lookup[:term].keys.select do |k|
-          k == target || k.end_with?("-#{target}")
-        end
-        return nil if cands.empty?
+        cands = term_suffix_index[target]
+        return nil if cands.nil? || cands.empty?
         return cands.first if cands.size == 1
 
         term = mention_enclosing_term(node) or return nil
@@ -144,6 +142,29 @@ module Metanorma
         prefix_key = anchor.sub(/\Aterm-/, "").sub(/-#{Regexp.escape(name_key)}\z/, "")
         narrowed = cands.select { |k| k.start_with?("#{prefix_key}-") }
         narrowed.size == 1 ? narrowed.first : nil
+      end
+
+      # Mentions are looked up by bare name; the matching keys are exactly
+      # those equal to the mention or ending with "-<mention>". Register
+      # every term key once at each of its dash positions, so the mention
+      # reads its candidate list directly instead of scanning every key
+      # per reference (quadratic across domain-vocabulary-sized lookups).
+      # Insertion order is preserved per bucket, which is all the
+      # uniqueness rules below depend on. The lookup table is not mutated
+      # during the cleanup passes.
+      def term_suffix_index
+        @term_suffix_index ||= begin
+          idx = Hash.new { |h, k| h[k] = [] }
+          @lookup[:term].each_key do |k|
+            idx[k] << k
+            rest = k
+            while (pos = rest.index("-"))
+              rest = rest[(pos + 1)..]
+              idx[rest] << k
+            end
+          end
+          idx
+        end
       end
 
       def first_descendant(node, name)
