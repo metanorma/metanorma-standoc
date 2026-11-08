@@ -5,7 +5,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
-gem "metanorma-mirror", "~> 1.0", github: "metanorma/metanorma-mirror", branch: "main"
+gem "metanorma-mirror", "~> 1.0"
 
 # Stopgap: lutaml 0.11.x removed lib/lutaml/xmi.rb, which metanorma-plugin-lutaml
 # 0.7.x still `require`s. Hold lutaml at 0.10.x until plugin-lutaml follows the
@@ -13,16 +13,8 @@ gem "metanorma-mirror", "~> 1.0", github: "metanorma/metanorma-mirror", branch: 
 # https://github.com/metanorma/metanorma-plugin-lutaml/issues/292
 gem "lutaml", "< 0.11"
 
-# TEMPORARY: cross-PR branch pins so CI can resolve the in-flight pubid-2 /
-# relaton-bib 2.2 / metanorma-document 0.5 chain. Revert each to its
-# released line once the corresponding PR merges.
-# TEMPORARY pin: the svgmap/imagemap models (metanorma-document#62/#63
-# branch) — flip to main when they merge.
-gem "metanorma-document", github: "metanorma/metanorma-document",
-    branch: "main"
-# document seed registers — restore main on merge, version on release.
-# isodoc: relaton-cli 3.0.0.pre allowance (#824) merged after the 3.7.2 release — main until the next release
-gem "isodoc", github: "metanorma/isodoc", branch: "main"
+gem "metanorma-document", "~> 0.5"
+gem "isodoc", "~> 3.7"
 # relaton 3.0.0.pre.alpha.1 from rubygems called the removed pubid
 # base_identifier; the fix (db9840bdf) shipped in the 3.0.0.pre.alpha.4
 # release. Prefer the released gem over a git pin: relaton main has since
@@ -32,11 +24,11 @@ gem "parsanol", "~> 1.3.123"
 gem "relaton", "~> 3.1.1"
 gem "pubid", "~> 2.0" # 2.0.3+: edition-2 iso artifact
 
-gem "metanorma-plugin-lutaml", github: "metanorma/metanorma-plugin-lutaml", branch: "main"
+gem "metanorma-plugin-lutaml", "~> 0.7"
 
 eval_gemfile("Gemfile.devel") rescue nil
 
-gem "metanorma-utils", "~> 2.0.8" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56), released in 2.0.8, github: "metanorma/metanorma-utils", branch: "main"
+gem "metanorma-utils", "~> 2.0.11" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56); 2.0.9+ adds the noko_html/AnchorRanges/UUID/encoder perf work
 
 gem "svg_conform", "~> 0.2.6" # 0.2.6 ships the corrected metadata
 
