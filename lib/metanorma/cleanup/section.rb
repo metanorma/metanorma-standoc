@@ -79,19 +79,14 @@ module Metanorma
 
       def make_bibliography(xml, sect)
         if xml.at("//sections/references | //xref[@hidden]")
-          # On the FFI-only Moxml lane (no compiled Leptris read layer,
-          # e.g. Ruby 4.0), a fragment-parsed wrapper belongs to another
-          # document and cross-pool appends drop silently. Create it in
-          # the document's own pool there; the native lane handles the
-          # fragment path and rejects document-created inserts when
-          # combined with later pool operations.
-          biblio = if xml.is_a?(Moxml::Document) && !defined?(::Leptris::XML::NativeNode)
-                     xml.create_element("bibliography").tap do |b|
-                       sect.add_next_sibling(b)
-                     end
-                   else
-                     sect.add_next_sibling("<bibliography/>").first
-                   end
+          # A fragment-parsed wrapper can belong to another document's
+          # pool, and cross-pool appends drop silently (moxml 0.6.4 x
+          # leptris 1.9.414). Create the wrapper in the document's own
+          # pool on every lane: verified equivalent on the native and
+          # FFI lanes, and the only form that keeps the children.
+          biblio = xml.create_element("bibliography").tap do |b|
+            sect.add_next_sibling(b)
+          end
           xml.xpath("//sections/references").each do |r|
             biblio.add_child r.remove
           end

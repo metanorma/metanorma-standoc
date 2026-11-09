@@ -58,8 +58,13 @@ module Metanorma
 
       def bracket_closed?(text)
         open = text.index("[") or return false
-        close = text.index("]", open) or return false
-        text[close - 1] != "\\"
+        i = open + 1
+        while (close = text.index("]", i))
+          return true if close.zero? || text[close - 1] != "\\"
+
+          i = close + 1
+        end
+        false
       end
 
       PASS_INLINE_MACROS = %w(pass pass-format identifier std-link stem)
