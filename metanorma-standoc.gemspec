@@ -52,7 +52,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "vectory", "~> 0.13", ">= 0.13.2"
   spec.add_dependency "relaton", "~> 3.1.1"
   spec.add_dependency "relaton-iev", "~> 2.0"
-  spec.add_dependency "svg_conform", "~> 0.2"
+  # The profile fixes that accept clip-path/mask on container elements and
+  # the corrected text-as-path severity live in the 0.2.6 line; the open
+  # ~> 0.2 floor let bundles keep 0.2.0 and reject valid SVGs
+  # (metanorma-pdfa#106).
+  spec.add_dependency "svg_conform", "~> 0.2.6"
 
   spec.add_development_dependency "debug"
   spec.add_development_dependency "canon", "~> 0.3"
