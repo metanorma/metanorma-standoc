@@ -54,6 +54,14 @@ Gem::Specification.new do |spec|
   spec.add_dependency "relaton-iev", "~> 2.0"
   spec.add_dependency "svg_conform", "~> 0.2"
 
+  # Bundled-gem successors required directly by lib code: inline.rb uses
+  # base64, macros_terms.rb and macros.rb use csv, blocks.rb uses uri.
+  # Ruby 4 warns on undeclared bundled gems and pruned bundles would fail
+  # (epic metanorma/metanorma#669).
+  spec.add_dependency "base64"
+  spec.add_dependency "csv"
+  spec.add_dependency "uri"
+
   spec.add_development_dependency "debug"
   spec.add_development_dependency "canon", "~> 0.3"
   spec.add_development_dependency "guard", "~> 2.14"
