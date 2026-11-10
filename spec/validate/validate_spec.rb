@@ -1450,6 +1450,38 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(errors).to include("Corrupt SVG image detected")
   end
 
+  # clip-path on g (and the other container elements) is valid SVG: drawing
+  # tools like MyDraw and Visio export it routinely. It was rejected when
+  # bundles resolved the stale svg_conform 0.1.x profile, metanorma-pdfa#106.
+  it "accepts clip-path presentation attribute on g elements" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/clip_path_group.svg",
+                 "clip_path_group.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref1]]
+      .SVG title
+      image::clip_path_group.svg[]
+    INPUT
+
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("clip-path")
+    expect(errors).not_to include("Corrupt SVG image detected")
+
+    FileUtils.rm_rf "test.xml"
+    errors = convert_and_capture_errors(
+      input.sub(":no-pdf:",
+                ":svg-conform-profile: metanorma\n:no-pdf:"),
+    )
+    expect(errors).not_to include("clip-path")
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(File.exist?("test.xml")).to be true
+  end
+
   it "repairs SVG error" do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/missing_viewbox.svg",

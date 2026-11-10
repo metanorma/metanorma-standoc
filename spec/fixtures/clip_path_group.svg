@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" width="220" height="160" viewBox="0 0 220 160">
+  <title>clip-path on g</title>
+  <desc>MyDraw-style export carrying clip-path presentation attributes on container elements</desc>
+  <defs>
+    <clipPath id="presentation_clip_path" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="220" height="160"/>
+    </clipPath>
+    <clipPath id="presentation_clip_path_shrink" clipPathUnits="userSpaceOnUse">
+      <rect x="10" y="10" width="200" height="140"/>
+    </clipPath>
+  </defs>
+  <g class="Slide" clip-path="url(#presentation_clip_path)">
+    <g class="Background" clip-path="url(#presentation_clip_path_shrink)">
+      <rect x="20" y="20" width="80" height="50" fill="#ff0000"/>
+      <circle cx="160" cy="110" r="30" fill="#0000ff"/>
+    </g>
+  </g>
+</svg>
