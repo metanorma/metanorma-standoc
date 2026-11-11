@@ -406,7 +406,8 @@ RSpec.describe Metanorma::Standoc do
                       Elle a le statut de norme horizontale conformément au Guide IEC 108.
                    </abstract>
                    <status>
-                      <stage>PUBLISHED</stage>
+                      <stage>60</stage>
+                      <substage>60</substage>
                    </status>
                    <copyright>
                       <from>2007</from>
@@ -477,7 +478,8 @@ RSpec.describe Metanorma::Standoc do
                       Elle a le statut de norme horizontale conformément au Guide IEC 108.
                    </abstract>
                    <status>
-                      <stage>PUBLISHED</stage>
+                      <stage>60</stage>
+                      <substage>60</substage>
                    </status>
                    <copyright>
                       <from>2009</from>
