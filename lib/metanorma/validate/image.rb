@@ -1,5 +1,6 @@
 require "svg_conform"
 require "png_conform"
+require "yaml"
 require "metanorma/standoc/conform_profiles"
 
 module Metanorma
@@ -91,6 +92,8 @@ module Metanorma
 
         def png_validate(doc)
           return if png_conform_profile == :disabled
+          profile = png_conform_engine_profile(png_conform_profile)
+          profile.nil? and return
           doc.xpath("//image[@mimetype = 'image/png'][@src]").each do |i|
             Vectory::Utils::url?(i["src"]) and next
             uri = Vectory::Utils::datauri?(i["src"])
@@ -98,10 +101,28 @@ module Metanorma
             path or next
             PngConform::Readers::StreamingReader.open(path) do |reader|
               v = PngConform::Services::ValidationService.new(
-                reader, path, { profile: @png_conform_profile }
+                reader, path, { profile: profile }
               )
               png_validate1(i, path, v)
             end
+          end
+        end
+
+        # png_conform 0.1.6 takes a definition Hash, a built-in/YAML
+        # profile name, or nil/"none" (claricle/png_conform#34). Our
+        # descriptor is {profile_file:} (an owned YAML file, loaded as an
+        # inline definition — the gem reads no consumer directories) or
+        # {engine_profile:} (a gem-profile name, resolved loudly there).
+        def png_conform_engine_profile(descriptor)
+          case descriptor
+          when Hash
+            if (file = descriptor[:profile_file])
+              YAML.safe_load(File.read(file))
+            else
+              descriptor[:engine_profile]
+            end
+          else
+            descriptor
           end
         end
 
