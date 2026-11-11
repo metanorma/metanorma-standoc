@@ -126,6 +126,7 @@ module Metanorma
         # Use SAX for fast validation
         def svg_validate(doc)
           profile = svg_conform_profile
+          profile.nil? and return
           validator = SvgConform::Validator.new(mode: :sax)
           engine = SvgConform::RemediationEngine.new(profile)
           @svg_remediation_cache = {}
