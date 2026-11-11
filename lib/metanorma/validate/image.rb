@@ -30,6 +30,40 @@ module Metanorma
           end
         end
 
+        # Metanorma owns the operative SVG validation profile; the
+        # svg_conform gem's bundled metanorma.yml is its sample/testing
+        # reference and must not dictate document policy. Resolution:
+        # the svg-conform-profile document attribute (a gem profile name
+        # or a path), then the flavor's shipped profile
+        # (svg_conform_profile_path, overridable per flavor), then the
+        # standoc default.
+        def svg_conform_profile
+          if (p = @svg_conform_profile)
+            if p.is_a?(String) && File.exist?(p)
+              return SvgConform::Profile.load_from_file(p)
+            end
+
+            return SvgConform::Profiles.get(p)
+          end
+          SvgConform::Profile.load_from_file(svg_conform_profile_path)
+        end
+
+        # Flavors define their own SVG requirements by overriding this to
+        # a shipped profile file (e.g. lib/metanorma/<flavor>/svg_conform_profile/
+        # <flavor>.yml). Standoc default carries the metanorma baseline.
+        def svg_conform_profile_path
+          File.expand_path(
+            "../standoc/svg_conform_profile/metanorma.yml", __dir__
+          )
+        end
+
+        # Flavor-overridable PNG requirements seam: png_conform 0.1.5 does
+        # not yet expose profile selection on ValidationService; the value
+        # flows through the options hash harmlessly until it does.
+        def png_conform_profile
+          nil
+        end
+
         def png_validate(doc)
           doc.xpath("//image[@mimetype = 'image/png'][@src]").each do |i|
             Vectory::Utils::url?(i["src"]) and next
@@ -37,7 +71,9 @@ module Metanorma
             path = uri ? save_dataimage(i["src"]) : expand_path(i["src"])
             path or next
             PngConform::Readers::StreamingReader.open(path) do |reader|
-              v = PngConform::Services::ValidationService.new(reader)
+              v = PngConform::Services::ValidationService.new(
+                reader, path, { profile: png_conform_profile }
+              )
               png_validate1(i, path, v)
             end
           end
@@ -63,7 +99,7 @@ module Metanorma
 
         # Use SAX for fast validation
         def svg_validate(doc)
-          profile = SvgConform::Profiles.get(@svg_conform_profile)
+          profile = svg_conform_profile
           validator = SvgConform::Validator.new(mode: :sax)
           engine = SvgConform::RemediationEngine.new(profile)
           @svg_remediation_cache = {}
