@@ -106,15 +106,14 @@ RSpec.describe Metanorma::Standoc::Validate do
           </svg>
         SVG
         doc.root.add_child(svg)
-        # The flavor profile drives the engine: its ForbiddenContent
-        # verdict fires on the fill attribute (verified at the engine
-        # level — the log surfacing of requirement errors is pending the
-        # upstream ValidationIssue violation_type default, see
-        # claricle/svg_conform).
-        result = SvgConform::Validator.new(mode: :sax)
-          .validate(svg.to_xml, profile: v.svg_conform_profile)
-        expect(result.valid?).to be(false)
-        expect((result.errors || []).map(&:message).join).to match(/fill/i)
+        # The flavor profile drives the engine, and its ForbiddenContent
+        # verdict surfaces through svg_validate's own logging (STANDOC_55):
+        # requirement violations carry their real violation_type since
+        # svg_conform 0.2.8 stopped defaulting them to :reference_violation.
+        v.svg_validate(doc)
+        logged = v.log.messages.map { |m| m[:error] }.join("\n")
+        expect(logged).to include("Corrupt SVG image detected")
+        expect(logged).to match(/fill/i)
       end
     end
 

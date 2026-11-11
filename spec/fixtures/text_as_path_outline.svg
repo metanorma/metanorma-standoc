@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" width="220" height="160" viewBox="0 0 220 160">
+  <title>text rendered as outlined paths</title>
+  <desc>Vector-traced logos arrive as long outlined paths; an advisory, not an error</desc>
+  <g class="OutlinedText">
+    <path fill="#000000" d="M 0,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50 C 10,10 30,90 50,50 C 70,10 90,90 110,50"/>
+  </g>
+</svg>

@@ -191,6 +191,7 @@ requirements:
   - id: "text_as_path"
     type: "TextAsPathRequirement"
     description: "Detects text rendered as outlined paths instead of native <text> elements"
+    severity: warning
     min_d_length: 500
     min_bezier: 5
 
