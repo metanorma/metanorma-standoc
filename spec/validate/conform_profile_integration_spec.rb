@@ -7,7 +7,9 @@ RSpec.describe Metanorma::Standoc::Validate do
   # Integration: the registry's outcomes through the Validate#svg_validate /
   # #png_validate paths — disable, and flavor-dir resolution.
   def build_validator(flavor_dir: nil, profile_attr: nil, png_attr: nil)
-    logger = Metanorma::Utils::Log.new
+    logger = Metanorma::Utils::Log.new(
+      Metanorma::Standoc::Converter::STANDOC_LOG_MESSAGES,
+    )
     converter = Struct.new(:log, :files_to_delete).new(logger, [])
     validator = described_class.new(converter)
     validator.instance_variable_set(:@svg_conform_profile, profile_attr)
@@ -111,7 +113,8 @@ RSpec.describe Metanorma::Standoc::Validate do
         # requirement violations carry their real violation_type since
         # svg_conform 0.2.8 stopped defaulting them to :reference_violation.
         v.svg_validate(doc)
-        logged = v.log.messages.map { |m| m[:error] }.join("\n")
+        logged = v.instance_variable_get(:@log).messages
+          .map { |m| m[:error] }.join("\n")
         expect(logged).to include("Corrupt SVG image detected")
         expect(logged).to match(/fill/i)
       end

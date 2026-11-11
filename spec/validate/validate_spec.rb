@@ -1500,9 +1500,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     INPUT
 
     errors = convert_and_capture_errors(input)
-    expect(errors).not_to include("opacity")
-    expect(errors).not_to include("clip-rule")
+    # Assert on engine verdicts, not raw text: the fixture filename
+    # contains "opacity" and lands in schema-error paths.
     expect(errors).not_to include("Corrupt SVG image detected")
+    expect(errors).not_to include("SVG image warning")
     expect(File.exist?("test.xml")).to be true
   end
 
@@ -1525,8 +1526,10 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     INPUT
 
     errors = convert_and_capture_errors(input)
-    expect(errors).not_to include("text_as_path")
-    expect(errors).not_to include("outlined paths")
+    # The engine classifies text-as-path as a warning (severity:
+    # warning is hardcoded in the requirement): it surfaces as an SVG
+    # image warning, never as a corrupt-SVG error.
+    expect(errors).to include("SVG image warning")
     expect(errors).not_to include("Corrupt SVG image detected")
     expect(File.exist?("test.xml")).to be true
   end
