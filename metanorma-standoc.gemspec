@@ -53,10 +53,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "relaton", "~> 3.1.1"
   spec.add_dependency "relaton-iev", "~> 2.0"
   # The profile fixes that accept clip-path/mask on container elements and
-  # the corrected text-as-path severity live in the 0.2.6 line; the open
+  # the corrected text-as-path severity live in the 0.2.7 line; the open
   # ~> 0.2 floor let bundles keep 0.2.0 and reject valid SVGs
   # (metanorma-pdfa#106).
-  spec.add_dependency "svg_conform", "~> 0.2.6"
+  spec.add_dependency "svg_conform", "~> 0.2.7"
 
   # Bundled-gem successors required directly by lib code: inline.rb uses
   # base64, macros_terms.rb and macros.rb use csv, blocks.rb uses uri.
