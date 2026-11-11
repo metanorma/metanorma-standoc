@@ -12,6 +12,14 @@ module Metanorma
     class Validate
       extend Forwardable
 
+      # The flavor identity of this validator; flavors override
+      # (metanorma-iso "iso", metanorma-bsi "bsi"). Names the flavor's
+      # profile directories and the metanorma-<flavor> gem for the
+      # profile registry.
+      def validation_flavor
+        "standoc"
+      end
+
       include Image
       include Section
       include Table

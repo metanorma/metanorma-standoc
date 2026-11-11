@@ -1,5 +1,6 @@
 require "svg_conform"
 require "png_conform"
+require "metanorma/standoc/conform_profiles"
 
 module Metanorma
   module Standoc
@@ -30,41 +31,66 @@ module Metanorma
           end
         end
 
-        # Metanorma owns the operative SVG validation profile; the
-        # svg_conform gem's bundled metanorma.yml is its sample/testing
-        # reference and must not dictate document policy. Resolution:
-        # the svg-conform-profile document attribute (a gem profile name
-        # or a path), then the flavor's shipped profile
-        # (svg_conform_profile_path, overridable per flavor), then the
-        # standoc default.
+        # Metanorma owns the operative profiles; the engines' bundled
+        # samples are reachable only through the explicit "svg:"/"png:"
+        # prefix (see ConformProfiles). Resolution: the
+        # <type>-conform-profile document attribute, then the flavor's
+        # shipped profile directory (conform_profile_dir, overridable per
+        # flavor), then the standoc default; "none" disables that type's
+        # validation for the document.
         def svg_conform_profile
-          if (p = @svg_conform_profile)
-            if p.is_a?(String) && File.exist?(p)
-              return SvgConform::Profile.load_from_file(p)
-            end
-
-            return SvgConform::Profiles.get(p)
+          kind, value = conform_profile_resolution(:svg)
+          case kind
+          when :disabled then nil
+          when :engine then SvgConform::Profiles.get(value)
+          when :file then SvgConform::Profile.load_from_file(value)
           end
-          SvgConform::Profile.load_from_file(svg_conform_profile_path)
         end
 
-        # Flavors define their own SVG requirements by overriding this to
-        # a shipped profile file (e.g. lib/metanorma/<flavor>/svg_conform_profile/
-        # <flavor>.yml). Standoc default carries the metanorma baseline.
-        def svg_conform_profile_path
-          File.expand_path(
-            "../standoc/svg_conform_profile/metanorma.yml", __dir__
+        # The PNG mirror: returns :disabled (validation skipped), or a
+        # descriptor passed to the engine through the service options.
+        # png_conform 0.1.5 does not yet read profile selection from
+        # options (claricle/png_conform#34); the descriptor is inert
+        # until it does.
+        def png_conform_profile
+          kind, value = conform_profile_resolution(:png)
+          case kind
+          when :disabled then :disabled
+          when :engine then { engine_profile: value }
+          else { profile_file: value }
+          end
+        end
+
+        def conform_profile_resolution(type)
+          registry = ConformProfiles::Registry.new(
+            type: type,
+            standoc_dir: conform_profile_dir(type, own: false),
+            flavor_dir: conform_profile_dir(type, own: true),
+          )
+          registry.resolve(
+            instance_variable_get("@#{type}_conform_profile")
           )
         end
 
-        # Flavor-overridable PNG requirements seam: png_conform 0.1.5 does
-        # not yet expose profile selection on ValidationService; the value
-        # flows through the options hash harmlessly until it does.
-        def png_conform_profile
-          nil
+        # The flavor seam: flavors define their own requirements
+        # collections by shipping a directory per type
+        # (lib/metanorma/<flavor>/<type>_conform_profile/) — overridable
+        # per type for nonstandard locations.
+        def conform_profile_dir(type, own: true)
+          if own
+            base = Gem::Specification.find_by_name(
+              "metanorma-#{validation_flavor}"
+            )
+            return File.join(base.gem_dir, "lib", "metanorma",
+                             validation_flavor, "#{type}_conform_profile")
+          end
+          File.expand_path("../standoc/#{type}_conform_profile", __dir__)
+        rescue Gem::LoadError
+          File.expand_path("../standoc/#{type}_conform_profile", __dir__)
         end
 
         def png_validate(doc)
+          return if png_conform_profile == :disabled
           doc.xpath("//image[@mimetype = 'image/png'][@src]").each do |i|
             Vectory::Utils::url?(i["src"]) and next
             uri = Vectory::Utils::datauri?(i["src"])
@@ -72,7 +98,7 @@ module Metanorma
             path or next
             PngConform::Readers::StreamingReader.open(path) do |reader|
               v = PngConform::Services::ValidationService.new(
-                reader, path, { profile: png_conform_profile }
+                reader, path, { profile: @png_conform_profile }
               )
               png_validate1(i, path, v)
             end
