@@ -205,6 +205,11 @@ module Metanorma
                       error: "Could not fetch the authoritative logo for " \
                              "organization %s: %s",
                       severity: 2 },
+        STANDOC_67: { category: "AsciiDoc Input",
+                      error: "Adjacent lists of the same type merged: a " \
+                             "blank-line-flanked comment or conditional " \
+                             "directive had ended the first list",
+                      severity: 2 },
         RELATON_1: { category: "Relaton",
                      error: "(Error from Relaton) %s",
                      severity: 0 },

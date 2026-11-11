@@ -277,6 +277,50 @@ module Metanorma
           x.delete("explicit-type")
           @log.add("STANDOC_14", x, display: false)
         end
+        merge_adjacent_lists(doc)
+      end
+
+      # A line comment or a conditional directive flanked by blank lines
+      # ends an AsciiDoc list: the comment is dropped, and the blank lines
+      # leave adjacent same-type lists with nothing between them. The
+      # rendered artifact restarts list numbering at the second fragment,
+      # and downstream clause checks (one list per clause, list preceded
+      # by colon or full stop) fire on the fragments. Merge the fragments:
+      # explicit restarts (start attributes), anchored lists and
+      # differently typed ordered lists are left alone.
+      def merge_adjacent_lists(doc)
+        loop do
+          merged = false
+          doc.xpath("//ol | //ul").each do |list|
+            nxt = list.next_element
+            next unless mergeable_lists?(list, nxt)
+
+            nxt.children.each { |c| list << c }
+            nxt.remove
+            @log.add("STANDOC_67", list, display: false)
+            merged = true
+          end
+          break unless merged
+        end
+      end
+
+      def mergeable_lists?(list, nxt)
+        !list.parent.nil? && !nxt.nil? && nxt.name == list.name &&
+          mergeable_types?(list, nxt) && mergeable_attrs?(nxt)
+      end
+
+      def mergeable_types?(list, nxt)
+        list.name == "ul" ||
+          (list["type"] || "arabic") == (nxt["type"] || "arabic")
+      end
+
+      # The first fragment keeps its identity through the merge. The
+      # second must not carry a restart (start) or a user anchor: every
+      # block gets a generated id (underscore-prefixed), those are fine
+      # to drop.
+      def mergeable_attrs?(list)
+        list["start"].nil? &&
+          (list["id"].nil? || list["id"].start_with?("_"))
       end
 
       def blocksource_cleanup(xmldoc)
