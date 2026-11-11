@@ -1445,7 +1445,7 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     FileUtils.rm_rf "test.xml"
     errors = convert_and_capture_errors(
       input.sub(":no-pdf:",
-                ":svg-conform-profile: svg_1_2_rfc\n:no-pdf:"),
+                ":svg-conform-profile: svg:svg_1_2_rfc\n:no-pdf:"),
     )
     expect(errors).to include("Corrupt SVG image detected")
   end

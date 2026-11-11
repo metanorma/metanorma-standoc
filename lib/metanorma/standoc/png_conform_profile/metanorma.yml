@@ -1,0 +1,13 @@
+# The Metanorma-owned baseline PNG validation profile. Owned here so
+# png_conform's bundled samples never dictate document policy; the
+# field shape mirrors png_conform's validation_profiles.yml (the engine
+# honours this file once profile selection lands on the service path,
+# claricle/png_conform#34).
+name: "Metanorma baseline"
+description: "PNG requirements for Metanorma documents"
+required_chunks:
+  - IHDR
+  - IDAT
+  - IEND
+optional_chunks: "*"
+prohibited_chunks: []
