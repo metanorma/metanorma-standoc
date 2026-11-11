@@ -50,6 +50,36 @@ RSpec.describe Metanorma::Standoc::Validate do
     end
   end
 
+  describe "png descriptor translation" do
+    # png_conform 0.1.6 (claricle/png_conform#34) takes a definition
+    # Hash, a gem profile name, or nil/"none": it reads no consumer
+    # profile directories, so owned files load as inline definitions.
+    it "loads a profile_file descriptor as an inline definition" do
+      Dir.mktmpdir("png_profiles") do |dir|
+        file = File.join(dir, "metanorma.yml")
+        File.write(file, <<~YML)
+          name: "Metanorma baseline"
+          required_chunks:
+            - IHDR
+            - IDAT
+            - IEND
+          prohibited_chunks: []
+        YML
+        v = build_validator
+        expect(v.png_conform_engine_profile({ profile_file: file }))
+          .to eq("name" => "Metanorma baseline",
+                 "required_chunks" => %w(IHDR IDAT IEND),
+                 "prohibited_chunks" => [])
+      end
+    end
+
+    it "passes an engine profile name through for gem-side lookup" do
+      v = build_validator
+      expect(v.png_conform_engine_profile({ engine_profile: "strict" }))
+        .to eq("strict")
+    end
+  end
+
   describe "flavor-dir resolution" do
     it "resolves a flavor-shipped named profile through svg_validate" do
       Dir.mktmpdir("flavor_profiles") do |dir|
