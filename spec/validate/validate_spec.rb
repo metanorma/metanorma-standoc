@@ -1482,6 +1482,55 @@ RSpec.describe Metanorma::Standoc, type: :validation do
     expect(File.exist?("test.xml")).to be true
   end
 
+  # opacity and clip-rule are valid SVG presentation attributes on g; the
+  # owned metanorma profile carries both (claricle/svg_conform#130).
+  it "accepts opacity and clip-rule presentation attributes on g elements" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/opacity_clip_rule_group.svg",
+                 "opacity_clip_rule_group.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref2]]
+      .SVG title
+      image::opacity_clip_rule_group.svg[]
+    INPUT
+
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("opacity")
+    expect(errors).not_to include("clip-rule")
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(File.exist?("test.xml")).to be true
+  end
+
+  # Text-as-path is an advisory, not an error: vector-traced logos are
+  # legitimate input. The owned metanorma profile declares it
+  # severity: warning, honored since svg_conform 0.2.7.
+  it "reports text-as-path as a warning, never as a corrupt-SVG error" do
+    FileUtils.rm_rf "test.xml"
+    FileUtils.cp "spec/fixtures/text_as_path_outline.svg",
+                 "text_as_path_outline.svg"
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :no-pdf:
+
+      [[ref3]]
+      .SVG title
+      image::text_as_path_outline.svg[]
+    INPUT
+
+    errors = convert_and_capture_errors(input)
+    expect(errors).not_to include("text_as_path")
+    expect(errors).not_to include("outlined paths")
+    expect(errors).not_to include("Corrupt SVG image detected")
+    expect(File.exist?("test.xml")).to be true
+  end
+
   it "repairs SVG error" do
     FileUtils.rm_rf "test.xml"
     FileUtils.cp "spec/fixtures/missing_viewbox.svg",
