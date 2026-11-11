@@ -34,7 +34,7 @@ requirements:
         attributes: ["id", "role", "shape-rendering", "text-rendering", "buffered-rendering", "visibility", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "fill-rule"]
         allowed_children: ["text"]
       - tag: "path"
-        attributes: ["d", "pathLength", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
+        attributes: ["d", "pathLength", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "marker-start", "marker-mid", "marker-end", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "rect"
         attributes: ["x", "y", "width", "height", "rx", "ry", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
@@ -43,16 +43,16 @@ requirements:
         attributes: ["cx", "cy", "r", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "line"
-        attributes: ["x1", "y1", "x2", "y2", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
+        attributes: ["x1", "y1", "x2", "y2", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "marker-start", "marker-mid", "marker-end", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "ellipse"
         attributes: ["cx", "cy", "rx", "ry", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "polyline"
-        attributes: ["points", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
+        attributes: ["points", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "marker-start", "marker-mid", "marker-end", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "polygon"
-        attributes: ["points", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
+        attributes: ["points", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "marker-start", "marker-mid", "marker-end", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "solidColor"
         attributes: ["id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]

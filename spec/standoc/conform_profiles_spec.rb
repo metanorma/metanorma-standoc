@@ -84,3 +84,48 @@ RSpec.describe Metanorma::Standoc::ConformProfiles::Registry do
       .to raise_error(Metanorma::Standoc::ConformProfiles::NotFound, /baseline is missing/)
   end
 end
+
+RSpec.describe "the owned metanorma SVG baseline" do
+  let(:baseline_path) do
+    File.expand_path("../../lib/metanorma/standoc/svg_conform_profile/metanorma.yml",
+                     __dir__)
+  end
+
+  # claricle/svg_conform#128: markers are how metanorma diagrams draw
+  # arrowheads; the profile listed the marker element but none of the
+  # marker presentation attributes on the shape elements, so every
+  # marker-end="url(#...)" failed while the same marker in a style
+  # attribute passed.
+  it "accepts marker presentation attributes on shape elements" do
+    require "svg_conform"
+    profile = SvgConform::Profile.load_from_file(baseline_path)
+    svg = <<~SVG
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" width="40" height="12" viewBox="0 0 40 12">
+        <defs>
+          <marker id="a" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+            <path d="M0,0 L4,2 L0,4"/>
+          </marker>
+        </defs>
+        <path d="M2,6 H38" marker-end="url(#a)" marker-start="url(#a)"/>
+        <line x1="2" y1="3" x2="38" y2="3" marker-end="url(#a)"/>
+        <polyline points="2,9 20,9 38,9" marker-end="url(#a)"/>
+        <polygon points="2,11 20,11 38,11" marker-end="url(#a)"/>
+      </svg>
+    SVG
+    result = SvgConform::Validator.new(profile: profile).validate(svg)
+    expect(result.valid?).to be(true), result.errors.map(&:message).join("; ")
+  end
+
+  it "still rejects marker attributes where SVG does not define them" do
+    require "svg_conform"
+    profile = SvgConform::Profile.load_from_file(baseline_path)
+    svg = <<~SVG
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" width="40" height="12" viewBox="0 0 40 12">
+        <rect x="2" y="2" width="36" height="8" marker-end="url(#a)"/>
+      </svg>
+    SVG
+    result = SvgConform::Validator.new(profile: profile).validate(svg)
+    expect(result.valid?).to be(false)
+    expect(result.errors.map(&:message).join).to include("marker-end")
+  end
+end
