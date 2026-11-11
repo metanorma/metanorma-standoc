@@ -1,0 +1,79 @@
+<bibdata type="article" schema-version="v1.5.6">
+  <fetched>2026-11-10</fetched>
+  <title script="Latn" type="main">Taming the Metadata Beast: ILOX</title>
+  <uri type="DOI">https://doi.org/10.1045/november2010-massart</uri>
+  <uri type="src">http://www.dlib.org/dlib/november10/massart/11massart.html</uri>
+  <docidentifier type="DOI" primary="true">10.1045/november2010-massart</docidentifier>
+  <docidentifier type="issn.electronic" primary="false">1082-9873</docidentifier>
+  <date type="issued">
+    <on>2010-11</on>
+  </date>
+  <date type="published">
+    <on>2010-11</on>
+  </date>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <forename language="en" script="Latn">David</forename>
+        <surname language="en" script="Latn">Massart</surname>
+      </name>
+    </person>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <forename language="en" script="Latn">Elena</forename>
+        <surname language="en" script="Latn">Shulman</surname>
+      </name>
+    </person>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <forename language="en" script="Latn">Nick</forename>
+        <surname language="en" script="Latn">Nicholas</surname>
+      </name>
+    </person>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <forename language="en" script="Latn">Nigel</forename>
+        <surname language="en" script="Latn">Ward</surname>
+      </name>
+    </person>
+  </contributor>
+  <contributor>
+    <role type="author"/>
+    <person>
+      <name>
+        <forename language="en" script="Latn">Frédéric</forename>
+        <surname language="en" script="Latn">Bergeron</surname>
+      </name>
+    </person>
+  </contributor>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>CNRI Acct</name>
+    </organization>
+  </contributor>
+  <series>
+    <title>D-Lib Magazine</title>
+  </series>
+  <extent>
+    <locality type="volume">
+      <referenceFrom>16</referenceFrom>
+    </locality>
+    <locality type="issue">
+      <referenceFrom>11/12</referenceFrom>
+    </locality>
+  </extent>
+  <ext>
+    <doctype>journal-article</doctype>
+  </ext>
+</bibdata>
