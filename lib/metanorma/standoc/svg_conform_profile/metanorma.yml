@@ -1,0 +1,227 @@
+name: "metanorma"
+description: "Metanorma SVG Profile - SVG requirements for Metanorma technical documents with embedded resources"
+
+requirements:
+  # ID Collection - must run first to build the ID manifest
+  - id: "id_collection"
+    type: "IdCollectionRequirement"
+    description: "Collects all ID definitions for reference validation"
+
+  # Based on RFC 7996 Section 2.1: Elements, Properties, and Attributes
+  - id: "allowed_elements"
+    type: "AllowedElementsRequirement"
+    description: "Validates allowed SVG elements and attributes"
+    skip_foreign_namespaces: true
+    allow_rdf_metadata: false
+    allowed_namespaces:
+      - "http://www.w3.org/2000/svg"
+      - ""  # Default namespace (no prefix)
+    allowed_attribute_patterns:
+      - "on*"  # Allow event handler attributes (onmouseover, onmouseout, etc.) per issue #57
+    element_configs:
+      # Direct encoding from svgcheck word_properties.py elements dictionary
+      - tag: "svg"
+        attributes: ["version", "baseProfile", "width", "viewBox", "preserveAspectRatio", "snapshotTime", "height", "id", "role", "break", "color-rendering", "fill-rule", "overflow", "data-name", "clip-path", "mask", "contentStyleType", "zoomAndPan"]
+        required_attributes: ["version", "baseProfile"]
+        attribute_values:
+          version: ["1.2"]
+          baseProfile: ["tiny"]
+        allowed_children: ["title", "path", "rect", "circle", "line", "ellipse", "polyline", "polygon", "solidColor", "textArea", "text", "g", "defs", "use", "a", "tspan", "desc", "image", "style"]
+      - tag: "desc"
+        attributes: ["id", "role", "shape-rendering", "text-rendering", "buffered-rendering", "visibility", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "fill-rule"]
+        allowed_children: ["text"]
+      - tag: "title"
+        attributes: ["id", "role", "shape-rendering", "text-rendering", "buffered-rendering", "visibility", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "fill-rule"]
+        allowed_children: ["text"]
+      - tag: "path"
+        attributes: ["d", "pathLength", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "rect"
+        attributes: ["x", "y", "width", "height", "rx", "ry", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "circle"
+        attributes: ["cx", "cy", "r", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "line"
+        attributes: ["x1", "y1", "x2", "y2", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "ellipse"
+        attributes: ["cx", "cy", "rx", "ry", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "polyline"
+        attributes: ["points", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "polygon"
+        attributes: ["points", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "solidColor"
+        attributes: ["id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "textArea"
+        attributes: ["x", "y", "width", "height", "auto", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["desc", "title", "tspan", "text", "a"]
+      - tag: "text"
+        attributes: ["x", "y", "rotate", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "font-stretch", "writing-mode", "text-decoration", "clip-path", "mask", "textLength", "lengthAdjust", "opacity"]
+        allowed_children: ["desc", "title", "tspan", "text", "a"]
+      - tag: "g"
+        attributes: ["label", "class", "id", "role", "fill", "style", "transform", "fill-rule", "visibility", "base", "lang", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "data-name", "clip-path", "clip-rule", "mask", "opacity"]
+        allowed_children: ["title", "path", "rect", "circle", "line", "ellipse", "polyline", "polygon", "solidColor", "textArea", "text", "g", "defs", "use", "a", "tspan", "desc", "image"]
+      - tag: "defs"
+        attributes: ["id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "path", "rect", "circle", "line", "ellipse", "polyline", "polygon", "solidColor", "textArea", "text", "g", "defs", "use", "a", "tspan", "desc", "style", "clipPath", "linearGradient", "radialGradient", "pattern", "marker", "mask", "filter", "image"]
+      - tag: "clipPath"
+        attributes: ["id", "clipPathUnits", "class", "style"]
+        allowed_children: ["path", "rect", "circle", "ellipse", "line", "polyline", "polygon", "text", "use"]
+      - tag: "linearGradient"
+        attributes: ["id", "x1", "y1", "x2", "y2", "gradientUnits", "gradientTransform", "spreadMethod", "href", "xlink:href", "data-name"]
+        allowed_children: ["stop"]
+      - tag: "radialGradient"
+        attributes: ["id", "cx", "cy", "r", "fx", "fy", "fr", "gradientUnits", "gradientTransform", "spreadMethod", "href", "xlink:href", "data-name"]
+        allowed_children: ["stop"]
+      - tag: "stop"
+        attributes: ["offset", "stop-color", "stop-opacity", "style", "class", "id"]
+        allowed_children: []
+      - tag: "pattern"
+        attributes: ["id", "x", "y", "width", "height", "patternUnits", "patternContentUnits", "patternTransform", "viewBox", "preserveAspectRatio", "href", "xlink:href"]
+        allowed_children: ["path", "rect", "circle", "ellipse", "line", "polyline", "polygon", "text", "g", "use", "image"]
+      - tag: "marker"
+        attributes: ["id", "markerUnits", "refX", "refY", "markerWidth", "markerHeight", "orient", "preserveAspectRatio", "viewBox"]
+        allowed_children: ["path", "rect", "circle", "ellipse", "line", "polyline", "polygon", "text", "g"]
+      - tag: "mask"
+        attributes: ["id", "x", "y", "width", "height", "maskUnits", "maskContentUnits"]
+        allowed_children: ["path", "rect", "circle", "ellipse", "line", "polyline", "polygon", "text", "g", "use", "image"]
+      - tag: "filter"
+        attributes: ["id", "x", "y", "width", "height", "filterUnits", "primitiveUnits"]
+        allowed_children: []
+      - tag: "style"
+        attributes: ["type", "media", "title", "id", "class"]
+        allowed_children: []
+      - tag: "use"
+        attributes: ["x", "y", "href", "xlink:href", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+      - tag: "a"
+        attributes: ["id", "role", "fill", "transform", "fill-rule", "target", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "title", "clip-path", "mask"]
+        allowed_children: ["title", "path", "rect", "circle", "line", "ellipse", "polyline", "polygon", "solidColor", "textArea", "text", "g", "defs", "use", "a", "tspan", "desc"]
+      - tag: "tspan"
+        attributes: ["x", "y", "id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "letter-spacing"]
+        allowed_children: ["desc", "title", "tspan", "text", "a", "tbreak"]
+      - tag: "tbreak"
+        attributes: ["id", "role", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space"]
+      - tag: "image"
+        attributes: ["x", "y", "width", "height", "href", "xlink:href", "preserveAspectRatio", "id", "class", "style", "transform", "clip-path", "mask"]
+        allowed_children: ["title", "desc"]
+    check_attributes: true
+    check_invalid_attributes: true
+    check_parent_child: true
+
+  # Namespace restrictions - only SVG namespace allowed
+  - id: "namespace_validation"
+    type: "NamespaceRequirement"
+    description: "Only allows SVG namespace elements"
+    allow_rdf_metadata: false
+    allowed_namespaces:
+      - "http://www.w3.org/2000/svg"
+      - ""  # Default namespace (no prefix)
+
+  # Namespace attribute restrictions - only SVG, XLink, and XML namespaces allowed
+  - id: "namespace_attributes"
+    type: "NamespaceAttributesRequirement"
+    description: "Only allows attributes from SVG, XLink, and XML namespaces"
+    allowed_namespaces:
+      - "http://www.w3.org/2000/svg"
+      - "http://www.w3.org/1999/xlink"
+      - "http://www.w3.org/XML/1998/namespace"  # XML namespace (xml:space, xml:lang, etc.)
+      - ""  # Default namespace (no prefix)
+    exempt_elements:
+      - "RDF"
+      - "Work"
+      - "format"
+      - "type"
+      - "title"
+      - "creator"
+      - "description"
+
+  # ViewBox required on root SVG element
+  - id: "viewbox_required"
+    type: "ViewboxRequiredRequirement"
+    description: "Requires viewBox attribute on root SVG element"
+
+  # Link validation - IRIs must be ASCII only
+  - id: "link_validation"
+    type: "LinkValidationRequirement"
+    description: "Validates links are ASCII-only"
+    error_context: "Metanorma requires ASCII-only IRIs"
+
+  # ID reference validation
+  - id: "id_references"
+    type: "IdReferenceRequirement"
+    description: "Validates ID references point to existing elements"
+
+  # Forbidden content - no multimedia, scripting, etc.
+  # Note: onmouseover, onmouseout, onfocus, onblur are intentionally allowed per issue #57
+  - id: "forbidden_content"
+    type: "ForbiddenContentRequirement"
+    description: "Prohibits multimedia, scripting content"
+    forbidden_elements: ["script", "audio", "video", "set"]
+    forbidden_attributes: ["onload", "onclick", "onkeydown", "onkeyup", "onkeypress"]
+
+  # NEW: No external CSS - reject without remediation
+  - id: "no_external_css"
+    type: "NoExternalCssRequirement"
+    description: "Prohibits external CSS references - all styles must be embedded"
+    check_style_elements: true
+    check_style_attributes: true
+    check_link_elements: true
+
+  # NEW: No external fonts - detect and require embedding
+  - id: "no_external_fonts"
+    type: "NoExternalFontsRequirement"
+    description: "Prohibits external font references - all fonts must be embedded"
+    check_font_face: true
+    check_style_fonts: true
+
+  # NEW: No external images - detect and require embedding
+  - id: "no_external_images"
+    type: "NoExternalImagesRequirement"
+    description: "Prohibits external image references - all images must be embedded"
+    check_image_elements: true
+    check_style_images: true
+
+  # Text-as-path detection - warns when text is rendered as outlined paths
+  - id: "text_as_path"
+    type: "TextAsPathRequirement"
+    description: "Detects text rendered as outlined paths instead of native <text> elements"
+    min_d_length: 500
+    min_bezier: 5
+
+remediations:
+  # ViewBox auto-generation
+  - id: "viewbox_generation"
+    type: "ViewboxRemediation"
+    description: "Auto-generate viewBox from width/height"
+    targets: ["viewbox_required"]
+
+  # Namespace cleanup - removes foreign elements, attributes, and declarations
+  - id: "namespace_cleanup"
+    type: "NamespaceRemediation"
+    description: "Remove foreign namespace elements (Inkscape, Sodipodi, etc.), attributes, and declarations"
+    targets: ["namespace_validation", "namespace_attributes"]
+    allowed_namespaces:
+      - "http://www.w3.org/2000/svg"
+      - "http://www.w3.org/1999/xlink"
+      - "http://www.w3.org/XML/1998/namespace"
+    remove_elements: true
+    remove_attributes: true
+    remove_declarations: true
+
+  # NEW: Font embedding remediation
+  - id: "font_embedding"
+    type: "FontEmbeddingRemediation"
+    description: "Convert external font references to embedded fonts"
+    targets: ["no_external_fonts"]
+
+  # NEW: Image embedding remediation
+  - id: "image_embedding"
+    type: "ImageEmbeddingRemediation"
+    description: "Convert external image references to embedded images"
+    targets: ["no_external_images"]
