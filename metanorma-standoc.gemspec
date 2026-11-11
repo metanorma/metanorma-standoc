@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "moxml", "~> 0.6.1"
   spec.add_dependency "leptris", "~> 1.9"
   spec.add_dependency "concurrent-ruby"
-  spec.add_dependency "png_conform", "~> 0.1.0"
+  spec.add_dependency "png_conform", "~> 0.1.7"
   # svgmap_cleanup reparses vectory's returned document and grafts the
   # content back (the 0.13 SvgMapping contract: vectory processes its own
   # tree and returns the result instead of mutating the caller's document).
