@@ -34,25 +34,25 @@ requirements:
         attributes: ["id", "role", "shape-rendering", "text-rendering", "buffered-rendering", "visibility", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "fill-rule"]
         allowed_children: ["text"]
       - tag: "path"
-        attributes: ["d", "pathLength", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["d", "pathLength", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "rect"
-        attributes: ["x", "y", "width", "height", "rx", "ry", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["x", "y", "width", "height", "rx", "ry", "stroke-miterlimit", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "circle"
-        attributes: ["cx", "cy", "r", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["cx", "cy", "r", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "line"
-        attributes: ["x1", "y1", "x2", "y2", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["x1", "y1", "x2", "y2", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "ellipse"
-        attributes: ["cx", "cy", "rx", "ry", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["cx", "cy", "rx", "ry", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "polyline"
-        attributes: ["points", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["points", "id", "role", "fill", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "polygon"
-        attributes: ["points", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
+        attributes: ["points", "id", "role", "fill", "style", "transform", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask", "clip-rule", "opacity"]
         allowed_children: ["title", "desc"]
       - tag: "solidColor"
         attributes: ["id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
@@ -187,11 +187,12 @@ requirements:
     check_image_elements: true
     check_style_images: true
 
-  # Text-as-path detection - warns when text is rendered as outlined paths
+  # Text-as-path detection: the engine classifies this requirement as a
+  # warning by design (vector-traced logos are legitimate input); it is
+  # never a corrupt-SVG error.
   - id: "text_as_path"
     type: "TextAsPathRequirement"
     description: "Detects text rendered as outlined paths instead of native <text> elements"
-    severity: warning
     min_d_length: 500
     min_bezier: 5
 
