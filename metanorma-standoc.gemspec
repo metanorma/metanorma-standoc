@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "metanorma-plugin-glossarist", "~> 0.5"
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7.55" # LutamlDataPreprocessor shipped in 0.7.55
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
-  spec.add_dependency "metanorma-utils", "~> 2.0.10"
+  spec.add_dependency "metanorma-utils", "~> 2.0.12"
   # moxml 0.6.0 removed the Opal surface (lutaml/moxml#516); owner
   # call to update all to the latest moxml line.
   spec.add_dependency "moxml", "~> 0.6.1"
