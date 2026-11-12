@@ -210,6 +210,9 @@ module Metanorma
                              "blank-line-flanked comment or conditional " \
                              "directive had ended the first list",
                       severity: 2 },
+        STANDOC_68: { category: "Suppression",
+                      error: "Validation suppression active: %s",
+                      severity: 3 },
         RELATON_1: { category: "Relaton",
                      error: "(Error from Relaton) %s",
                      severity: 0 },
