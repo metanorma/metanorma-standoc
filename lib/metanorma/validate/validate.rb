@@ -12,6 +12,12 @@ module Metanorma
     class Validate
       extend Forwardable
 
+      # Declarative validation suppression (metanorma-standoc#1369).
+      module Suppression
+        autoload :Config, "metanorma/validate/suppression/config"
+        autoload :RuleEntry, "metanorma/validate/suppression/config"
+      end
+
       # The flavor identity of this validator; flavors override
       # (metanorma-iso "iso", metanorma-bsi "bsi"). Names the flavor's
       # profile directories and the metanorma-<flavor> gem for the

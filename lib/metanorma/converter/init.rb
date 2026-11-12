@@ -10,6 +10,7 @@ module Metanorma
         init_misc(node)
         init_processing(node) # feeds init_i18n
         init_log(node)
+        init_suppression(node)
         init_image(node)
         init_reqt(node)
         init_toc(node)
@@ -32,6 +33,7 @@ module Metanorma
       end
 
       def init_vars
+        @files_to_delete ||= [] # early init failures must not mask in clean_exit
         @fn_number ||= 0
         @refids = Set.new
         @anchors = {}
@@ -102,6 +104,159 @@ module Metanorma
           loc[:error_ids] ||= []
           loc[:error_ids] &&= Array(loc[:error_ids])
         end
+      end
+
+      # Declarative validation suppression (metanorma-standoc#1369).
+      # Resolution chain: flavor config < taste config < document config.
+      # Absent layers are skipped silently; a malformed layer raises
+      # naming the layer. The resolved config is injected into the log
+      # (utils Log suppression hook), and one Suppression entry
+      # (STANDOC_68) summarizes the effective configuration.
+      def init_suppression(node)
+        @log or return
+        flavor_cfg, flavor_src = gem_suppression_config(
+          "metanorma-#{validation_flavor_name}", validation_flavor_name,
+          "flavor",
+        )
+        taste_cfg, taste_src = taste_suppression_config(node)
+        doc_cfg, doc_src = document_suppression_config(node)
+
+        layers = [flavor_cfg, taste_cfg, doc_cfg].compact
+        return if layers.empty?
+
+        config = layers.reduce { |base, higher| base.merge(higher) }
+        return if config.empty?
+
+        @log.suppression = config
+        log_suppression_dump([flavor_src, taste_src, doc_src].compact,
+                             config)
+      end
+
+      # The flavor identity, derived from the most-derived Validate
+      # subclass declaring validation_flavor (metanorma-iso declares
+      # "iso", metanorma-bsi "bsi", standoc "standoc").
+      def validation_flavor_name
+        m = validate_class.instance_method(:validation_flavor)
+        m.owner.name.sub(/\AMetanorma::/, "").sub(/::Validate\z/, "")
+          .downcase
+      rescue NameError
+        "standoc"
+      end
+
+      def taste_suppression_config(node)
+        taste = node.attr("taste") || ENV["METANORMA_TASTE"] or return
+        gem_suppression_config("metanorma-taste-#{taste}", taste, "taste")
+      end
+
+      # A gem layer: +gem_name+ ships
+      # lib/metanorma/<dir>/validation_policy/metanorma.yml. Absent gem
+      # (Gem::LoadError) or absent file: layer skipped silently; a
+      # malformed file raises naming the layer.
+      def gem_suppression_config(gem_name, dir, layer)
+        spec = Gem::Specification.find_by_name(gem_name)
+        path = File.join(spec.gem_dir, "lib", "metanorma", dir,
+                         "validation_policy", "metanorma.yml")
+        return unless File.exist?(path)
+
+        [load_suppression_config(path, layer), path]
+      rescue Gem::LoadError
+        nil
+      end
+
+      def load_suppression_config(path, layer)
+        Validate::Suppression::Config.from_yaml(path)
+      rescue StandardError => e
+        raise ArgumentError,
+              "invalid validation suppression config " \
+              "(#{layer} layer): #{e.message}"
+      end
+
+      def validation_config_path(node)
+        if (ret = node.attr("validation-config"))
+          (Pathname.new ret).absolute? or
+            ret = File.join(@localdir, ret)
+        end
+        ret
+      end
+
+      # Document layer: :validation-config: file, then the
+      # :validation-off: / :validation-warning: sugars, then the
+      # log-filter-* aliases (same layer: later parts override earlier
+      # parts per code).
+      def document_suppression_config(node)
+        parts = []
+        if (path = validation_config_path(node))
+          parts << [load_suppression_config(path, "document"), path]
+        end
+        sugar = suppression_sugar_config(node)
+        unless sugar.empty?
+          parts << [sugar, ":validation-off:/:validation-warning:"]
+        end
+        legacy = legacy_suppression_config(node)
+        unless legacy.empty?
+          parts << [legacy, "log-filter-* (legacy aliases)"]
+        end
+        return [nil, nil] if parts.empty?
+
+        config = parts.map(&:first)
+          .reduce { |base, higher| base.merge(higher) }
+        [config, parts.map(&:last).join(", ")]
+      end
+
+      # `:validation-off:` codes drop; `:validation-warning:` codes
+      # reclassify to warning.
+      def suppression_sugar_config(node)
+        cfg = Validate::Suppression::Config.new
+        cfg.rules =
+          Array(csv_split(node.attr("validation-off"), ",")).map do |code|
+            Validate::Suppression::RuleEntry.new(code: code.strip,
+                                                 severity: "off")
+          end +
+          Array(csv_split(node.attr("validation-warning"), ",")).map do |code|
+            Validate::Suppression::RuleEntry.new(code: code.strip,
+                                                 severity: "warning")
+          end
+        cfg
+      end
+
+      # Alias migration (behavior-preserving): the legacy
+      # log-filter-error-ids and log-filter-category attributes translate
+      # 1:1 onto Config rules. Their enforcement remains with the
+      # untouched suppress_log path, which drops those entries before the
+      # suppression hook is consulted, so existing behavior is
+      # bit-identical; the translation surfaces them in the
+      # effective-config dump and prepares the deprecation-notice
+      # release. log-filter-severity, log-filter-error-regex and
+      # log-filter-error-loc have no v1 Config equivalent and stay
+      # suppress_log-only.
+      def legacy_suppression_config(node)
+        cfg = Validate::Suppression::Config.new
+        ids = Array(csv_split(node.attr("log-filter-error-ids"), ","))
+        cats = Array(csv_split(node.attr("log-filter-category"), ","))
+        cfg.rules = ids.map do |c|
+          Validate::Suppression::RuleEntry.new(code: c.strip,
+                                               severity: "off")
+        end
+        unless cats.empty?
+          cfg.category_rules = { "category" => cats.each_with_object({}) do |c, m|
+            m[c.strip] = { "severity" => "off" }
+          end }
+        end
+        cfg
+      end
+
+      # One Suppression entry (STANDOC_68, info severity, display off)
+      # summarizing the effective configuration.
+      def log_suppression_dump(sources, config)
+        counts = config.rules_count
+        parts = ["sources: #{sources.join(', ')}",
+                 "code rules: #{counts[:total]} " \
+                 "(off: #{counts[:off]}, " \
+                 "reclassified: #{counts[:reclassified]})"]
+        parts << "allow patterns: #{counts[:allow]}" if counts[:allow].positive?
+        parts << "exclude patterns: #{counts[:exclude]}" if counts[:exclude].positive?
+        parts << "family rules: #{counts[:family]}" if counts[:family].positive?
+        @log.add("STANDOC_68", nil, display: false, params: [parts.join("; ")])
       end
 
       def init_image(node)
