@@ -27,6 +27,30 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       .to include("Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]")
   end
 
+  it "names the include jail and --base-dir when the target exists outside it" do
+    docfile = File.expand_path("test.adoc")
+    outside = File.expand_path("../standoc-69-outside-target.adoc")
+    File.write(outside, "== Outside content\n")
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: #{docfile}
+      :nodoc:
+
+      include::../standoc-69-outside-target.adoc[]
+
+    INPUT
+    result = convert_and_expect_abort(
+      input, [OPTIONS[0].merge(safe: :safe, base_dir: File.dirname(docfile))]
+    )
+    expect(result[:errors]).to include("STANDOC_69")
+    expect(result[:errors]).to include("include jail")
+    expect(result[:errors]).to include("--base-dir")
+  ensure
+    FileUtils.rm_f(outside)
+    FileUtils.rm_f(%w[test.adoc test.err.html test.xml])
+  end
+
   it "aborts on a missing boilerplate file" do
     FileUtils.rm_f "test.xml"
     FileUtils.rm_f "test.err.html"
