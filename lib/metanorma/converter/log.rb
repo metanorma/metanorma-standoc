@@ -213,6 +213,11 @@ module Metanorma
         STANDOC_68: { category: "Suppression",
                       error: "Validation suppression active: %s",
                       severity: 3 },
+        STANDOC_69: { category: "Include",
+                      error: "Unresolved directive %s: the file %s exists " \
+                             "but lies outside the include jail %s; compile " \
+                             "with --base-dir <directory> to widen the jail",
+                      severity: 0 },
         RELATON_1: { category: "Relaton",
                      error: "(Error from Relaton) %s",
                      severity: 0 },

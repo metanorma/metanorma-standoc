@@ -13,13 +13,34 @@ module Asciidoctor
       if inc_path && !%i(file uri).include?(target_type)
         # include has been skipped because of error
         n = peek_line(true)
-        /^Unresolved directive in/.match?(n) and
-          @document.converter.log
-            &.add("STANDOC_41", nil, params: [HTMLEntities.new.encode(
-              n.sub(/^Unresolved directive /, ""), :basic
-            )])
+        /^Unresolved directive in/.match?(n) and begin
+          code, params = include_failure_code(n, expanded_target)
+          @document.converter.log&.add(code, nil, **params)
+        end
       end
       [inc_path, target_type, relpath]
+    end
+
+    private
+
+    # A skipped include whose target exists on disk but outside the
+    # document's include jail is a jail reach, not a missing file: the
+    # generic STANDOC_41 "unresolved" row sends the reader hunting for a
+    # file that is right there (metanorma-cli#490). Name the jail and the
+    # --base-dir flag instead.
+    def include_failure_code(line, expanded_target)
+      encoded = HTMLEntities.new.encode(
+        line.sub(/^Unresolved directive /, ""), :basic
+      )
+      candidate = File.expand_path(expanded_target.to_s, dir)
+      jail = File.expand_path(@document.base_dir.to_s)
+      outside = File.exist?(candidate) &&
+        candidate != jail && !candidate.start_with?(jail + File::SEPARATOR)
+      if outside
+        ["STANDOC_69", { params: [encoded, candidate, jail] }]
+      else
+        ["STANDOC_41", { params: [encoded] }]
+      end
     end
   end
 end
