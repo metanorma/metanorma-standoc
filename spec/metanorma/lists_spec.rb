@@ -299,4 +299,111 @@ RSpec.describe Metanorma::Standoc do
     expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
       .to be_xml_equivalent_to output
   end
+
+  it "processes a nobullet unordered list" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [.nobullet]
+      * List 1
+      * List 2
+
+      [options="nobullet"]
+      * List 3
+      * List 4
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <ul id="_" type="nobullet">
+          <li>
+            <p id="_">List 1</p>
+          </li>
+          <li>
+            <p id="_">List 2</p>
+          </li>
+          <li>
+            <p id="_">List 3</p>
+          </li>
+          <li>
+            <p id="_">List 4</p>
+          </li>
+        </ul>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
+  it "processes nobullet ordered lists" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [.nobullet]
+      . List 1
+      . List 2
+
+      [options="no-bullet"]
+      . List 3
+      . List 4
+
+      [.no-bullet]
+      . List 5
+      . List 6
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <ol id="_" type="nobullet">
+          <li>
+            <p id="_">List 1</p>
+          </li>
+          <li>
+            <p id="_">List 2</p>
+          </li>
+        </ol>
+        <ol id="_" type="no-bullet">
+          <li>
+            <p id="_">List 3</p>
+          </li>
+          <li>
+            <p id="_">List 4</p>
+          </li>
+          <li>
+            <p id="_">List 5</p>
+          </li>
+          <li>
+            <p id="_">List 6</p>
+          </li>
+        </ol>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
+
+  it "keeps the none ordered list style as type=none" do
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [none]
+      . List 1
+      . List 2
+    INPUT
+    output = <<~OUTPUT
+      #{BLANK_HDR}
+      <sections>
+        <ol id="_" type="none">
+          <li>
+            <p id="_">List 1</p>
+          </li>
+          <li>
+            <p id="_">List 2</p>
+          </li>
+        </ol>
+      </sections>
+      </metanorma>
+    OUTPUT
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to output
+  end
 end

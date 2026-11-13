@@ -260,7 +260,9 @@ Sources are currently only rendered in metanorma-plateau</a:documentation>
           <a:documentation>Type of numbering to be applied to the list items: one of the five named
 numbering styles, or a renderer-native numbering format string passed
 through for the target rendering language to expand (e.g. xml2rfc v2
-format strings such as "R%d", carried through by metanorma-ietf)</a:documentation>
+format strings such as "R%d", carried through by metanorma-ietf).
+The values `nobullet`, `no-bullet` and `none` do not number the list
+items: they suppress the list markers in rendering.</a:documentation>
           <choice>
             <value>roman</value>
             <value>alphabet</value>
@@ -925,6 +927,18 @@ titlecase, or lowercase</a:documentation>
   </define>
   <define name="UlAttributes" combine="interleave">
     <ref name="BlockAttributes"/>
+    <optional>
+      <attribute name="type">
+        <a:documentation>Directive to suppress the list markers in rendering: the list is
+rendered as a bulletless list. This attribute is not used for
+numbering, unlike the corresponding attribute of `ol`.</a:documentation>
+        <choice>
+          <value>nobullet</value>
+          <value>no-bullet</value>
+          <value>none</value>
+        </choice>
+      </attribute>
+    </optional>
     <optional>
       <ref name="DisplayDirective"/>
     </optional>
