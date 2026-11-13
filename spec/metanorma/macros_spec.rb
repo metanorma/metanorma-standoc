@@ -217,82 +217,82 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='basic'">0.31e2</mn>
+                 <mn data-metanorma-numberformat="notation='basic'">31</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='basic'">0.3274287432878432992e6</mn>
+                 <mn data-metanorma-numberformat="notation='basic'">327428.7432878432992</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
+                 <mn data-metanorma-numberformat="decimal='.'">327428.7432878432992</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
+                 <mn data-metanorma-numberformat="decimal='.'">327428.7432878432992</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal='.'">0.3274287432878432992e6</mn>
+                 <mn data-metanorma-numberformat="decimal='.'">327428.7432878432992</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal='.',notation='exponential'">0.3274287432878432992e6</mn>
+                 <mn data-metanorma-numberformat="decimal='.',notation='exponential'">327428.7432878432992</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.3274287432878432992e6</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">327428.7432878432992</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1e1</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">1</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.11e1</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">1.1</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1100e1</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">1.100</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.1e22</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">1000000000000000000000</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.10e20</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">10000000000000000000</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.10e-18</mn>
+                 <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.0000000000000000001</mn>
                </math>
              </stem>
              <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-               <mn data-metanorma-numberformat="decimal=',',group='\\u2009',notation='exponential'">0.3274287432878432992e6</mn>
+               <mn data-metanorma-numberformat="decimal=',',group='\\u2009',notation='exponential'">327428.7432878432992</mn>
             </math>
          </stem>
            <stem type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mn data-metanorma-numberformat="group_digits='3',fraction_group_digits='3',decimal=',',group='\\u2009',notation='general'">0.3274287432878432992e6</mn>
+                      <mn data-metanorma-numberformat="group_digits='3',fraction_group_digits='3',decimal=',',group='\\u2009',notation='general'">327428.7432878432992</mn>
                    </math>
            </stem>
            <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-               <mn data-metanorma-numberformat="number_sign='plus'">0.31e2</mn>
+               <mn data-metanorma-numberformat="number_sign='plus'">31</mn>
             </math>
          </stem>
            </p>
@@ -326,62 +326,62 @@ RSpec.describe Metanorma::Standoc do
         <p id="_">
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.255e3</mn>
+              <mn data-metanorma-numberformat="notation='basic'">255</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.255e3</mn>
+              <mn data-metanorma-numberformat="notation='basic'">255</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.26e2</mn>
+              <mn data-metanorma-numberformat="notation='basic'">26</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.265e2</mn>
+              <mn data-metanorma-numberformat="notation='basic'">26.5</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.1e2</mn>
+              <mn data-metanorma-numberformat="notation='basic'">10</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.1e2</mn>
+              <mn data-metanorma-numberformat="notation='basic'">10</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.55e1</mn>
+              <mn data-metanorma-numberformat="notation='basic'">5.5</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.63e2</mn>
+              <mn data-metanorma-numberformat="notation='basic'">63</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.63e2</mn>
+              <mn data-metanorma-numberformat="notation='basic'">63</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="notation='basic'">0.75e1</mn>
+              <mn data-metanorma-numberformat="notation='basic'">7.5</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="decimal=',',notation='exponential'">0.255e3</mn>
+              <mn data-metanorma-numberformat="decimal=',',notation='exponential'">255</mn>
             </math>
           </stem>
           <stem type="MathML">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mn data-metanorma-numberformat="decimal='.',notation='exponential'">0.1e2</mn>
+              <mn data-metanorma-numberformat="decimal='.',notation='exponential'">10</mn>
             </math>
           </stem>
         </p>

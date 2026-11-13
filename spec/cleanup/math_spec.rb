@@ -98,37 +98,37 @@ RSpec.describe Metanorma::Standoc do
            <p id="_">
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">0.145e3</mn>
+                 <mn data-metanorma-numberformat="notation='e',exponent_sign='plus',precision='4'">145</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=',',e=' '">0.245e3</mn>
+                 <mn data-metanorma-numberformat="notation='scientific',precision='4',decimal=',',e=' '">245</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=',',e=''">0.345e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='4',times=',',e=''">345</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=',',e=''">0.445e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',precision='5',times=',',e=''">445</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',e='',digit_count='10'">0.545e3</mn>
+                 <mn data-metanorma-numberformat="notation='engineering',exponent_sign='plus',times=',',e='',digit_count='10'">545</mn>
                </math>
              </stem>
              <stem type="MathML">
                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                 <mn data-metanorma-numberformat="notation='e',precision='5',digit_count='10'">0.645e3</mn>
+                 <mn data-metanorma-numberformat="notation='e',precision='5',digit_count='10'">645</mn>
                </math>
              </stem>
              <stem type="MathML">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                      <mn data-metanorma-numberformat="notation='general',exponent_sign='plus',precision='4',group_digits='3',fraction_group_digits='3',decimal=',',group='\\u2009'">0.745e3</mn>
+                      <mn data-metanorma-numberformat="notation='general',exponent_sign='plus',precision='4',group_digits='3',fraction_group_digits='3',decimal=',',group='\\u2009'">745</mn>
                    </math>
              </stem>
            </p>
