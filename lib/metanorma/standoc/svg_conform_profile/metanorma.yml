@@ -63,8 +63,11 @@ requirements:
       - tag: "text"
         attributes: ["x", "y", "rotate", "id", "role", "fill", "style", "transform", "font-size", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "font-stretch", "writing-mode", "text-decoration", "clip-path", "mask", "textLength", "lengthAdjust", "opacity"]
         allowed_children: ["desc", "title", "tspan", "text", "a"]
+      # PlantUML emits text-layout attributes (textLength/lengthAdjust,
+      # font-*, text-anchor) on g containers; all are valid SVG presentation
+      # attributes on container elements (metanorma-pdfa#106).
       - tag: "g"
-        attributes: ["label", "class", "id", "role", "fill", "style", "transform", "fill-rule", "visibility", "base", "lang", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "data-name", "clip-path", "clip-rule", "mask", "opacity"]
+        attributes: ["label", "class", "id", "role", "fill", "style", "transform", "fill-rule", "visibility", "base", "lang", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "data-name", "clip-path", "clip-rule", "mask", "opacity", "textLength", "lengthAdjust", "font-family", "font-size", "font-weight", "font-style", "text-anchor", "letter-spacing", "word-spacing"]
         allowed_children: ["title", "path", "rect", "circle", "line", "ellipse", "polyline", "polygon", "solidColor", "textArea", "text", "g", "defs", "use", "a", "tspan", "desc", "image"]
       - tag: "defs"
         attributes: ["id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "clip-path", "mask"]
@@ -103,7 +106,7 @@ requirements:
         attributes: ["id", "role", "fill", "transform", "fill-rule", "target", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "title", "clip-path", "mask"]
         allowed_children: ["title", "path", "rect", "circle", "line", "ellipse", "polyline", "polygon", "solidColor", "textArea", "text", "g", "defs", "use", "a", "tspan", "desc"]
       - tag: "tspan"
-        attributes: ["x", "y", "id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "letter-spacing"]
+        attributes: ["x", "y", "id", "role", "fill", "fill-rule", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space", "letter-spacing", "textLength", "lengthAdjust"]
         allowed_children: ["desc", "title", "tspan", "text", "a", "tbreak"]
       - tag: "tbreak"
         attributes: ["id", "role", "base", "lang", "class", "rel", "rev", "typeof", "content", "datatype", "resource", "about", "property", "space"]
