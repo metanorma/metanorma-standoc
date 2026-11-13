@@ -21,9 +21,24 @@ module Metanorma
         end
       end
 
+      NO_BULLET_STYLES = %w(nobullet no-bullet).freeze
+
+      # asciidoctor encodes bulletless lists through the +nobullet+ role
+      # ({@.nobullet} or {@options=nobullet}) or the +no-bullet+ option
+      # ({@options=no-bullet}); both map to a list @type, which renderers
+      # suppress markers for. The ordered list styles +none+ and
+      # renderer-native format strings flow through +olist_style+.
+      def list_bullet_type(node)
+        NO_BULLET_STYLES.each do |s|
+          node.role?(s) || node.option?(s) and return s
+        end
+        nil
+      end
+
       def ul_attrs(node)
         attr_code(id_attr(node).merge(keep_attrs(node)
-          .merge(display: node.attr("display"),
+          .merge(type: list_bullet_type(node),
+                 display: node.attr("display"),
                  class: node.attr("class"),
                  "display-directives": node.attr("display-directives"))))
       end
@@ -61,7 +76,7 @@ module Metanorma
       # as a positional attribute
       def ol_attrs(node)
         attr_code(id_attr(node).merge(keep_attrs(node)
-          .merge(type: olist_style(node.style),
+          .merge(type: list_bullet_type(node) || olist_style(node.style),
                  start: node.attr("start"),
                  display: node.attr("display"),
                  class: node.attr("class"),
