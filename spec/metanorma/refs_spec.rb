@@ -1451,7 +1451,7 @@ RSpec.describe Metanorma::Standoc do
 
   def mock_isobib_get_123_nil
     expect(Relaton::Nist::Bibliography).to receive(:get)
-      .with("NIST 123", nil, { code: "NIST 123",
+      .with(pubid_or_string("NIST 123"), nil, { code: "NIST 123",
                                lang: "en",
                                match: anything,
                                analyse_code: anything,
