@@ -43,16 +43,10 @@ module Metanorma
         [integer_part, fractional_part]
       end
 
-      # Detect prefix and convert to decimal
+      # The value emitted into <mn> is canonical positional decimal:
+      # the exponent form is a rendering decision driven by the
+      # number-format attributes, not baked into the semantic content.
       def number(text)
-        n = BigDecimal(number_base(text))
-        trailing_zeroes = 0
-        m = /\.[1-9]*(0+)/.match(text) and trailing_zeroes += m[1].size
-        n.to_s("E").sub("e", "0" * trailing_zeroes + "e") # rubocop:disable Style/StringConcatenation
-      end
-
-      # Detect prefix and convert to decimal
-      def number_base(text)
         case text.strip
         when /^0[xX]([0-9A-Fa-f.]+)$/
           parse_number_with_base(Regexp.last_match(1), 16)
@@ -60,9 +54,25 @@ module Metanorma
           parse_number_with_base(Regexp.last_match(1), 2)
         when /^0[oO]([0-7.]+)$/
           parse_number_with_base(Regexp.last_match(1), 8)
+        when /\A[0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+\z/
+          BigDecimal(text.strip).to_s("F").sub(/\.0\z/, "")
+        when /\A[0-9]+(\.[0-9]+)?\z/
+          text.strip # Regular decimal - pass through
         else
-          text # Regular decimal - pass through
+          BigDecimal(text.strip).to_s("F").sub(/\.0\z/, "")
         end
+      end
+
+      # Handle numbers with fractional parts in different bases
+      # Split on decimal point
+      def parse_number_with_base(num_str, base)
+        integer_part, fractional_part = split_number(num_str)
+        int_value = integer_part.to_i(base)
+        return int_value.to_s if fractional_part.empty?
+        frac_value = fractional_part.chars.each_with_index.sum do |digit, index|
+          BigDecimal(digit.to_i(base).to_s) / BigDecimal((base**(index + 1)).to_s)
+        end
+        (BigDecimal(int_value.to_s) + frac_value).to_s("F")
       end
 
       def process(parent, target, attrs)
