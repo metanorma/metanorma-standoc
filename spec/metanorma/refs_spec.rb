@@ -1449,9 +1449,18 @@ RSpec.describe Metanorma::Standoc do
     satisfy { |arg| arg.to_s == code }
   end
 
+  # pubid's NIST to_s canonicalizes ("NIST 123" -> "NIST SP 123"), so a
+  # parsed pubid can never string-match its input form; accept any parsed
+  # Pubid object or the exact string (relaton#205 contract).
+  def nist_pubid_or_string(code)
+    satisfy do |arg|
+      arg.is_a?(String) ? arg == code : arg.class.name.start_with?("Pubid::")
+    end
+  end
+
   def mock_isobib_get_123_nil
     expect(Relaton::Nist::Bibliography).to receive(:get)
-      .with("NIST 123", nil, { code: "NIST 123",
+      .with(nist_pubid_or_string("NIST 123"), nil, { code: "NIST 123",
                                lang: "en",
                                match: anything,
                                analyse_code: anything,
