@@ -1967,6 +1967,11 @@ are siblings to subclauses (hanging paragraphs)</a:documentation>
         <a:documentation>Title of section</a:documentation>
       </ref>
     </optional>
+    <optional>
+      <ref name="update-unit">
+        <a:documentation>Declares the clause an update unit, amended independently of the publication containing it</a:documentation>
+      </ref>
+    </optional>
     <choice>
       <choice>
         <oneOrMore>
@@ -1989,6 +1994,95 @@ used in document amendments</a:documentation>
         </choice>
       </oneOrMore>
     </choice>
+  </define>
+  <define name="update-unit">
+    <a:documentation>Update unit of a loose-leaf publication: its unit name, bibliographic identifier,
+last-update date, validity period, and structured amendment records</a:documentation>
+    <element name="update-unit">
+      <attribute name="unit">
+        <a:documentation>Unit name the amendment records are filed under, e.g. B-400</a:documentation>
+      </attribute>
+      <optional>
+        <element name="identifier">
+          <a:documentation>Bibliographic identifier of the unit, e.g. S-4 Part B, Section 400</a:documentation>
+          <text/>
+        </element>
+      </optional>
+      <optional>
+        <element name="last-updated">
+          <data type="date"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="validity">
+          <optional>
+            <element name="begins">
+              <data type="date"/>
+            </element>
+          </optional>
+          <optional>
+            <element name="ends">
+              <data type="date"/>
+            </element>
+          </optional>
+        </element>
+      </optional>
+      <zeroOrMore>
+        <ref name="amendment-record"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="amendment-record">
+    <a:documentation>One amendment of an update unit</a:documentation>
+    <element name="amendment-record">
+      <optional>
+        <attribute name="sequence">
+          <a:documentation>Position of the amendment in the unit's amendment sequence</a:documentation>
+          <data type="positiveInteger"/>
+        </attribute>
+      </optional>
+      <optional>
+        <element name="edition">
+          <a:documentation>Publication edition the amendment was issued in</a:documentation>
+          <text/>
+        </element>
+      </optional>
+      <optional>
+        <element name="date">
+          <data type="date"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="approval">
+          <a:documentation>Approval that authorised the amendment</a:documentation>
+          <text/>
+        </element>
+      </optional>
+      <optional>
+        <element name="reference">
+          <a:documentation>Reference announcing the amendment, e.g. a circular letter</a:documentation>
+          <text/>
+        </element>
+      </optional>
+      <zeroOrMore>
+        <element name="summary">
+          <a:documentation>Summary of the amendment, one per language</a:documentation>
+          <optional>
+            <attribute name="language"/>
+          </optional>
+          <optional>
+            <attribute name="script"/>
+          </optional>
+          <text/>
+        </element>
+      </zeroOrMore>
+      <zeroOrMore>
+        <element name="affected-unit">
+          <a:documentation>Other update unit affected by the amendment</a:documentation>
+          <text/>
+        </element>
+      </zeroOrMore>
+    </element>
   </define>
   <define name="Annex-Section">
     <a:documentation>Clause constituting an annex or appendix</a:documentation>
