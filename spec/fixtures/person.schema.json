@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Person",
+  "description": "A person record.",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name."
+    },
+    "address": {
+      "$ref": "#/$defs/Address"
+    }
+  },
+  "$defs": {
+    "Address": {
+      "type": "object",
+      "description": "Postal address.",
+      "properties": {
+        "city": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B"
+          ]
+        }
+      }
+    }
+  }
+}
