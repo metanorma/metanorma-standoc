@@ -13,7 +13,9 @@ gem "metanorma-mirror", "~> 1.0"
 # https://github.com/metanorma/metanorma-plugin-lutaml/issues/292
 gem "lutaml", "< 0.11"
 
-gem "metanorma-document", "~> 0.5"
+# Pin: update units (metanorma-document#122); return to "~> 0.5" once it is released.
+gem "metanorma-document", github: "metanorma/metanorma-document",
+                          ref: "b2d7d50b4b1dbb85daa02387dcfb60a745960185"
 gem "isodoc", "~> 3.7"
 # relaton 3.0.0.pre.alpha.1 from rubygems called the removed pubid
 # base_identifier; the fix (db9840bdf) shipped in the 3.0.0.pre.alpha.4

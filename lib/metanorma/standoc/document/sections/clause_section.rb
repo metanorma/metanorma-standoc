@@ -27,6 +27,11 @@ module Metanorma
         attribute :title,
                   Metanorma::Document::Components::Inline::TitleWithAnnotationElement
 
+        # Update-unit declaration and amendment records (loose-leaf
+        # publications: the clause is amended on its own)
+        attribute :update_unit,
+                  Metanorma::Document::Components::UpdateUnits::UpdateUnit
+
         # Sub-clauses (recursive)
         attribute :clause, ClauseSection, collection: true
 
@@ -84,6 +89,7 @@ module Metanorma
 
           Metanorma::Standoc::Document::SectionXmlMapping.apply_clause_attributes(self)
           Metanorma::Standoc::Document::SectionXmlMapping.apply_clause_elements(self)
+          map_element "update-unit", to: :update_unit
         end
       end
     end

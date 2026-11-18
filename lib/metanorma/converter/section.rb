@@ -2,10 +2,13 @@ require "uri" if /^2\./.match?(RUBY_VERSION)
 require_relative "ref_sect"
 require_relative "terms"
 require_relative "sectiontype"
+require_relative "update_unit"
 
 module Metanorma
   module Standoc
     module Section
+      include UpdateUnit
+
       @biblio = false
       @term_def = false
       @norm_ref = false
@@ -132,6 +135,7 @@ module Metanorma
           return appendix_parse(attrs, xml, node)
         xml.send :clause, **attr_code(attrs) do |xml_section|
           section_title(xml_section, node.title)
+          update_unit_parse(xml_section, node)
           xml_section << node.content
         end
       end
