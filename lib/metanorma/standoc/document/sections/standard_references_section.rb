@@ -26,6 +26,13 @@ module Metanorma
                   collection: true
         attribute :note,
                   Metanorma::Document::Components::Paragraphs::ParagraphBlock, collection: true
+        # Admonition children (e.g. an `[EDITOR]` editorial note placed
+        # after the reference list) are part of the section content:
+        # without the mapping they were dropped at model ingest and never
+        # reached the renderers (metanorma-iso#1764).
+        attribute :admonition,
+                  Metanorma::Document::Components::MultiParagraph::AdmonitionBlock,
+                  collection: true
         attribute :p,
                   Metanorma::Document::Components::Paragraphs::ParagraphBlock, collection: true
         attribute :table,
@@ -77,6 +84,7 @@ module Metanorma
           map_element "title", to: :title
           map_element "p", to: :p
           map_element "note", to: :note
+          map_element "admonition", to: :admonition
           map_element "bibitem", to: :references
           map_element "passthrough", to: :passthrough
           map_element "table", to: :table
