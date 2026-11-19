@@ -167,4 +167,67 @@ RSpec.describe Metanorma::Standoc do
         .to eq ["CL 30/2021", "CL 12/2026"]
     end
   end
+
+  # The clause-parse hook is `clause_update_unit_parse` so that flavors are
+  # free to define their own `update_unit_parse`: metanorma-iho 1.4.6 parses
+  # its update-unit section identifiers through a one-argument method of that
+  # name. When the hook was called `update_unit_parse(xml, node)`, a flavor
+  # converter's one-argument method shadowed it, and every clause parse died
+  # with "wrong number of arguments (given 2, expected 1)".
+  it "does not dispatch the clause hook to a flavor's update_unit_parse" do
+    # the flavor needs the real two-class shape (Asciidoctor converter +
+    # processor in one namespace, as every flavor gem defines it: standoc
+    # derives the Processor from the Converter's namespace and the flavor
+    # name from the class name), and a backend name that does not
+    # prefix-resolve to an already-registered backend
+    uu_flavor = Module.new
+    uu_flavor.const_set(
+      :Processor,
+      Class.new(Metanorma::Processor) do
+        def initialize # rubocop:disable Lint/MissingSuper
+          @short = :"uu-flavor-probe"
+          @input_format = :asciidoc
+          @asciidoctor_backend = :"uu-flavor-probe"
+        end
+
+        def version
+          "Standoc update-unit probe flavor"
+        end
+      end,
+    )
+    uu_flavor.const_set(
+      :Converter,
+      Class.new(Metanorma::Standoc::Converter) do
+        register_for "uu-flavor-probe"
+
+        def update_unit_parse(val)
+          val.to_s.strip
+        end
+
+        def version
+          "Standoc update-unit probe flavor"
+        end
+      end,
+    )
+    Object.const_set(:UuFlavorProbe, uu_flavor)
+    # standoc derives the cleanup and validate classes from the
+    # converter's namespace; the probe reuses standoc's own
+    uu_flavor.const_set(:Cleanup, Metanorma::Standoc::Cleanup)
+    uu_flavor.const_set(:Validate, Metanorma::Standoc::Validate)
+    Metanorma::Registry.instance.register(uu_flavor::Processor)
+    input = <<~INPUT
+      #{ASCIIDOC_BLANK_HDR}
+      [update-unit=B-400]
+      == Section 400
+
+      Text
+    INPUT
+    xml = Asciidoctor.convert(
+      input, backend: "uu-flavor-probe", header_footer: true,
+             agree_to_terms: true
+    )
+    unit = Nokogiri::XML(xml).at("//xmlns:update-unit")
+    expect(unit).not_to be_nil
+    expect(unit["unit"]).to eq "B-400"
+  end
 end

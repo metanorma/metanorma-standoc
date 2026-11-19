@@ -135,7 +135,7 @@ module Metanorma
           return appendix_parse(attrs, xml, node)
         xml.send :clause, **attr_code(attrs) do |xml_section|
           section_title(xml_section, node.title)
-          update_unit_parse(xml_section, node)
+          clause_update_unit_parse(xml_section, node)
           xml_section << node.content
         end
       end
