@@ -8,8 +8,15 @@ module Metanorma
     # unit name or clause anchor. The records are emitted as the
     # division's `<update-unit>`; Records of Updates are derived from
     # them downstream, never authored as tables.
+    #
+    # The clause-parse hook is named `clause_update_unit_parse`, not
+    # `update_unit_parse`: every converter inherits this module, and
+    # released flavors already define same-named methods of their own
+    # (metanorma-iho 1.4.6 parses its update-unit section identifiers
+    # through `update_unit_parse(val)`); an unnamespaced hook name would
+    # shadow theirs and break every clause parse with an arity error.
     module UpdateUnit
-      def update_unit_parse(xml, node)
+      def clause_update_unit_parse(xml, node)
         unit = node.attr("update-unit") or return
         record = update_unit_record(node, unit)
         record ||= ::Metanorma::Document::Components::UpdateUnits::UpdateUnit
