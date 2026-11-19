@@ -1741,4 +1741,29 @@ RSpec.describe Metanorma::Standoc do
         .to(include("shall be represented as a set of instances of RE_Locale"))
     end
   end
+
+  describe "lutaml_jsonschema macro" do
+    subject(:convert) do
+      strip_guid(Asciidoctor.convert(input, *OPTIONS))
+    end
+
+    let(:example_file) { fixtures_path("person.schema.json") }
+    let(:input) do
+      <<~TEXT
+        = Document title
+        Author
+        :docfile: test.adoc
+        :nodoc:
+        :novalid:
+        :no-isobib:
+
+        lutaml_jsonschema::#{example_file}[]
+      TEXT
+    end
+
+    # full testing is done in metanorma-plugin-lutaml
+    it "correctly renders input" do
+      expect(convert).to include("A person record.", "Postal address.")
+    end
+  end
 end

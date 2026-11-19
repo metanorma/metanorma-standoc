@@ -25,6 +25,7 @@ module Metanorma
         preprocessor Metanorma::Standoc::ResolveIncludePreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlDataPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlXsdPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlJsonschemaPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlEaXmiPreprocessor
