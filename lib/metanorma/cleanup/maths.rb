@@ -33,7 +33,7 @@ module Metanorma
         if NUMERIC_REGEX.match?(expr)
           @novalid or elem["validate"] = "false"
           <<~MATH
-            <math xmlns='#{MATHML_NS}'><mstyle displaystyle='false'><mn>#{expr}</mn></mstyle></math>
+            <math xmlns='#{MATHML_NS}' displaystyle='false'><mn>#{expr}</mn></math>
           MATH
         else
           expr.strip.empty? and return

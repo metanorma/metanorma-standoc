@@ -56,10 +56,8 @@ RSpec.describe Metanorma::Standoc do
               <asciimath>1/r</asciimath>
             </stem>
             <stem type="MathML" block="false">
-            <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mstyle displaystyle="false">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" displaystyle="false">
               <mn>0.9321</mn>
-              </mstyle>
             </math>
             <asciimath>0.9321</asciimath>
           </stem>
