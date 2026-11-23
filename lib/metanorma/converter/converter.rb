@@ -29,6 +29,7 @@ module Metanorma
         preprocessor Metanorma::Plugin::Lutaml::LutamlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlUmlDatamodelDescriptionPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::LutamlEaXmiPreprocessor
+        preprocessor Metanorma::Plugin::Lutaml::LutamlEaUmlPreprocessor
         preprocessor Metanorma::Plugin::Lutaml::XmiPartialLoadPreprocessor
         inline_macro Metanorma::Plugin::Lutaml::LutamlFigureInlineMacro
         inline_macro Metanorma::Plugin::Lutaml::LutamlTableInlineMacro
