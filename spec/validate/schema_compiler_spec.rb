@@ -32,7 +32,9 @@ RSpec.describe Metanorma::Standoc::Validate::Schema::Compiler do
     with_schemas(files) do |directory|
       result = described_class.new(root: directory).compile("entry.rng")
       flat = Nokogiri::XML::RelaxNG(result.xml)
-      original = Nokogiri::XML::RelaxNG(File.open(directory.join("entry.rng")))
+      original = File.open(directory.join("entry.rng")) do |input|
+        Nokogiri::XML::RelaxNG(input)
+      end
       ["<doc xmlns='urn:sample' number='2'/>",
        "<doc xmlns='urn:sample' number='zero'/>",
        "<doc xmlns='urn:sample' unknown='2'/>",
