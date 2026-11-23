@@ -44,7 +44,9 @@ Gem::Specification.new do |spec|
   # moxml 0.6.0 removed the Opal surface (lutaml/moxml#516); owner
   # call to update all to the latest moxml line.
   spec.add_dependency "moxml", "~> 0.6.1"
-  spec.add_dependency "leptris", "~> 1.9"
+  # 1.9.434-1.9.439 break RelaxNG combine across included grammars and
+  # reject valid documents (leptris#2133); 1.9.440.0 carries the fix.
+  spec.add_dependency "leptris", "~> 1.9.440"
   spec.add_dependency "concurrent-ruby"
   spec.add_dependency "png_conform", "~> 0.1.7"
   # svgmap_cleanup reparses vectory's returned document and grafts the
