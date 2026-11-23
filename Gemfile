@@ -13,6 +13,12 @@ gem "metanorma-mirror", "~> 1.0"
 # https://github.com/metanorma/metanorma-plugin-lutaml/issues/292
 gem "lutaml", "< 0.11"
 
+# Stopgap: lutaml-lml 0.3.7 turned the gem into a stub alias forwarding
+# require "lutaml/lml" into the lutaml gem — which only carries that file
+# from 0.11.8, inside the cap above. Hold the alias down until the stub
+# ships its lutaml >= 0.11.8 floor.
+gem "lutaml-lml", "< 0.3.7"
+
 # Pin: update units (metanorma-document#122); return to "~> 0.5" once it is released.
 gem "metanorma-document", github: "metanorma/metanorma-document",
                           ref: "b2d7d50b4b1dbb85daa02387dcfb60a745960185"
