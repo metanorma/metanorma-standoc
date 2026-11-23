@@ -79,3 +79,14 @@ optional model metadata. Supplied extension flavor must still be `iso`.
 Current-language and section visibility attributes are optional booleans. These
 ISO model realization rules do not alter the existing converter profiles, and
 ISO business restrictions remain the actual ISO rule registry's responsibility.
+
+The explicit ISO presentation branch additionally accepts the native rendered
+section/list/table labels and cross-reference projection: `fmt-title`,
+`fmt-name`, `fmt-xref-label`, `fmt-xref` and `semx`. Their attributes, mixed
+inline children, parent slots and cardinalities are closed declarations in
+`ISOModelGrammar.presentation`; they are not arbitrary XML extension points.
+Presentation display order remains an integer. Generated cross-reference IDs
+retain the source ID datatype. These declarations do not change the ISO
+semantic branch or the other 21 flavor grammars. Unsupported native rendered
+components still produce schema errors; this is not a claim that every SDK
+presentation class has a complete schema realization.

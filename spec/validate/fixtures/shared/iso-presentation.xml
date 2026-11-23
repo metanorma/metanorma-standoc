@@ -1,0 +1,73 @@
+<metanorma xmlns="https://www.metanorma.org/ns/standoc" type="presentation" flavor="iso">
+  <bibdata>
+    <title language="en" type="main">Native compile</title>
+    <docidentifier>ISO 123</docidentifier>
+    <docnumber>123</docnumber>
+    <language current="true">en</language>
+    <copyright>
+      <from>2026</from>
+      <owner>
+        <organization>
+          <name>ISO</name>
+        </organization>
+      </owner>
+    </copyright>
+    <ext>
+      <doctype>international-standard</doctype>
+    </ext>
+  </bibdata>
+  <sections displayorder="1">
+    <clause id="scope" type="scope" autonum="1" displayorder="1">
+      <title id="_native_65849e3044b821ffc79be51a">Scope</title>
+      <fmt-title>
+        <span class="fmt-caption-label" style="direction: ltr; unicode-bidi: isolate">Clause 1 </span>
+        <span>Scope</span>
+      </fmt-title>
+      <fmt-xref-label container="ladl">Clause 1<fmt-ladl-label-data local="Clause 1" global="Clause 1" value="1" direction="ltr" global-direction="ltr" labeller="clause_labeller"/></fmt-xref-label>
+      <p id="_coridoc_paragraphblock_1" displayorder="1">See <xref id="_native_2703ac99077e02e24e617f69" target="method"/><semx element="xref" source="_native_2703ac99077e02e24e617f69"><fmt-xref target="method"><span style="direction: ltr; unicode-bidi: isolate">Clause 2</span></fmt-xref>
+</semx> and <strong>rich body</strong>.</p>
+    </clause>
+    <clause id="method" autonum="2" displayorder="2">
+      <title id="_native_da0a61bfce6394830e06e300">Method</title>
+      <fmt-title>
+        <span class="fmt-caption-label" style="direction: ltr; unicode-bidi: isolate">Clause 2 </span>
+        <span>Method</span>
+      </fmt-title>
+      <fmt-xref-label container="ladl">Clause 2<fmt-ladl-label-data local="Clause 2" global="Clause 2" value="2" direction="ltr" global-direction="ltr" labeller="clause_labeller"/></fmt-xref-label>
+      <p id="_coridoc_paragraphblock_2" displayorder="1">Retained body.</p>
+      <ul id="_coridoc_listblock_1">
+        <fmt-ladl-label-data local="List 1" global="List 1" value="1" direction="ltr" global-direction="ltr" labeller="list_labeller"/>
+        <li id="_coridoc_listitem_1" label="—">
+          <fmt-ladl-label-data local="—" value="1" direction="ltr" labeller="unordered_list_item_labeller"/>
+          <p id="_coridoc_paragraphblock_3" displayorder="1">First item</p>
+          <fmt-name>
+            <span class="fmt-caption-label" style="direction: ltr; unicode-bidi: isolate">— </span>
+          </fmt-name>
+        </li>
+        <li id="_coridoc_listitem_2" label="—">
+          <fmt-ladl-label-data local="—" value="2" direction="ltr" labeller="unordered_list_item_labeller"/>
+          <p id="_coridoc_paragraphblock_4" displayorder="1">Second item</p>
+          <fmt-name>
+            <span class="fmt-caption-label" style="direction: ltr; unicode-bidi: isolate">— </span>
+          </fmt-name>
+        </li>
+      </ul>
+      <table id="_coridoc_table_1" autonum="1" displayorder="3">
+        <tbody>
+          <tr id="_native_03ef402a5cfb099808e2a00e">
+            <th id="_native_301d1d76262959b627c9ee5a">Name</th>
+            <th id="_native_43e946ab3145540601bb098b">Value</th>
+          </tr>
+          <tr id="_native_84f819f9bf1d8bef973af40d">
+            <td id="_native_6dfaaea8ba9172e3346db5eb">A</td>
+            <td id="_native_e3991859c09a191af35bc17c">B</td>
+          </tr>
+        </tbody>
+        <fmt-name>
+          <span class="fmt-caption-label" style="direction: ltr; unicode-bidi: isolate">Table 1 </span>
+        </fmt-name>
+        <fmt-xref-label container="ladl">Table 1<fmt-ladl-label-data local="Table 1" global="Table 1" value="1" direction="ltr" global-direction="ltr" labeller="table_labeller"/></fmt-xref-label>
+      </table>
+    </clause>
+  </sections>
+</metanorma>

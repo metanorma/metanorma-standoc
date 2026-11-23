@@ -15,6 +15,7 @@ module Metanorma
             @metadata_parents = metadata_parents
             @document = Nokogiri::XML(profile.xml) { |config| config.strict.nonet }
             @grammar = @document.root
+            ISOModelGrammar.presentation(@document) if profile.id == "iso" && representation == "presentation"
             unless rng?(@grammar, "grammar") && !@document.internal_subset &&
                 @grammar.xpath(".//r:include | .//r:externalRef", XMLNS).empty?
               raise Error, "profile #{profile.id}: requires a DTD-free standalone grammar"

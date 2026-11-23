@@ -126,4 +126,21 @@ RSpec.describe "canonical ISO shared schema" do
     expect(@validator.validate(hidden.sub('hidden="true"', 'hidden="perhaps"'), flavor: "iso")).not_to be_empty
     expect(@validator.validate(iso_xml.sub('current="true"', 'current="perhaps"'), flavor: "iso")).not_to be_empty
   end
+  it "accepts actual native ISO presentation without changing the semantic branch" do
+    xml = File.read(File.join(__dir__, "fixtures/shared/iso-presentation.xml"))
+    expect(@validator.validate(xml, flavor: "iso", representation: "presentation")).to be_empty
+    expect(@validator.validate(xml, flavor: "iso", representation: "semantic")).not_to be_empty
+    expect(@validator.validate(xml.sub('type="presentation"', 'type="semantic"'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(xml.sub('flavor="iso"', 'flavor="standoc"'), flavor: "standoc")).not_to be_empty
+  end
+
+  it "keeps native ISO presentation vocabulary closed and typed" do
+    xml = File.read(File.join(__dir__, "fixtures/shared/iso-presentation.xml"))
+    expect(@validator.validate(xml.sub('displayorder="1"', 'displayorder="first"'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(xml.sub('<fmt-title>', '<fmt-title unexpected="true">'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(xml.sub('<span>Scope</span>', '<unknown>Scope</unknown>'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(xml.sub('</fmt-title>', '</fmt-title><fmt-title/>'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(xml.sub('<fmt-xref target=', '<fmt-xref unknown="value" target='), flavor: "iso")).not_to be_empty
+  end
+
 end

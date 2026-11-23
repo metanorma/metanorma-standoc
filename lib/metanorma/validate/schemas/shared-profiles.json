@@ -1,6 +1,6 @@
 {
   "schema": "metanorma-shared-semantic-schema/1",
-  "rng_sha256": "863be0151eadf534c1174a204d7bf51e98aafedad30259ff509c11a8b5f49d77",
+  "rng_sha256": "50e8396dd7a81e76dcf39b193699ee313d1ab81057348edb65ee2f991c29bce1",
   "profiles": [
     {
       "id": "bipm",
