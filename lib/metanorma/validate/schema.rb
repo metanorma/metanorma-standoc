@@ -17,6 +17,25 @@ module Metanorma
           "standoc-compile.rng"
         end
 
+        # Explicit configured entrypoint for the shared grammar candidate.
+        # Custom schema paths and legacy fragment includes keep their behavior.
+        def shared_schema_errors(doc, flavor: validation_flavor, representation: nil)
+          require_relative "universal_schema"
+          @shared_schema_validator ||= UniversalSchema::Validator.new(
+            xml: File.binread(File.join(__dir__, "schemas", "shared.rng")),
+            manifest: File.binread(File.join(__dir__, "schemas", "shared-profiles.json")),
+          )
+          xml = doc.is_a?(String) || doc.is_a?(Nokogiri::XML::Document) ? doc : to_xml(doc)
+          @shared_schema_validator.validate(xml, flavor: flavor, representation: representation)
+        end
+
+        def shared_schema_validate(doc, flavor: validation_flavor, representation: nil)
+          errors = shared_schema_errors(doc, flavor: flavor, representation: representation)
+          warn "Syntax Valid!" if errors.empty?
+          errors.each { |message| @log.add("STANDOC_7", "Document", params: [message]) }
+          errors
+        end
+
         def schema_validate(doc, schema)
           Tempfile.open(["tmp", ".xml"], encoding: "UTF-8") do |f|
             schema_validate1(f, doc, schema)

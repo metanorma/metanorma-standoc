@@ -1,0 +1,821 @@
+{
+  "schema": "metanorma-shared-semantic-schema/1",
+  "rng_sha256": "87008e24f65458da3cc3f9ae6ce8396d9a1f1fd04fe420f36ef00aaea2e18ee8",
+  "profiles": [
+    {
+      "id": "bipm",
+      "flavor": "bipm",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "1f087786526f407ed22404b355c668b4c9c5376abd067c35973d2eb441f32ecb",
+      "provenance": {
+        "repository": "metanorma/metanorma-bipm",
+        "revision": "b807c882e67719c14236533a505c1cbd77a9b5aa",
+        "entry": "lib/metanorma/bipm/bipm.rng",
+        "sources": {
+          "lib/metanorma/bipm/bipm.rng": "15e2a61ec26aa22210d35bb1ec22db022173a439549ce76d4d2f7399b398791a",
+          "lib/metanorma/bipm/relaton-bipm.rng": "a8639b31628ea131c16e419e8898d7090d7f60d637bdf9fd68383c694ff501be",
+          "lib/metanorma/bipm/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/bipm/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/bipm/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/bipm/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/bipm/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/bipm/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/bipm/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/bipm/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/bipm/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/bipm/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/bipm/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "bsi",
+      "flavor": "bsi",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "df07c8b3d8d2b590f9b6cb3a93d604bd87e2a13fe91686c81c7c3fb9acb08eb2",
+      "provenance": {
+        "repository": "metanorma/metanorma-bsi",
+        "revision": "c267be75f959a253bc82d4b02c13db1bff4a9673",
+        "entry": "lib/metanorma/bsi/bsi.rng",
+        "sources": {
+          "lib/metanorma/bsi/bsi.rng": "5721dd49aa2a5ccd7824d2b5ddaae5a639eea4368d05d51b6a1733c30e3b125a",
+          "lib/metanorma/bsi/relaton-bsi.rng": "6bc60d50c270e4f06f18b437df2dfd0833a4377821c67ede11fae3ad6c435406",
+          "lib/metanorma/bsi/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/bsi/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/bsi/isostandard.rng": "9b94cd36946e09c4056b7b623518fb47cd4bedc9b24e7b66e82e385b7bc1b76a",
+          "lib/metanorma/bsi/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/bsi/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/bsi/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/bsi/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/bsi/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/bsi/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/bsi/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/bsi/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/bsi/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "cc",
+      "flavor": "cc",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "03b1cfb57d338d3981ac654da573493a5a29f84f2428f87e87ce85fc2a1a25ca",
+      "provenance": {
+        "repository": "metanorma/metanorma-cc",
+        "revision": "e79458ba2099ebe665f786a42c34f28ef35b6ab3",
+        "entry": "lib/metanorma/cc/cc.rng",
+        "sources": {
+          "lib/metanorma/cc/cc.rng": "8dbc1072afe4ac187a23e41c7ce6986fd29750c28484826b5287f71bb44ff43f",
+          "lib/metanorma/cc/relaton-cc.rng": "bc974df967c7c8748f44cb481509f57411a75e34293883d422caeb100f7c9641",
+          "lib/metanorma/cc/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/cc/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/cc/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/cc/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/cc/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/cc/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/cc/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/cc/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/cc/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/cc/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/cc/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "csa",
+      "flavor": "csa",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "599f23c70d753095618f23c064a6fcc6dc41d4337b72ae1d997797bcc3d96bc6",
+      "provenance": {
+        "repository": "metanorma/metanorma-csa",
+        "revision": "44eb68f89206a71972f8fc480bbfff4d53f144e5",
+        "entry": "lib/metanorma/csa/csa.rng",
+        "sources": {
+          "lib/metanorma/csa/csa.rng": "b4b2ff77652ef88b402011c6bc98df6b0a0d35be0827329f84b781c38b12f21a",
+          "lib/metanorma/csa/relaton-csa.rng": "b4bc8c3f32df8622eba1004a07a4c8e454f2609059cffec899468a048ee24724",
+          "lib/metanorma/csa/biblio-standoc.rng": "1f4722a24a66cfa888719e4af8b0f26b6fe571fb32ce1e0ff7e2d0c699b1ecb5",
+          "lib/metanorma/csa/biblio.rng": "bfed28eb97189a07c25cbacbfb6e62bbb2d8b7bf91337b0b1b2a9db5981925e3",
+          "lib/metanorma/csa/isodoc.rng": "a62691bf8428eb83e03d6f98b00cf4976cf87ce195e61db9b37e82cab8e4c919",
+          "lib/metanorma/csa/reqt.rng": "2bef840513bb63ddc9e5a92ea4bc578d2e59d91f67d9ab3c77aef336a64086c4",
+          "lib/metanorma/csa/basicdoc.rng": "4c3c5241fd43fcebde0a50c7f74868c88bfb185ae6a0d2da5fa5f4c4dfc9f163"
+        }
+      }
+    },
+    {
+      "id": "gb",
+      "flavor": "gb",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "gb-standard",
+          "namespace": "https://www.metanorma.org/ns/gb"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true,
+      "source_sha256": "d8226895ac1d13dd430e783bf65a1883cf21e03bf22d64e4b92127d4ca449697",
+      "provenance": {
+        "repository": "metanorma/metanorma-gb",
+        "revision": "f51e1501ed998270e4a8b372d57f69c961d44288",
+        "entry": "lib/metanorma/gb/gbstandard.rng",
+        "sources": {
+          "lib/metanorma/gb/gbstandard.rng": "4e69ddc35f1d1657eec74014bea55d0b614cbd024852e67f92e4cb6ee3dee519",
+          "lib/metanorma/gb/isostandard.rng": "ed35815f61668f953842fd0f58f29142cda3d4451682eee5de0a61b1bd5e3723",
+          "lib/metanorma/gb/isodoc.rng": "f7d862b2f5ad104d56f6dcae1a696e3944b5dc71eda1969ad1438095245acc94",
+          "lib/metanorma/gb/reqt.rng": "f745d3272904d39975e80c0ec5600a28e816770833b8f68facb8e66d3f6e8830",
+          "lib/metanorma/gb/basicdoc.rng": "3b6fe79a0899c919811de9ce16a3ca67a01a68be13c379d0c85813afff555401",
+          "lib/metanorma/gb/biblio.rng": "8dadd42e43267e41af0e3a72bae77a36092465e11a6e5acefbaab878ab23e0f3"
+        }
+      }
+    },
+    {
+      "id": "generic",
+      "flavor": "generic",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "a239ebb163c969cce756cc5662ddb57e63f14f4c98c225c997e00df6e81d2e37",
+      "provenance": {
+        "repository": "metanorma/metanorma-generic",
+        "revision": "be6e9ed66673f0d0a96a432ada58b8de33e49d58",
+        "entry": "lib/metanorma/generic/generic.rng",
+        "sources": {
+          "lib/metanorma/generic/generic.rng": "ed54452a512b8a58e2529cbabca3e09a5885421244ffb38f0d7a2cf12ed96131",
+          "lib/metanorma/generic/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/generic/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/generic/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/generic/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/generic/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/generic/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/generic/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/generic/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/generic/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/generic/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/generic/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "iec",
+      "flavor": "iec",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "3ff793b81d0b303f65eb3db2eceeae53e164a2244c4e8e34cc4002e95a098fa1",
+      "provenance": {
+        "repository": "metanorma/metanorma-iec",
+        "revision": "836304685eb5a45a874f65bb8dc9a0dbeadc0ee7",
+        "entry": "lib/metanorma/iec/iec.rng",
+        "sources": {
+          "lib/metanorma/iec/iec.rng": "e19d3777f1b7cf530a630fbcf8f78843024069db8bda706558641e33b39610e5",
+          "lib/metanorma/iec/relaton-iec.rng": "6c5943da5955a0d52f50924e63b2564488e97052ae1e55f5ccc168356dc948fa",
+          "lib/metanorma/iec/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/iec/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/iec/isostandard.rng": "9b94cd36946e09c4056b7b623518fb47cd4bedc9b24e7b66e82e385b7bc1b76a",
+          "lib/metanorma/iec/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/iec/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/iec/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/iec/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/iec/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/iec/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/iec/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/iec/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/iec/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "ieee",
+      "flavor": "ieee",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "aceaccfc8358c858e6df0c26c6c3662a3f73992d2368f02ae60f796fcc30fccd",
+      "provenance": {
+        "repository": "metanorma/metanorma-ieee",
+        "revision": "6000fa87291507a13360f7896f2a409d1af30b2a",
+        "entry": "lib/metanorma/ieee/ieee.rng",
+        "sources": {
+          "lib/metanorma/ieee/ieee.rng": "a57705ab4e46e3e150616ef7a8c38fbf61497465552c48fa9bd221a9086a41fd",
+          "lib/metanorma/ieee/relaton-ieee.rng": "38f902b3245f6240c62c5506173a8cf396ddbd1068ed10cbe389b7983663cba2",
+          "lib/metanorma/ieee/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/ieee/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/ieee/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/ieee/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/ieee/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/ieee/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/ieee/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/ieee/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/ieee/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/ieee/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/ieee/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "ietf",
+      "flavor": "ietf",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "b600ab80951e03901f40c67f4b4009b20bb2e0ddd2e9bc8adb72772ca0912f0e",
+      "provenance": {
+        "repository": "metanorma/metanorma-ietf",
+        "revision": "a3e6b26299f6b557e354db3ae55f9cc371005265",
+        "entry": "lib/metanorma/ietf/ietf.rng",
+        "sources": {
+          "lib/metanorma/ietf/ietf.rng": "df10e84d696b0c5a467a574cd73ab8601831218c53612eff91d824c665dc3321",
+          "lib/metanorma/ietf/relaton-ietf.rng": "a0ef0772e79147cfe102c06d4bec69ba518d90ef9e3e9c1ec940c0cf7ea1873b",
+          "lib/metanorma/ietf/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/ietf/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/ietf/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/ietf/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/ietf/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/ietf/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/ietf/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/ietf/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/ietf/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/ietf/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/ietf/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "iho",
+      "flavor": "iho",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "92da5d4b9903f7e6486524f0fb24bef84001e1f252da428a10b39e22d4de9883",
+      "provenance": {
+        "repository": "metanorma/metanorma-iho",
+        "revision": "d45b3d4046cfe7f3e8b2859ac9fe806b49fc148d",
+        "entry": "lib/metanorma/iho/iho.rng",
+        "sources": {
+          "lib/metanorma/iho/iho.rng": "0c7076dcb1acd51067d0155eac3a6284bc2596e23bbc9907befed36defafc6f7",
+          "lib/metanorma/iho/relaton-iho.rng": "9abb7385fb3fed8b1af314780048c59f127e16e1d2ca7f9c8ab2c7e723544f23",
+          "lib/metanorma/iho/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/iho/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/iho/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/iho/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/iho/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/iho/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/iho/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/iho/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/iho/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/iho/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/iho/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "itu",
+      "flavor": "itu",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "4071b124f59e5cbbd8351a45cb6193e6c86dd727b5968891f91439b49c0b641e",
+      "provenance": {
+        "repository": "metanorma/metanorma-itu",
+        "revision": "165819d72d30fc820391289df9bb42cff2bbca49",
+        "entry": "lib/metanorma/itu/itu.rng",
+        "sources": {
+          "lib/metanorma/itu/itu.rng": "1dfb6a9836f33ac39b4d88479a9f297efe52f6f0e7898f7d35e495b4c3761826",
+          "lib/metanorma/itu/relaton-itu.rng": "66adb2f8a09600ba269a6317f6b93eb85a5ed4e78718c64fd5f94695782d3398",
+          "lib/metanorma/itu/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/itu/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/itu/isodoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/itu/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/itu/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/itu/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/itu/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/itu/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/itu/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/itu/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/itu/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "jis",
+      "flavor": "jis",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "4dcd8b236df2fc4de1549f823b90473390ddb5340cdc4797bdfa865eea1622ae",
+      "provenance": {
+        "repository": "metanorma/metanorma-jis",
+        "revision": "effa794818a9eaefdf9ffbca2c9e5da7a9c27dc8",
+        "entry": "lib/metanorma/jis/jis.rng",
+        "sources": {
+          "lib/metanorma/jis/jis.rng": "bd6f5deb556ad8cace61fd6234204a621d20844c4b37ac6f6741e7025faaa5a0",
+          "lib/metanorma/jis/relaton-jis.rng": "68f19a853a3c333839135987e232b7ef2da9326a4c9b33f103149b56ff935452",
+          "lib/metanorma/jis/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/jis/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/jis/isostandard.rng": "9b94cd36946e09c4056b7b623518fb47cd4bedc9b24e7b66e82e385b7bc1b76a",
+          "lib/metanorma/jis/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/jis/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/jis/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/jis/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/jis/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/jis/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/jis/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/jis/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/jis/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "m3aawg",
+      "flavor": "m3aawg",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "m3d-standard",
+          "namespace": "https://www.metanorma.org/ns/m3d"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true,
+      "source_sha256": "f422f5cc1edd653eaa6a383ac9bbe42f766d702fc2070f973e5d129687f94f35",
+      "provenance": {
+        "repository": "metanorma/metanorma-m3aawg",
+        "revision": "953fee180dab5945fdd5e0bab24bb3623606809b",
+        "entry": "lib/metanorma/m3aawg/m3d.rng",
+        "sources": {
+          "lib/metanorma/m3aawg/m3d.rng": "541a293cedd2a4645bb62c7f5e033cd81b84360ccb26b21253d1080fedd9a3ec",
+          "lib/metanorma/m3aawg/relaton-m3aawg.rng": "3e095260ab30977edceb0b3be4a4495e11adca92a10ffdfc3fb1207b8f0f75b7",
+          "lib/metanorma/m3aawg/biblio-standoc.rng": "b27bbe8a1dffeed525b0da9efec07f2a90c1d0cdecc380a2d73febd744d8f7f8",
+          "lib/metanorma/m3aawg/biblio.rng": "f55fe6d81ee798feeaf7ee1df377911071945bf254aa709784656a7c4192ca37",
+          "lib/metanorma/m3aawg/isodoc.rng": "a6b30c4af281f29d47a9fb5bd58aae44425a1ec91dac200066e75d66fab8faaf",
+          "lib/metanorma/m3aawg/reqt.rng": "6e0112c51446ceed7e55ae9b878abad49a3524ce2ef87566c14f40a7d5ee8bec",
+          "lib/metanorma/m3aawg/basicdoc.rng": "15b9269328635f5b49556d6f08725033d458d2974adb32ff67cc136ad5366a08"
+        }
+      }
+    },
+    {
+      "id": "mpfa",
+      "flavor": "mpfa",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "mpfd-standard",
+          "namespace": "https://www.metanorma.org/ns/mpfd"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true,
+      "source_sha256": "db3f40ab3abd2d4b2471be77c01dc41d0312563cbfcadf2cf5a823e5cce8577b",
+      "provenance": {
+        "repository": "metanorma/metanorma-mpfa",
+        "revision": "85f11a566c9c00c62dbb58409cb53ca4329dc74f",
+        "entry": "lib/metanorma/mpfa/mpfd.rng",
+        "sources": {
+          "lib/metanorma/mpfa/mpfd.rng": "7573f51c9829f21c7925f162d4a4d15b543ebcaab8475cc66621d4706e4bb3bd",
+          "lib/metanorma/mpfa/isodoc.rng": "48e1828257bb444a24a1d3ba3a66bb91a92d2069497a6dc6c192878b019b9b02",
+          "lib/metanorma/mpfa/reqt.rng": "cec498e087c6f329a960b38679a7e0f8c02541b5bea830caf6a2dc9e33cd1d61",
+          "lib/metanorma/mpfa/basicdoc.rng": "c2381bf5df571b8babf4397f95df446cd34f48b8d227b06dbe857bb7fd99e559",
+          "lib/metanorma/mpfa/biblio.rng": "c3ce32eb2fe057cc71dca1100c7f4f2640aa9b5bb82fb0285da3410fbf1f5c7c"
+        }
+      }
+    },
+    {
+      "id": "nist",
+      "flavor": "nist",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "33fff6a159ea2edab12f70a7a97f70bc894d1db03c5dd44979bd517b74c2bb4e",
+      "provenance": {
+        "repository": "metanorma/metanorma-nist",
+        "revision": "40029199d3cf17b32d541de28bb14868335eee03",
+        "entry": "lib/metanorma/nist/nist.rng",
+        "sources": {
+          "lib/metanorma/nist/nist.rng": "d4186d9f569d7bea80a1542faaa8eb430f2263dd4af6d9dda504849446505181",
+          "lib/metanorma/nist/relaton-nist.rng": "9ca3634f5e5ab917cef3d3b113d114ec1b9cd6ede2c2a8e9f1256b59b2205f3b",
+          "lib/metanorma/nist/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/nist/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/nist/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/nist/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/nist/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/nist/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/nist/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/nist/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/nist/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/nist/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/nist/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "ogc",
+      "flavor": "ogc",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "0f2336bdfeffc8ad89b1e9d5898c39c3d894a6feec7ec9f9231320be0a472535",
+      "provenance": {
+        "repository": "metanorma/metanorma-ogc",
+        "revision": "28e8fc884663a701c7d2edfce5c1e321423cdd9d",
+        "entry": "lib/metanorma/ogc/ogc.rng",
+        "sources": {
+          "lib/metanorma/ogc/ogc.rng": "e6bf00beb6e4e0306ec043a1539b55b9de841f828d5514a89b06ce9151c4d6ba",
+          "lib/metanorma/ogc/relaton-ogc.rng": "dac85e170844880b3b3221efbdc6e0049ed0ac26827a5d558c6ab8b83d009373",
+          "lib/metanorma/ogc/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/ogc/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/ogc/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/ogc/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/ogc/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/ogc/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/ogc/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/ogc/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/ogc/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/ogc/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/ogc/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "plateau",
+      "flavor": "plateau",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "d87d807afadb8d9cf0af900da9c591a05c20d9362df42ddce642fa3a28dd78d7",
+      "provenance": {
+        "repository": "metanorma/metanorma-plateau",
+        "revision": "1555fd743bb1e4915889dbca2b347e122fe7afca",
+        "entry": "lib/metanorma/plateau/plateau.rng",
+        "sources": {
+          "lib/metanorma/plateau/plateau.rng": "bb81d3ca5a74ca029114f8a40cf43ceb5a12568aed6c3ac0288df7f5348278ae",
+          "lib/metanorma/plateau/jis.rng": "260971a6e735a0417cdeaa406b6433498833e00279fb1f7efead08c86aa50520",
+          "lib/metanorma/plateau/relaton-jis.rng": "68f19a853a3c333839135987e232b7ef2da9326a4c9b33f103149b56ff935452",
+          "lib/metanorma/plateau/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/plateau/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/plateau/isostandard.rng": "95fab3476243f9fd6485dca69a1be4e18ce0ceff1af94534828285a8f73e0732",
+          "lib/metanorma/plateau/isodoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/plateau/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/plateau/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/plateau/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/plateau/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/plateau/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/plateau/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/plateau/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/plateau/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "ribose",
+      "flavor": "ribose",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "37b45679048eb972227a0ed508aa39bd864430b0d0810f24211114a8ed991a34",
+      "provenance": {
+        "repository": "metanorma/metanorma-ribose",
+        "revision": "a61a0b5c7ff760040fc8fd015afeca21107f1065",
+        "entry": "lib/metanorma/ribose/ribose.rng",
+        "sources": {
+          "lib/metanorma/ribose/ribose.rng": "105830795d66bb3bf8a8967831c25680ced287e3337ba4f4cd2fe88d940ab22f",
+          "lib/metanorma/ribose/relaton-ribose.rng": "ca52f0e66c5829c04947bb116c4112b5290529b63ed0c8241ec9abbc9c7ddd0e",
+          "lib/metanorma/ribose/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/ribose/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/ribose/standoc.rng": "3146502e4e27f65e6264790db0ef6f4b05c6c25669cbef73a01a706f4fdb2408",
+          "lib/metanorma/ribose/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/ribose/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/ribose/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/ribose/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/ribose/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/ribose/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/ribose/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/ribose/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "standoc",
+      "flavor": "standoc",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true,
+      "source_sha256": "a08db4762dc2117f49c3ff8772686f5811458b6da5ffbfcde21175faa9145ba2",
+      "provenance": {
+        "repository": "metanorma/metanorma-standoc",
+        "revision": "f9c742a293f84cb32a1ec8c244d530592969812e",
+        "entry": "lib/metanorma/validate/standoc-compile.rng",
+        "sources": {
+          "lib/metanorma/validate/standoc-compile.rng": "6df180d295a554f19ce13b6111dbf92ee3bc8c629ace847e9f0d5cc3a444119d",
+          "lib/metanorma/validate/biblio-standoc.rng": "4e5e1fc82a565a82b37193f2a3a03fd3167dc974f79c1b0641814cbb327e5cca",
+          "lib/metanorma/validate/biblio.rng": "1ad74760da058bcbf69a9117270ad420614db7ad4cab57cf79f6a89ad22e0923",
+          "lib/metanorma/validate/standoc.rng": "c323a983474ccbbcbcddb55568b3b563f669c44519c01d004f0dff9270e55de6",
+          "lib/metanorma/validate/reqt.rng": "b1808368c68029fa3ca45074936b8a09c5b860954d1634529dbb49a759ce7024",
+          "lib/metanorma/validate/basicdoc.rng": "d7b36c2e86d5af6236199485c8ae609ee264f6a2fd7d32ce2a0b378d9e1018a3",
+          "lib/metanorma/validate/metanorma-mathml.rng": "684b5cb4806d71b786f232b6acc6665b6b71df3459c551b1ee2bdf02c212b0d7",
+          "lib/metanorma/validate/mathml4.rng": "ca3bc93fc11d5f3953fb46ad7a976d7dd4ccbb0e8372af67d5601290e2fc13d2",
+          "lib/metanorma/validate/mathml4-presentation.rng": "c7ba972aa47d3e42ff18f3c477172a3ec30996ce68dd9cf946b663643f564ba3",
+          "lib/metanorma/validate/mathml4-core.rng": "24ea5ddb329aa9481e618bf622585feeb4497328ab1100788668aa73d11bfcf2",
+          "lib/metanorma/validate/mathml4-content.rng": "9bf28a86647f58be3152282ab45e20a16fab0f4e3fd93ff457c52023b8bae9b1",
+          "lib/metanorma/validate/mathml4-strict-content.rng": "ccaeedb655f711772b9f2ea3109fc0290218ae4d188e68d9f97a22e335b8a265"
+        }
+      }
+    },
+    {
+      "id": "un",
+      "flavor": "un",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "un-standard",
+          "namespace": "https://www.metanorma.org/ns/un"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true,
+      "source_sha256": "8e7ff9c1932b12781273671ec4dbc82d3cd832d5bfa4e33790445eb9bd4ffcf8",
+      "provenance": {
+        "repository": "metanorma/metanorma-un",
+        "revision": "cc158a2a8bde7b4d50d7ffd16e70c44b1bf1aa4a",
+        "entry": "lib/metanorma/un/un.rng",
+        "sources": {
+          "lib/metanorma/un/un.rng": "c91a4a1fc31e83670e4efa1f18634ff512149f34f0c1fe84ad4017d943e1ee06",
+          "lib/metanorma/un/relaton-un.rng": "4484375395316ea8e5e9e99f7d3b293663aae546a996b407aa79151af02d55f4",
+          "lib/metanorma/un/biblio-standoc.rng": "967c14e4f7180cd8bd6c8fa153c8d929ececd452e1247f0ce733a7f66347c0d7",
+          "lib/metanorma/un/biblio.rng": "d4d8c4535f645b33525934c3f7ba35d10ff318dce90981794faec94222a8d083",
+          "lib/metanorma/un/isodoc.rng": "31413a5a06368cc476589b61571faae7b61718dc948f993165b1f4b7b518d52a",
+          "lib/metanorma/un/reqt.rng": "7fa7f28cf3ca1ee01c442128d0d141d2d0efc6ed6183ae5468b8bc577bd13e42",
+          "lib/metanorma/un/basicdoc.rng": "de1c86559e1197ee48812df5ce950994da16cdd6c3e0cad28d32d6350d480502"
+        }
+      }
+    },
+    {
+      "id": "vsd",
+      "flavor": "vsd",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "rsd-standard",
+          "namespace": "https://www.metanorma.org/ns/vsd"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": false,
+      "source_sha256": "74810443b6fed7a98d8fd8ca41a51deece554eed5492968a0ce90d333ab4da93",
+      "provenance": {
+        "repository": "metanorma/metanorma-vsd",
+        "revision": "6df5f2ae8deb4005ee5962e585b6b1bf0f650d4d",
+        "entry": "lib/asciidoctor/vg/vsd.rng",
+        "sources": {
+          "lib/asciidoctor/vg/vsd.rng": "e5b6ce7897ec83439fb1c3f2cc8db476470a94769827aebba57080f6bca571da",
+          "lib/asciidoctor/vg/isodoc.rng": "801c5d99b549bca0906a4dc83599df6bb0dfdbc9039cf1a65098a3339ef1704a",
+          "lib/asciidoctor/vg/reqt.rng": "f745d3272904d39975e80c0ec5600a28e816770833b8f68facb8e66d3f6e8830",
+          "lib/asciidoctor/vg/basicdoc.rng": "3cfc5832c83e951c45e58171f4a0e4172556695a4429dbda8ad4c4e5aa97d387",
+          "lib/asciidoctor/vg/biblio.rng": "8dadd42e43267e41af0e3a72bae77a36092465e11a6e5acefbaab878ab23e0f3"
+        }
+      }
+    }
+  ],
+  "presentation_metadata": {
+    "element": "fmt-ladl-label-data",
+    "attributes": [
+      "local",
+      "global",
+      "value",
+      "direction",
+      "global-direction",
+      "labeller"
+    ],
+    "parents": [
+      "admonition",
+      "amend",
+      "basic-block",
+      "basic-block-no-notes",
+      "blocks",
+      "content",
+      "contents",
+      "definition",
+      "dl",
+      "example",
+      "figure",
+      "floating-title",
+      "fmt-fn-label",
+      "fmt-xref-label",
+      "fmt_xref_label",
+      "form",
+      "formula",
+      "image-map-block",
+      "li",
+      "list",
+      "modification",
+      "note",
+      "notes",
+      "ol",
+      "p",
+      "paragraph-with-footnote",
+      "paragraphs-block",
+      "passthrough",
+      "quote",
+      "review",
+      "sourcecode",
+      "standard-admonition-block",
+      "standard-block",
+      "standard-block-no-notes",
+      "standard-definition-list",
+      "standard-example-block",
+      "standard-figure-block",
+      "standard-formula-block",
+      "standard-note-block",
+      "standard-paragraph-block",
+      "standard-quote-block",
+      "standard-sourcecode-block",
+      "standard-table-block",
+      "standard-unordered-list",
+      "svg-map-block",
+      "table",
+      "termnote",
+      "toc",
+      "ul",
+      "usage-info"
+    ],
+    "document_commit": "da1978ed1d5d35403722a36175f0e796015a6115",
+    "parent_vocabulary_sha256": "a0bbfa977176c203395904cc26acf1ba540367764b2b8ca5c534ba272e89b266"
+  },
+  "forbidden_namespaces": [
+    "urn:metanorma:iso:validation-projection:1"
+  ],
+  "source_migrations": [
+    {
+      "id": "un-admonition-attributes-1",
+      "source_sha256": "3e12e620674e21a7e573123aa9ba2c81b167ec8849973bc4e05ff2186391a1f4",
+      "migrated_sha256": "c91a4a1fc31e83670e4efa1f18634ff512149f34f0c1fe84ad4017d943e1ee06",
+      "operation": "rename extension and lift outside include; preserve base interleave"
+    }
+  ]
+}

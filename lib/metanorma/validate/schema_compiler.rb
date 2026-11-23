@@ -52,11 +52,15 @@ module Metanorma
             raise Error, "missing schema reference #{href}: #{e.message}"
           end
 
+          def source_bytes(path)
+            path.binread
+          end
+
           def load_grammar(path, stack)
             if stack.include?(path)
               raise Error, "cyclic schema references: #{(stack + [path]).join(' -> ')}"
             end
-            bytes = path.binread
+            bytes = source_bytes(path)
             @sources[path.relative_path_from(@root).to_s] = Digest::SHA256.hexdigest(bytes)
             doc = Nokogiri::XML(bytes) { |config| config.strict.nonet }
             grammar = doc.root
