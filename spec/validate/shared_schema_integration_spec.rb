@@ -22,6 +22,15 @@ RSpec.describe Metanorma::Standoc::Validate::Schema do
     expect(converter.log).to have_received(:add).with("STANDOC_7", "Document", params: [kind_of(String)]).at_least(:once)
   end
 
+  it "preserves native validation parity for attribute-bearing SVG at the explicit normalization boundary" do
+    xml = fixture("standoc-svg-attributes")
+    expect(validator.shared_schema_errors(xml)).not_to be_empty
+    normalized = validator.formattedstr_strip(Nokogiri::XML(xml).dup)
+    expect(validator.shared_schema_errors(validator.to_xml(normalized))).to be_empty
+    expect { validator.schema_validate(normalized, File.expand_path("../../lib/metanorma/validate/standoc-compile.rng", __dir__)) }.to output(/Syntax Valid!/).to_stderr
+    expect(xml).to include('viewBox="0 0 10 10"', 'width="10"', 'height="10"')
+  end
+
   it "keeps shared selection separate from explicit custom schema paths" do
     allow(validator).to receive(:schema_validate_errors).with("explicit-custom.rng", kind_of(String)).and_return([])
     expect { validator.schema_validate(Nokogiri::XML("<custom/>"), "explicit-custom.rng") }.to output(/Syntax Valid!/).to_stderr

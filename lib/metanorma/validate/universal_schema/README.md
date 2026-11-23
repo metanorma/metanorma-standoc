@@ -60,3 +60,13 @@ representative acceptance and rejection, not complete corpus parity. The
 manifest covers the 21 current RNG entry grammars; active model-only validators
 and downstream integration remain separate acceptance work. No source RNG is
 removed and no flavor consumer is migrated by this producer.
+
+The existing full-document processor normalizes SVG and formatted extension
+content with `formattedstr_strip`, then serializes it with `to_xml` before
+legacy schema validation. Consumers adopting the shared entrypoint at that
+same boundary must pass `to_xml(formattedstr_strip(document.dup))`. The shared
+entrypoint itself validates its supplied XML directly; it does not implicitly
+strip content. The attribute-bearing SVG fixture proves both the old native
+validator and shared entrypoint accept that explicitly normalized XML. Raw
+SVG shape attributes remain subject to the pinned source grammar and can be
+rejected. This is normalized processor parity, not raw SVG grammar conformance.
