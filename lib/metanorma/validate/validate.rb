@@ -4,6 +4,7 @@ require_relative "section"
 require_relative "table"
 require_relative "term"
 require_relative "schema"
+require_relative "rules"
 require "nokogiri"
 # require "iev"
 
@@ -31,6 +32,7 @@ module Metanorma
       include Table
       include Term
       include Schema
+      include Rules::DeclarativeValidation
 
       attr_reader :doc_ids, :doc_anchors, :doc_xrefs, :doc_id_seq,
                   :doc_anchor_seq, :doc_id_seq_hash, :doc_anchor_seq_hash,
@@ -79,6 +81,7 @@ module Metanorma
         image_validate(doc)
         block_validate(doc)
         math_validate(doc)
+        declarative_rules_validate(doc)
         fatalerrors = @log.abort_messages
         fatalerrors.empty? or
           @conv.clean_abort("\n\nFATAL ERRORS:\n\n#{fatalerrors.join("\n\n")}",

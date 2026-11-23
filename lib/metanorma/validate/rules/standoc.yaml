@@ -1,0 +1,16 @@
+# Declarative form of Validate#all_empty_block_validate (STANDOC_39).
+# Shadow mode: not run during conversion. The Ruby implementation remains
+# authoritative until parity is accepted. Order matches the Ruby method.
+schema: metanorma-validation-rules/1
+rules:
+  - {id: standoc.empty-block.note, code: STANDOC_39, mode: shadow, context: //note, check: empty_block, params: [note]}
+  - {id: standoc.empty-block.example, code: STANDOC_39, mode: shadow, context: //example, check: empty_block, params: [example]}
+  - {id: standoc.empty-block.admonition, code: STANDOC_39, mode: shadow, context: //admonition, check: empty_block, params: [admonition]}
+  - {id: standoc.empty-block.figure, code: STANDOC_39, mode: shadow, context: //figure, check: empty_block, params: [figure]}
+  - {id: standoc.empty-block.quote, code: STANDOC_39, mode: shadow, context: //quote, check: empty_block, params: [quote]}
+  - {id: standoc.empty-block.pre, code: STANDOC_39, mode: shadow, context: //pre, check: empty_block, params: [pre]}
+  - {id: standoc.empty-block.sourcecode, code: STANDOC_39, mode: shadow, context: //sourcecode, target: ./body, check: empty_block, params: [sourcecode]}
+  - {id: standoc.empty-block.formula, code: STANDOC_39, mode: shadow, context: //formula, target: ./stem, check: empty_block, params: [formula]}
+  - {id: standoc.empty-block.ol, code: STANDOC_39, mode: shadow, context: //ol, target: ./li, check: empty_block, params: [ol]}
+  - {id: standoc.empty-block.ul, code: STANDOC_39, mode: shadow, context: //ul, target: ./li, check: empty_block, params: [ul]}
+  - {id: standoc.empty-block.dl, code: STANDOC_39, mode: shadow, context: //dl, target: ./dt, check: empty_block, params: [dl]}
