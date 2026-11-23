@@ -1,0 +1,49 @@
+<metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" flavor="iso">
+  <bibdata>
+    <title language="en" type="main">Native compile</title>
+    <docidentifier>ISO 123</docidentifier>
+    <docnumber>123</docnumber>
+    <language current="true">en</language>
+    <copyright>
+      <from>2026</from>
+      <owner>
+        <organization>
+          <name>ISO</name>
+        </organization>
+      </owner>
+    </copyright>
+    <ext>
+      <doctype>international-standard</doctype>
+    </ext>
+  </bibdata>
+  <sections>
+    <clause id="scope">
+      <title>Scope</title>
+      <p id="_coridoc_paragraphblock_1">See <xref target="method"/> and <strong>rich body</strong>.</p>
+    </clause>
+    <clause id="method">
+      <title>Method</title>
+      <p id="_coridoc_paragraphblock_2">Retained body.</p>
+      <ul id="_coridoc_listblock_1">
+        <li id="_coridoc_listitem_1">
+          <p id="_coridoc_paragraphblock_3">First item</p>
+        </li>
+        <li id="_coridoc_listitem_2">
+          <p id="_coridoc_paragraphblock_4">Second item</p>
+        </li>
+      </ul>
+      <table id="_coridoc_table_1">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+          </tr>
+        </tbody>
+      </table>
+    </clause>
+  </sections>
+</metanorma>

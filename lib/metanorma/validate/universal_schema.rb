@@ -84,9 +84,7 @@ module Metanorma
                             "representations" => profile.representations,
                             "roots" => signatures.first,
                             "flavor_attribute" => profile.flavor_attribute,
-                            "representation_attribute" => profile.representation_attribute,
-                            "source_sha256" => Digest::SHA256.hexdigest(profile.xml),
-                            "provenance" => profile.provenance }
+                            "representation_attribute" => profile.representation_attribute }
             end
             xml = document.to_xml
             Nokogiri::XML::RelaxNG(xml)
@@ -163,3 +161,4 @@ require_relative "universal_schema/branch"
 
 require_relative "universal_schema/source_migrations"
 require_relative "universal_schema/source_builder"
+require_relative "universal_schema/iso_model_grammar"

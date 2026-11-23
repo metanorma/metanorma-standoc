@@ -1,8 +1,7 @@
 # Shared grammar producer
 
 `schemas/shared.rng` is one self-contained Relax NG artifact. The adjacent
-`shared-profiles.json` declares 21 pinned source profiles, their complete input
-hashes, root QNames, discriminator rules and the presentation metadata contract.
+`shared-profiles.json` declares declared profiles, root QNames, discriminator rules and the presentation metadata contract.
 It is a producer candidate; existing validators and package selection are not
 switched by requiring this module.
 
@@ -39,8 +38,9 @@ No schema wildcard is added for unsupported content. Existing foreign-content
 wildcards retain their constraints, with reserved namespace/name exclusions.
 
 `SourceBuilder#build(sources:)` regenerates the artifact from local pinned source
-trees. Each source supplies `id`, `root`, `entry`, `repository`, `revision`, and
-optional discriminator flags. Compilation preserves include overrides/combine,
+trees. Each source supplies `id`, `root`, `entry`, and optional discriminator flags.
+Input diagnostics remain in memory; deployed configuration includes only runtime
+profile selection and artifact integrity. Compilation preserves include overrides/combine,
 namespace/datatype context and external grammar scope. Compaction removes only
 foreign annotations, XML comments and formatting whitespace; literal
 `value`, `param` and `name` text is retained.
@@ -50,14 +50,14 @@ The explicit migration `un-admonition-attributes-1` repairs UN's invalid
 lifting it outside the include. This interleaves the optional boolean
 `unnumbered` extension with the original required type and optional base
 attributes. Merely renaming the override would replace those constraints.
-The manifest records the original and migrated hashes. The unmodified UN entry
+The compiler retains in-memory diagnostics; optional source tracking is not exported. The unmodified UN entry
 is invalid and cannot serve as an acceptance oracle; the repaired baseline and
 strict type/boolean negatives are tested separately.
 
 The fixtures are small constructed full documents for the pinned grammars,
 plus focused MathML/SVG and native Document-model examples. They establish
 representative acceptance and rejection, not complete corpus parity. The
-manifest covers the 21 current RNG entry grammars; active model-only validators
+configuration covers the original 21 RNG entry grammars plus an explicit canonical ISO realization; active model-only validators
 and downstream integration remain separate acceptance work. No source RNG is
 removed and no flavor consumer is migrated by this producer.
 
@@ -70,3 +70,12 @@ strip content. The attribute-bearing SVG fixture proves both the old native
 validator and shared entrypoint accept that explicitly normalized XML. Raw
 SVG shape attributes remain subject to the pinned source grammar and can be
 rejected. This is normalized processor parity, not raw SVG grammar conformance.
+
+The explicit `iso` profile follows the genuine ISO SDK model: its root is
+`metanorma` in the Standoc namespace with exact flavor `iso` and an explicit
+semantic/presentation type. It inherits the common structure, while converter
+version strings, generated section-title/table-cell IDs and duplicate extension flavor are
+optional model metadata. Supplied extension flavor must still be `iso`.
+Current-language and section visibility attributes are optional booleans. These
+ISO model realization rules do not alter the existing converter profiles, and
+ISO business restrictions remain the actual ISO rule registry's responsibility.

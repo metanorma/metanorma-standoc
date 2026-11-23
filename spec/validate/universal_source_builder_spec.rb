@@ -31,8 +31,8 @@ RSpec.describe Metanorma::Standoc::Validate::UniversalSchema::SourceBuilder do
       expect(validator.validate(xml, flavor: "un", representation: "semantic")).to be_empty
       expect(validator.validate(xml.sub(' type="important"', ''), flavor: "un", representation: "semantic")).not_to be_empty
       expect(validator.validate(xml.sub('unnumbered="true"', 'unnumbered="perhaps"'), flavor: "un", representation: "semantic")).not_to be_empty
-      expect(result.manifest.fetch("source_migrations").first.fetch("id")).to eq "un-admonition-attributes-1"
-      expect(result.manifest.fetch("profiles").first.fetch("provenance").fetch("sources").keys).to contain_exactly("un.rng", "isodoc.rng")
+      expect(result.manifest).not_to have_key("source_migrations")
+      expect(result.manifest.fetch("profiles").first.keys).not_to include("provenance", "source_sha256")
     end
   end
 

@@ -5,32 +5,29 @@ module Metanorma
     class Validate
       module UniversalSchema
         # Reproducible producer from pinned, locally supplied schema trees.
-        # Input paths stay local; the output records portable paths and hashes.
+        # The exported configuration contains only runtime selection/integrity data.
         class SourceBuilder
           def initialize(metadata_parents:)
             @metadata_parents = metadata_parents
           end
 
           def build(sources:)
-            migrations = []
             profiles = sources.map do |source|
               compiler = compiler_for(source)
               compiled = compiler.compile(source.fetch(:entry))
-              migrations << compiler.migration if compiler.is_a?(UNCompiler)
-              provenance = { "repository" => source.fetch(:repository),
-                             "revision" => source.fetch(:revision),
-                             "entry" => source.fetch(:entry),
-                             "sources" => compiled.sources }
-              Profile.new(id: source.fetch(:id), xml: compiled.xml,
+              xml = case source[:model]
+                    when nil then compiled.xml
+                    when "iso" then ISOModelGrammar.adapt(compiled.xml)
+                    else raise Error, "unknown model realization #{source[:model].inspect}"
+                    end
+              Profile.new(id: source.fetch(:id), xml: xml,
                           flavor: source.fetch(:flavor, source.fetch(:id)),
                           flavor_attribute: source.fetch(:flavor_attribute, true),
-                          representation_attribute: source.fetch(:representation_attribute, true),
-                          provenance: provenance)
+                          representation_attribute: source.fetch(:representation_attribute, true))
             end
             result = Producer.new(profiles: profiles, metadata_parents: @metadata_parents).produce
             xml = compact(result.xml)
-            manifest = result.manifest.merge("rng_sha256" => Digest::SHA256.hexdigest(xml),
-                                             "source_migrations" => migrations)
+            manifest = result.manifest.merge("rng_sha256" => Digest::SHA256.hexdigest(xml))
             Result.new(xml: xml, manifest: manifest)
           end
 

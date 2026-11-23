@@ -105,6 +105,7 @@ module Metanorma
           attribute :semx_id, :string
           attribute :autonum, :string
           attribute :displayorder, :integer
+          attribute :hidden, :boolean
           attribute :fmt_title,
                     Metanorma::Document::Components::Inline::FmtTitleElement
           attribute :fmt_xref_label,
@@ -177,6 +178,7 @@ module Metanorma
         mapping.map_attribute "semx-id",       to: :semx_id
         mapping.map_attribute "autonum",       to: :autonum
         mapping.map_attribute "displayorder",  to: :displayorder
+        mapping.map_attribute "hidden",        to: :hidden
       end
 
       # Common XML element mappings for clause sections.
@@ -220,6 +222,7 @@ module Metanorma
         mapping.map_attribute "semx-id",       to: :semx_id
         mapping.map_attribute "autonum",       to: :autonum
         mapping.map_attribute "displayorder",  to: :displayorder
+        mapping.map_attribute "hidden",        to: :hidden
         mapping.map_attribute "inline-header", to: :inline_header
         mapping.map_attribute "language",      to: :language, render_empty: true
         mapping.map_attribute "script",        to: :script, render_empty: true
@@ -292,6 +295,7 @@ module Metanorma
         mapping.map_attribute "semx-id",        to: :semx_id
         mapping.map_attribute "autonum",        to: :autonum
         mapping.map_attribute "displayorder",   to: :displayorder
+        mapping.map_attribute "hidden",         to: :hidden
       end
 
       def self.apply_content_section_elements(mapping)

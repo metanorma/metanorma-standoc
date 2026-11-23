@@ -23,7 +23,7 @@ RSpec.describe "the shipped shared grammar" do
       (manifest.fetch("profiles").map { |entry| entry.fetch("id") } - [id]).each do |other|
         expect(@validator.validate(xml, flavor: other, representation: "semantic")).not_to be_empty
       end
-      malformed = xml.sub("Text", "<not-a-standard-element/>")
+      malformed = xml.sub("</p>", "<not-a-standard-element/></p>")
       expect(@validator.validate(malformed, flavor: id, representation: "semantic")).not_to be_empty
     end
   end
@@ -87,5 +87,43 @@ RSpec.describe "the shipped shared grammar" do
     expect(@validator.validate(xml.sub('unnumbered="true"', 'unnumbered="perhaps"'), flavor: "un")).not_to be_empty
     expect(@validator.validate(xml.sub(' type="important"', ''), flavor: "un")).not_to be_empty
     expect(@validator.validate(xml.sub('type="important"', 'type="invented"'), flavor: "un")).not_to be_empty
+  end
+end
+
+RSpec.describe "canonical ISO shared schema" do
+  before(:context) do
+    base = File.expand_path("../../lib/metanorma/validate/schemas", __dir__)
+    @validator = Metanorma::Standoc::Validate::UniversalSchema::Validator.new(xml: File.read(File.join(base, "shared.rng")), manifest: File.read(File.join(base, "shared-profiles.json")))
+  end
+
+  def iso_xml
+    File.read(File.join(__dir__, "fixtures/shared/iso.xml"))
+  end
+
+  it "accepts actual native ISO structure without manufacturing converter metadata" do
+    expect(@validator.validate(iso_xml, flavor: "iso", representation: "semantic")).to be_empty
+  end
+
+  it "rejects actual incomplete native bibliography metadata" do
+    incomplete = File.read(File.join(__dir__, "fixtures/shared/iso-incomplete.xml"))
+    expect(@validator.validate(incomplete, flavor: "iso")).not_to be_empty
+  end
+
+  it "keeps old Standoc converter metadata requirements intact" do
+    expect(@validator.validate(iso_xml.sub('flavor="iso"', 'flavor="standoc"'), flavor: "standoc")).not_to be_empty
+  end
+
+  it "keeps exact root identity and authored content constraints" do
+    expect(@validator.validate(iso_xml.sub('flavor="iso"', 'flavor="iec"'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(iso_xml.sub('<strong>', '<unknown>').sub('</strong>', '</unknown>'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(iso_xml.sub('<metanorma ', '<iso-standard ').sub('</metanorma>', '</iso-standard>'), flavor: "iso")).not_to be_empty
+  end
+
+  it "accepts boolean visibility and current-language metadata with strict datatypes" do
+    hidden = iso_xml.sub('id="scope"', 'id="scope" hidden="true"')
+    expect(@validator.validate(hidden, flavor: "iso")).to be_empty
+    expect(@validator.validate(hidden.sub('hidden="true"', 'hidden="false"'), flavor: "iso")).to be_empty
+    expect(@validator.validate(hidden.sub('hidden="true"', 'hidden="perhaps"'), flavor: "iso")).not_to be_empty
+    expect(@validator.validate(iso_xml.sub('current="true"', 'current="perhaps"'), flavor: "iso")).not_to be_empty
   end
 end
