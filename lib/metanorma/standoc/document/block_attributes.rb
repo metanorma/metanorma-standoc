@@ -64,6 +64,9 @@ module Metanorma
           attribute :term_sources,
                     Metanorma::Standoc::Document::Terms::TermSource,
                     collection: true
+          attribute :literal_blocks,
+                    Metanorma::Document::Components::AncillaryBlocks::LiteralBlock,
+                    collection: true
         end
       end
     end
@@ -150,6 +153,7 @@ module Metanorma
         "quote" => :quote_blocks,
         "dl" => :definition_lists,
         "termsource" => :term_sources,
+        "pre" => :literal_blocks,
       }.freeze
 
       def self.apply_block_mappings(mapping)
