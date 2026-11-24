@@ -27,6 +27,16 @@ RSpec.describe Metanorma::Standoc, type: :validation do
       .to include("Unresolved directive in &lt;​stdin&gt; - include::​spec/​subdir/a4.​adoc[]")
   end
 
+  it "does not raise on an unresolved include with a non-standoc converter" do
+    exts = proc do
+      preprocessor Metanorma::Standoc::ResolveIncludePreprocessor
+    end
+    expect do
+      Asciidoctor.convert("include::spec/subdir/missing.adoc[]",
+                          backend: "html5", safe: :unsafe, extensions: exts)
+    end.not_to raise_error
+  end
+
   it "names the include jail and --base-dir when the target exists outside it" do
     docfile = File.expand_path("test.adoc")
     outside = File.expand_path("../standoc-69-outside-target.adoc")
