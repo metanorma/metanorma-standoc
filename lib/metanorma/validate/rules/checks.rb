@@ -14,6 +14,7 @@ module Metanorma
           def install(registry)
             install_structural(registry)
             install_attribute_in(registry)
+            install_xpath_assert(registry)
             registry.register("empty_block") do |subject, _args, validator|
               validator or raise RuleError, "empty_block needs a validator"
               validator.empty_block?(subject)
@@ -44,13 +45,40 @@ module Metanorma
 
           # YAML turns bare yes/no/off into booleans, which would silently
           # never match an attribute value, so only strings are accepted.
-          def validate_attribute_in(args)
+          def validate_attribute_in(args, _namespaces = {})
             ATTRIBUTE_NAME.match?(args["attribute"].to_s) or
               raise RuleError, "invalid attribute #{args['attribute'].inspect}"
             values = args["values"]
             values.is_a?(Array) && values.any? &&
               values.all?(String) or
               raise RuleError, "values must be a non-empty list of strings"
+          end
+
+          # A free-form XPath 1.0 assertion evaluated with the target (or
+          # the context node) as its context. It is data, not code: no
+          # extension functions are available to it.
+          def install_xpath_assert(registry)
+            registry.register(
+              "xpath_assert", required: %w(test),
+                              validate_args: method(:validate_xpath_assert),
+                              schematron: method(:xpath_assert_test)
+            ) do |subject, args, _|
+              !subject.nil? && !subject.xpath("boolean(#{args['test']})")
+            end
+          end
+
+          def validate_xpath_assert(args, namespaces = {})
+            test = args["test"]
+            test.is_a?(String) && !test.strip.empty? or
+              raise RuleError, "test must be an XPath string"
+            Rule::PROBE.xpath("boolean(#{test})", namespaces)
+          rescue Nokogiri::XML::XPath::SyntaxError => e
+            raise RuleError, "invalid test XPath: #{e.message}"
+          end
+
+          def xpath_assert_test(target, args)
+            target or return args["test"]
+            "not(#{target}) or boolean((#{target})[1][#{args['test']}])"
           end
 
           def attribute_in_test(target, args)
