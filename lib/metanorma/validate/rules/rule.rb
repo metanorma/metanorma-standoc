@@ -61,7 +61,11 @@ module Metanorma
               next param unless param.is_a?(Hash)
 
               key, value = param.first
-              key == "attribute" ? node[value] : node_param(node, value)
+              case key
+              when "attribute" then node[value]
+              when "count" then node.xpath("count(#{value})", namespaces).to_i
+              else node_param(node, value)
+              end
             end
           end
 
@@ -131,8 +135,18 @@ module Metanorma
             return if key == "node" && NODE_PARAMS.include?(value)
             return if key == "attribute" &&
               Checks::ATTRIBUTE_NAME.match?(value.to_s)
+            return if key == "count" && count_xpath?(value)
 
             fail_rule("invalid param #{param.inspect}")
+          end
+
+          # A count param is the number of nodes an XPath selects from the
+          # context node, e.g. {count: ./body/callout}.
+          def count_xpath?(value)
+            value.is_a?(String) && !value.strip.empty? &&
+              PROBE.xpath("count(#{value})", namespaces).is_a?(Float)
+          rescue Nokogiri::XML::XPath::SyntaxError
+            false
           end
         end
       end

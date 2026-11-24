@@ -22,3 +22,8 @@ Rules operate on the Metanorma document model through its semantic XML
 projection (`DocumentProjection`). Flavors add files through
 `validation_rule_files`; later layers replace rules by id, append new ones, or
 remove them with `disable`.
+
+Params are literals, `{node: name|text}`, `{attribute: NAME}` or
+`{count: XPATH}`, the number of nodes the XPath selects from the context node.
+Pure-XPath validations use `xpath_assert` with a test that holds when the node
+is fine; `false()` flags every selected context node.
