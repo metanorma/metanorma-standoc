@@ -58,7 +58,7 @@ module Metanorma
 
           # +context+ and +related+ params read the rule's context node and
           # the second node of a pair (see CheckRegistry's +expand+).
-          def resolve_params(context_node, subject, related: nil)
+          def resolve_params(context_node, subject, related: nil, values: nil)
             node = subject || context_node
             params.map do |param|
               next param unless param.is_a?(Hash)
@@ -69,6 +69,7 @@ module Metanorma
               when "count" then node.xpath("count(#{value})", namespaces).to_i
               when "context" then node_param(context_node, value)
               when "related" then node_param(related, value)
+              when "value" then (values || {}).fetch(value)
               else node_param(node, value)
               end
             end
@@ -145,6 +146,7 @@ module Metanorma
             return if key == "context" && RELATION_PARAMS.include?(value)
             return if key == "related" && RELATION_PARAMS.include?(value) &&
               check.expand
+            return if key == "value" && value.is_a?(String) && check.expand
             return if key == "attribute" &&
               Checks::ATTRIBUTE_NAME.match?(value.to_s)
             return if key == "count" && count_xpath?(value)
