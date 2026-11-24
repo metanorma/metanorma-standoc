@@ -15,7 +15,8 @@ module Asciidoctor
         n = peek_line(true)
         /^Unresolved directive in/.match?(n) and begin
           code, params = include_failure_code(n, expanded_target)
-          @document.converter.log&.add(code, nil, **params)
+          conv = @document.converter
+          conv.respond_to?(:log) and conv.log&.add(code, nil, **params)
         end
       end
       [inc_path, target_type, relpath]
