@@ -1,0 +1,424 @@
+{
+  "schema": "metanorma-shared-semantic-schema/1",
+  "rng_sha256": "50e8396dd7a81e76dcf39b193699ee313d1ab81057348edb65ee2f991c29bce1",
+  "profiles": [
+    {
+      "id": "bipm",
+      "flavor": "bipm",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "bsi",
+      "flavor": "bsi",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "cc",
+      "flavor": "cc",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "csa",
+      "flavor": "csa",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "gb",
+      "flavor": "gb",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "gb-standard",
+          "namespace": "https://www.metanorma.org/ns/gb"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true
+    },
+    {
+      "id": "generic",
+      "flavor": "generic",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "iec",
+      "flavor": "iec",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "ieee",
+      "flavor": "ieee",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "ietf",
+      "flavor": "ietf",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "iho",
+      "flavor": "iho",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "itu",
+      "flavor": "itu",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "jis",
+      "flavor": "jis",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "m3aawg",
+      "flavor": "m3aawg",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "m3d-standard",
+          "namespace": "https://www.metanorma.org/ns/m3d"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true
+    },
+    {
+      "id": "mpfa",
+      "flavor": "mpfa",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "mpfd-standard",
+          "namespace": "https://www.metanorma.org/ns/mpfd"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true
+    },
+    {
+      "id": "nist",
+      "flavor": "nist",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "ogc",
+      "flavor": "ogc",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "plateau",
+      "flavor": "plateau",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "ribose",
+      "flavor": "ribose",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "standoc",
+      "flavor": "standoc",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    },
+    {
+      "id": "un",
+      "flavor": "un",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "un-standard",
+          "namespace": "https://www.metanorma.org/ns/un"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": true
+    },
+    {
+      "id": "vsd",
+      "flavor": "vsd",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "rsd-standard",
+          "namespace": "https://www.metanorma.org/ns/vsd"
+        }
+      ],
+      "flavor_attribute": false,
+      "representation_attribute": false
+    },
+    {
+      "id": "iso",
+      "flavor": "iso",
+      "representations": [
+        "semantic",
+        "presentation"
+      ],
+      "roots": [
+        {
+          "name": "metanorma",
+          "namespace": "https://www.metanorma.org/ns/standoc"
+        }
+      ],
+      "flavor_attribute": true,
+      "representation_attribute": true
+    }
+  ],
+  "presentation_metadata": {
+    "element": "fmt-ladl-label-data",
+    "attributes": [
+      "local",
+      "global",
+      "value",
+      "direction",
+      "global-direction",
+      "labeller"
+    ],
+    "parents": [
+      "admonition",
+      "amend",
+      "basic-block",
+      "basic-block-no-notes",
+      "blocks",
+      "content",
+      "contents",
+      "definition",
+      "dl",
+      "example",
+      "figure",
+      "floating-title",
+      "fmt-fn-label",
+      "fmt-xref-label",
+      "fmt_xref_label",
+      "form",
+      "formula",
+      "image-map-block",
+      "li",
+      "list",
+      "modification",
+      "note",
+      "notes",
+      "ol",
+      "p",
+      "paragraph-with-footnote",
+      "paragraphs-block",
+      "passthrough",
+      "quote",
+      "review",
+      "sourcecode",
+      "standard-admonition-block",
+      "standard-block",
+      "standard-block-no-notes",
+      "standard-definition-list",
+      "standard-example-block",
+      "standard-figure-block",
+      "standard-formula-block",
+      "standard-note-block",
+      "standard-paragraph-block",
+      "standard-quote-block",
+      "standard-sourcecode-block",
+      "standard-table-block",
+      "standard-unordered-list",
+      "svg-map-block",
+      "table",
+      "termnote",
+      "toc",
+      "ul",
+      "usage-info"
+    ]
+  },
+  "forbidden_namespaces": [
+    "urn:metanorma:iso:validation-projection:1"
+  ]
+}

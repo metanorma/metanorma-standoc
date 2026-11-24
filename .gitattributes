@@ -2,3 +2,7 @@ rfc2629*.* linguist-vendored
 mathml2omml*.* linguist-vendored
 *.html linguist-vendored
 *.css linguist-vendored
+
+# Keep hash-bound generated schema artifacts byte-identical across checkouts.
+lib/metanorma/validate/schemas/shared.rng -text
+lib/metanorma/validate/schemas/shared-profiles.json -text

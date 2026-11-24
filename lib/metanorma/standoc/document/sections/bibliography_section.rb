@@ -11,6 +11,7 @@ module Metanorma
 
         xml do
           element "bibliography"
+          ordered
           map_element "references", to: :references
           map_element "clause", to: :clause
         end

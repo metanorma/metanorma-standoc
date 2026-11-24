@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="3.5.24" schema-version="v2.3.0" flavor="standoc">
+<bibdata type="standard">
+<title language="en" type="main">Shared grammar native fixture</title>
+<docidentifier primary="true">1</docidentifier><docnumber>1</docnumber><language>en</language><script>Latn</script><status><stage>published</stage></status><copyright><from>2026</from><owner><organization>
+<name>Example Organization</name>
+</organization></owner></copyright><ext><doctype>standard</doctype><flavor>standoc</flavor></ext></bibdata><metanorma-extension><semantic-metadata><stage-published>true</stage-published></semantic-metadata>
+<presentation-metadata><toc-heading-levels>2</toc-heading-levels><html-toc-heading-levels>2</html-toc-heading-levels><doc-toc-heading-levels>2</doc-toc-heading-levels><pdf-toc-heading-levels>2</pdf-toc-heading-levels></presentation-metadata></metanorma-extension>
+<sections><clause id="_8f4fc35c-ad27-ea56-4d6d-e124954aa137" type="scope" inline-header="false" obligation="normative">
+<title id="_f70b6ff6-6131-0e24-81e1-850dbe94b63d">Scope</title>
+<p id="_998dced8-603e-002e-2dce-0ecdaaf2824d">Text</p>
+</clause>
+
+<clause id="_9716482d-e995-335a-e804-9f7cc0a4e13a" inline-header="false" obligation="normative">
+<title id="_d27d3da4-593d-df63-d1db-8e105ec9e952">Requirements</title>
+<p id="_0f3199f0-9848-8439-2d8d-48b78ecf551e">More text</p>
+</clause>
+</sections>
+</metanorma>

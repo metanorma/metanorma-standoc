@@ -1,0 +1,11 @@
+<metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" flavor="iso">
+  <bibdata>
+    <title type="main">Bare title</title>
+  </bibdata>
+  <sections>
+    <clause id="_scope">
+      <title>Scope</title>
+      <p id="_coridoc_paragraphblock_1">Body.</p>
+    </clause>
+  </sections>
+</metanorma>
