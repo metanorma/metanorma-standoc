@@ -36,7 +36,7 @@ module Metanorma
 
       attr_reader :doc_ids, :doc_anchors, :doc_xrefs, :doc_id_seq,
                   :doc_anchor_seq, :doc_id_seq_hash, :doc_anchor_seq_hash,
-                  :files_to_delete
+                  :files_to_delete, :localdir, :dataurimaxsize
 
       # Instance variables to copy from converter
       def copied_instance_variables

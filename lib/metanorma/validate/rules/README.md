@@ -84,3 +84,35 @@ by their nearest ancestor among `containers`; each group is a finding on that
 container, with value `designations` (hexadecimal-encoded text, comma-separated).
 Designations with no container are skipped. It mirrors `Validate#termsect_validate`
 (STANDOC_25).
+
+## Document-state, file and option checks
+
+Code-backed too (no Schematron mapping). A check whose `expand` takes a fourth
+parameter receives the validator, for state it holds.
+
+`concept_reference` runs on an `xref` inside a concept. It flags the xref when its
+`target` is not among the anchors selected by `known`. Value `message` is
+`<label> <refterm text> is pointing to <anchor>, which is not a term or symbol`, where the
+anchor is that of the element whose `@id` equals the target (the target itself if there is
+none). When the target is among the anchors selected by `subterm`, ". Did you mean to
+point to a subterm?" is appended; otherwise the message ends in a newline, as the legacy
+message does. STANDOC_23 has one rule for `concept` and one for `related`. An xref without
+a target is flagged (legacy treats a missing anchor on a term as a match).
+
+`file_missing` runs on an element with a `src` (or `attribute`). When the value is not a
+URL or data URI and names no file, relative to the current directory or the document
+directory (`Validate#localdir`), the finding is on the element's parent, with value `src`
+(STANDOC_44).
+
+`value_too_long` flags a context node whose `attribute` value is longer than the validator
+option named by `limit` (`dataurimaxsize` only; zero disables), on the parent (STANDOC_46).
+
+`duplicate_value` runs on the document root. Each element selected by `nodes` whose
+`attribute` value an earlier selected element already holds is a finding on it, with values
+`value` and `line` (the first holder's line number in the source, as Nokogiri reports it).
+STANDOC_36 uses one rule for `@id` and one for `@anchor` (on elements that have an `@id`).
+Legacy-only: the shadow rule runs on the Nokogiri document, so line numbers are those of
+that parse.
+
+Not migrated, because they call external engines or validate by content: STANDOC_45, 55-59
+and 63 (png_conform, svg_conform), STANDOC_33 and other Plurimath checks.

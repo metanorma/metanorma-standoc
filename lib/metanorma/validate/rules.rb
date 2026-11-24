@@ -55,6 +55,7 @@ end
 require_relative "rules/check_registry"
 require_relative "rules/checks"
 require_relative "rules/grid_term_checks"
+require_relative "rules/document_state_checks"
 require_relative "rules/rule"
 require_relative "rules/rule_set"
 require_relative "rules/document_projection"

@@ -313,3 +313,60 @@ rules:
                    abstract, clause, references, terms, definitions, annex,
                    appendix, indexsect]
     params: [{value: designations}]
+
+# Document state, file system and validator options (metanorma-standoc#1381).
+# Term#concept_validate (STANDOC_23): a concept or related-concept
+# cross-reference that does not point to a term or symbol. The message is
+# built from the document, as in the legacy method (which ends it with a
+# newline unless it carries the subterm hint).
+  - id: standoc.concept.xref-not-term
+    code: STANDOC_23
+    mode: shadow
+    context: //concept/xref
+    check: concept_reference
+    args:
+      known: //term/@anchor | //definitions//dt/@anchor
+      subterm: //terms/@anchor
+      label: Concept
+      refterm: ../refterm
+    params: [{value: message}]
+  - id: standoc.related.xref-not-term
+    code: STANDOC_23
+    mode: shadow
+    context: //related/xref
+    check: concept_reference
+    args:
+      known: //term/@anchor | //definitions//dt/@anchor
+      subterm: //terms/@anchor
+      label: Related
+      refterm: ../preferred//name
+    params: [{value: message}]
+# Image#image_exists (STANDOC_44) and Image#image_toobig (STANDOC_46).
+  - id: standoc.image.file-missing
+    code: STANDOC_44
+    mode: shadow
+    context: //image[@src] | //altmedia[@src]
+    check: file_missing
+    params: [{value: src}]
+  - id: standoc.image.too-large
+    code: STANDOC_46
+    mode: shadow
+    context: //image[@src]
+    check: value_too_long
+    args: {attribute: src, limit: dataurimaxsize}
+# Validate#repeat_id_validate (STANDOC_36): an @id, or an @anchor of an
+# element with an @id, that an earlier element already holds.
+  - id: standoc.id.repeated
+    code: STANDOC_36
+    mode: shadow
+    context: /*
+    check: duplicate_value
+    args: {nodes: "//*[@id]", attribute: id}
+    params: [{value: value}, {value: line}]
+  - id: standoc.anchor.repeated
+    code: STANDOC_36
+    mode: shadow
+    context: /*
+    check: duplicate_value
+    args: {nodes: "//*[@id][@anchor]", attribute: anchor}
+    params: [{value: value}, {value: line}]
