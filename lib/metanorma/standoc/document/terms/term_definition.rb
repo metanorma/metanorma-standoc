@@ -26,6 +26,7 @@ module Metanorma
         attribute :formula, Metanorma::Document::Components::AncillaryBlocks::FormulaBlock,
                   collection: true
 
+        attribute :id, :string
         attribute :semx_id, :string
         attribute :original_id, :string
 
@@ -42,6 +43,7 @@ module Metanorma
           map_element "ul", to: :ul
           map_element "formula", to: :formula
 
+          map_attribute "id", to: :id
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id
         end
