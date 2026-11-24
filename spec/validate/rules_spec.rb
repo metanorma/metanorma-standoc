@@ -209,4 +209,71 @@ RSpec.describe Metanorma::Standoc::Validate::Rules do
       end
     end
   end
+
+  describe "xpath_assert check and Schematron evaluation" do
+    let(:set) do
+      parse(<<~YAML)
+        rules:
+          - {id: has-text, code: T_1, context: //s, check: xpath_assert, args: {test: "string-length(normalize-space(.)) > 0"}}
+          - {id: title-short, code: T_2, context: //s, target: ./title, check: xpath_assert, args: {test: "string-length(.) < 5"}}
+      YAML
+    end
+    let(:doc) do
+      Nokogiri::XML(<<~XML)
+        <doc><s><title>ok</title></s><s><title>far too long</title></s>
+        <s/><s><p>x</p></s></doc>
+      XML
+    end
+
+    it "agrees with the engine when the export is run as Schematron" do
+      export = rules::Schematron.export(set)
+      expect(export.code_backed).to be_empty
+      by_schematron = rules::Schematron.evaluate(export.xml, doc)
+        .map { |f| [f.id, f.node.path] }
+      by_engine = rules::Engine.new(set).findings(doc).map do |f|
+        [f.rule_id, (f.node.name == "s" ? f.node : f.node.parent).path]
+      end
+      expect(by_engine).to eq by_schematron
+      expect(by_engine.map(&:first)).to eq %w(has-text title-short)
+    end
+
+    it "fires only the first matching rule of a pattern, and reports" do
+      xml = <<~SCH
+        <schema xmlns="#{rules::Schematron::NS}"><pattern>
+          <rule context="//s[@a]"><assert id="a" test="false()">a</assert></rule>
+          <rule context="//s"><assert id="b" test="false()">b</assert>
+          <report id="c" test="true()">c</report></rule>
+        </pattern></schema>
+      SCH
+      found = rules::Schematron.evaluate(
+        xml, Nokogiri::XML('<d><s a="1"/><s/></d>')
+      )
+      expect(found.map(&:id)).to eq %w(a b c)
+    end
+
+    it "rejects a malformed test or a missing one" do
+      expect do
+        parse("rules:\n  - {id: x, code: T_1, context: //s, check: xpath_assert, args: {test: \"((\"}}\n")
+      end.to raise_error(rules::RuleError, /invalid test XPath/)
+      expect do
+        parse("rules:\n  - {id: x, code: T_1, context: //s, check: xpath_assert}\n")
+      end.to raise_error(rules::RuleError, /missing args test/)
+    end
+
+    it "accepts namespace prefixes declared by the rule file" do
+      set = parse(<<~YAML)
+        namespaces: {m: "urn:m"}
+        rules:
+          - {id: ns, code: T_1, context: //m:s, check: xpath_assert, args: {test: "m:t"}}
+      YAML
+      d = Nokogiri::XML('<d xmlns:m="urn:m"><m:s><m:t/></m:s><m:s/></d>')
+      expect(rules::Engine.new(set).findings(d).size).to eq 1
+      expect(rules::Schematron.evaluate(rules::Schematron.export(set).xml, d).size).to eq 1
+    end
+
+    it "exposes the export through the validator" do
+      validator = Class.new { include Metanorma::Standoc::Validate::Rules::DeclarativeValidation }.new
+      expect(validator.validation_schematron).to be_nil
+    end
+  end
 end

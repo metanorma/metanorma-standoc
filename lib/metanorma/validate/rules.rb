@@ -35,6 +35,13 @@ module Metanorma
             end.reduce(RuleSet.new([]), :merge)
           end
 
+          # The portable subset of the configured rules as Schematron, or
+          # nil when no rule files are configured.
+          def validation_schematron
+            rule_set = validation_rule_set or return
+            Schematron.export(rule_set)
+          end
+
           def declarative_rules_validate(doc)
             rule_set = validation_rule_set or return
             Engine.new(rule_set, validator: self, log: @log).run(doc)

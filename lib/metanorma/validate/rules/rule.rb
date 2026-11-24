@@ -105,9 +105,16 @@ module Metanorma
             missing.empty? or fail_rule("missing args #{missing.join(', ')}")
             unknown = args.keys - check.required - check.optional
             unknown.empty? or fail_rule("unknown args #{unknown.join(', ')}")
-            check.validate_args&.call(args)
+            run_arg_validator
           rescue RuleError => e
             e.message.start_with?("rule ") ? raise : fail_rule(e.message)
+          end
+
+          def run_arg_validator
+            validator = check.validate_args or return
+            if validator.arity == 1 then validator.call(args)
+            else validator.call(args, namespaces)
+            end
           end
 
           def validate_params
