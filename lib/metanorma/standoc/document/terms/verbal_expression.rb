@@ -19,6 +19,7 @@ module Metanorma
 
         # Presentation-specific attributes
 
+        attribute :id, :string
         attribute :semx_id, :string
         attribute :original_id, :string
 
@@ -30,6 +31,7 @@ module Metanorma
           map_element "dl", to: :dl
           map_element "formula", to: :formula
 
+          map_attribute "id", to: :id
           map_attribute "semx-id", to: :semx_id
           map_attribute "original-id", to: :original_id
         end
