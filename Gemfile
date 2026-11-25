@@ -19,13 +19,6 @@ gem "lutaml", "< 0.11"
 # ships its lutaml >= 0.11.8 floor.
 gem "lutaml-lml", "< 0.3.7"
 
-# Stopgap: leptris 1.9.434.0+ breaks RelaxNG cross-include combine
-# semantics — lib/metanorma/validate/standoc-compile.rng (two included
-# grammars) then rejects even the root element of valid documents
-# (spec/validate/schema_spec). Pin until the leptris regression ships a
-# fix.
-gem "leptris", "1.9.433.0"
-
 # Pin: update units (metanorma-document#122); return to "~> 0.5" once it is released.
 gem "metanorma-document", github: "metanorma/metanorma-document",
                           ref: "b2d7d50b4b1dbb85daa02387dcfb60a745960185"
