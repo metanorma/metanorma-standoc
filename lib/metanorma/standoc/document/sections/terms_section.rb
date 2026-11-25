@@ -40,6 +40,10 @@ module Metanorma
                   Metanorma::Document::Components::Lists::DefinitionList,
                   collection: true
 
+        attribute :notes,
+                  Metanorma::Document::Components::Blocks::NoteBlock,
+                  collection: true
+
         attribute :clause, ClauseSection, collection: true
 
         # Term entries
@@ -63,6 +67,7 @@ module Metanorma
           map_element "p",                to: :paragraphs
           map_element "ul",               to: :unordered_lists
           map_element "dl",               to: :definition_lists
+          map_element "note",             to: :notes
           map_element "term",             to: :terms
           map_element "terms",            to: :term_sections
           map_element "clause",           to: :clause
