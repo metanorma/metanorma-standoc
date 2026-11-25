@@ -30,6 +30,7 @@ module Metanorma
           private
 
           def rule_findings(projection, rule)
+            rule.check.expand and return expanded_findings(projection, rule)
             projection.xml.xpath(rule.context, rule.namespaces).filter_map do |node|
               subject = rule.target ? node.at_xpath(rule.target, rule.namespaces) : node
               rule.check.predicate.call(subject, rule.args, @validator) or next
@@ -37,6 +38,21 @@ module Metanorma
                           node: subject || node,
                           params: rule.resolve_params(node, subject),
                           source_model: projection.source_model)
+            end
+          end
+
+          # Checks that yield several findings per context node, such as
+          # pair iteration. Each pair is [finding node, related node]; the
+          # related node is available to params as +related+.
+          def expanded_findings(projection, rule)
+            projection.xml.xpath(rule.context, rule.namespaces).flat_map do |node|
+              rule.check.expand.call(node, rule.args, rule.namespaces)
+                .map do |subject, related|
+                Finding.new(rule_id: rule.id, code: rule.code, node: subject,
+                            params: rule.resolve_params(node, subject,
+                                                        related: related),
+                            source_model: projection.source_model)
+              end
             end
           end
         end

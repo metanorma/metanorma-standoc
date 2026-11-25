@@ -14,3 +14,222 @@ rules:
   - {id: standoc.empty-block.ol, code: STANDOC_39, mode: shadow, context: //ol, target: ./li, check: empty_block, params: [ol]}
   - {id: standoc.empty-block.ul, code: STANDOC_39, mode: shadow, context: //ul, target: ./li, check: empty_block, params: [ul]}
   - {id: standoc.empty-block.dl, code: STANDOC_39, mode: shadow, context: //dl, target: ./dt, check: empty_block, params: [dl]}
+
+# Declarative forms of further core validations (metanorma-standoc#1381).
+# Shadow mode, like the rules above. Each id names the Ruby method it mirrors.
+#
+# Validate#empty_table_validate (STANDOC_2)
+  - id: standoc.table.empty
+    code: STANDOC_2
+    mode: shadow
+    context: "//table[not(.//tr)][not(ancestor::metanorma-extension)]"
+    check: xpath_assert
+    args: {test: "false()"}
+# Validate#sourcecode_style / #callouts_error (STANDOC_62, STANDOC_47)
+  - id: standoc.sourcecode.callouts-without-annotations
+    code: STANDOC_62
+    mode: shadow
+    context: //sourcecode
+    check: xpath_assert
+    args: {test: "not(count(./callout-annotation) = 0 and count(./body/callout) != 0)"}
+  - id: standoc.sourcecode.callouts-annotations-mismatch
+    code: STANDOC_47
+    mode: shadow
+    context: //sourcecode
+    check: xpath_assert
+    args: {test: "count(./callout-annotation) = 0 or count(./body/callout) = count(./callout-annotation)"}
+    params: [{count: ./body/callout}, {count: ./callout-annotation}]
+# Validate#hanging_para_style (STANDOC_48)
+  - id: standoc.style.hanging-paragraph
+    code: STANDOC_48
+    mode: shadow
+    context: "(//clause | //annex | //foreword | //introduction | //acknowledgements | //executivesummary)[./clause]"
+    check: xpath_assert
+    args: {test: "not(*[not(self::clause or self::title)])"}
+    params: [Hanging paragraph in clause]
+# Validate#asset_title_style (STANDOC_48)
+  - id: standoc.style.figure-title
+    code: STANDOC_48
+    mode: shadow
+    context: "//figure[image][not(name)][not(ancestor::metanorma-extension)]"
+    check: xpath_assert
+    args: {test: "false()"}
+    params: [Figure should have title]
+  - id: standoc.style.table-title
+    code: STANDOC_48
+    mode: shadow
+    context: "//table[not(name)][not(ancestor::sourcecode)][not(ancestor::metanorma-extension)]"
+    check: xpath_assert
+    args: {test: "false()"}
+    params: [Table should have title]
+# Validate#norm_ref_validate (STANDOC_49)
+  - id: standoc.bibliography.normative-numeric-docid
+    code: STANDOC_49
+    mode: shadow
+    context: "//references[@normative = 'true']/bibitem[./docidentifier[@type = 'metanorma']]"
+    check: xpath_assert
+    args:
+      test: >-
+        not(starts-with((./docidentifier[@type = 'metanorma'])[1], '[')
+        and string-length((./docidentifier[@type = 'metanorma'])[1]) > 2
+        and substring((./docidentifier[@type = 'metanorma'])[1], string-length((./docidentifier[@type = 'metanorma'])[1])) = ']'
+        and translate(substring((./docidentifier[@type = 'metanorma'])[1], 2, string-length((./docidentifier[@type = 'metanorma'])[1]) - 2), '0123456789', '') = '')
+
+# Pair iteration and in-document lookup (metanorma-standoc#1381).
+# Validate#nested_asset_validate_basic and #nested_note_validate (STANDOC_34)
+  - id: standoc.style.nested-asset
+    code: STANDOC_34
+    mode: shadow
+    context: //example | //figure | //termnote | //termexample | //table | //note
+    check: nested
+    args:
+      inner: [example, figure, termnote, termexample, table]
+      except: [figure/figure, table/example]
+    params: [{node: name}, {context: name}]
+  - id: standoc.style.nested-note
+    code: STANDOC_34
+    mode: shadow
+    context: //termnote | //note
+    check: nested
+    args: {inner: [note]}
+    params: [{node: name}, {context: name}]
+# Validate#nested_asset_xref_report (STANDOC_35). Direct references only:
+# the legacy method also treats anchors inside an xref range as referenced.
+  - id: standoc.style.nested-asset-xref
+    code: STANDOC_35
+    mode: shadow
+    context: //example | //figure | //termnote | //termexample | //table | //note
+    check: nested
+    args:
+      inner: [example, figure, termnote, termexample, table]
+      except: [figure/figure, table/example]
+      referenced_by:
+        - //annotation/@from
+        - //annotation/@to
+        - //callout/@target
+        - //xref/@to
+        - //eref/@bibitemid
+        - //citation/@bibitemid
+        - //origin/@bibitemid
+        - //xref/@target
+        - //label/@for
+        - //location/@target
+        - //index/@to
+        - //termsource/@bibitemid
+        - //admonition/@target
+    params: [{related: name}, {context: name}, {node: xml}]
+  - id: standoc.style.nested-note-xref
+    code: STANDOC_35
+    mode: shadow
+    context: //termnote | //note
+    check: nested
+    args:
+      inner: [note]
+      referenced_by:
+        - //annotation/@from
+        - //annotation/@to
+        - //callout/@target
+        - //xref/@to
+        - //eref/@bibitemid
+        - //citation/@bibitemid
+        - //origin/@bibitemid
+        - //xref/@target
+        - //label/@for
+        - //location/@target
+        - //index/@to
+        - //termsource/@bibitemid
+        - //admonition/@target
+    params: [{related: name}, {context: name}, {node: xml}]
+# Validate#xref_validate_exists (STANDOC_38): one rule per anchor attribute
+# listed by Metanorma::Utils.anchor_attributes.
+  - id: standoc.xref.undefined.annotation-from
+    code: STANDOC_38
+    mode: shadow
+    context: "//annotation[@from]"
+    check: reference_exists
+    args: {attribute: from, known: "//*[@id]/@anchor"}
+    params: [{attribute: from}]
+  - id: standoc.xref.undefined.annotation-to
+    code: STANDOC_38
+    mode: shadow
+    context: "//annotation[@to]"
+    check: reference_exists
+    args: {attribute: to, known: "//*[@id]/@anchor"}
+    params: [{attribute: to}]
+  - id: standoc.xref.undefined.callout-target
+    code: STANDOC_38
+    mode: shadow
+    context: "//callout[@target]"
+    check: reference_exists
+    args: {attribute: target, known: "//*[@id]/@anchor"}
+    params: [{attribute: target}]
+  - id: standoc.xref.undefined.xref-to
+    code: STANDOC_38
+    mode: shadow
+    context: "//xref[@to]"
+    check: reference_exists
+    args: {attribute: to, known: "//*[@id]/@anchor"}
+    params: [{attribute: to}]
+  - id: standoc.xref.undefined.eref-bibitemid
+    code: STANDOC_38
+    mode: shadow
+    context: "//eref[@bibitemid]"
+    check: reference_exists
+    args: {attribute: bibitemid, known: "//*[@id]/@anchor"}
+    params: [{attribute: bibitemid}]
+  - id: standoc.xref.undefined.citation-bibitemid
+    code: STANDOC_38
+    mode: shadow
+    context: "//citation[@bibitemid]"
+    check: reference_exists
+    args: {attribute: bibitemid, known: "//*[@id]/@anchor"}
+    params: [{attribute: bibitemid}]
+  - id: standoc.xref.undefined.origin-bibitemid
+    code: STANDOC_38
+    mode: shadow
+    context: "//origin[@bibitemid]"
+    check: reference_exists
+    args: {attribute: bibitemid, known: "//*[@id]/@anchor"}
+    params: [{attribute: bibitemid}]
+  - id: standoc.xref.undefined.xref-target
+    code: STANDOC_38
+    mode: shadow
+    context: "//xref[@target]"
+    check: reference_exists
+    args: {attribute: target, known: "//*[@id]/@anchor"}
+    params: [{attribute: target}]
+  - id: standoc.xref.undefined.label-for
+    code: STANDOC_38
+    mode: shadow
+    context: "//label[@for]"
+    check: reference_exists
+    args: {attribute: for, known: "//*[@id]/@anchor"}
+    params: [{attribute: for}]
+  - id: standoc.xref.undefined.location-target
+    code: STANDOC_38
+    mode: shadow
+    context: "//location[@target]"
+    check: reference_exists
+    args: {attribute: target, known: "//*[@id]/@anchor"}
+    params: [{attribute: target}]
+  - id: standoc.xref.undefined.index-to
+    code: STANDOC_38
+    mode: shadow
+    context: "//index[@to]"
+    check: reference_exists
+    args: {attribute: to, known: "//*[@id]/@anchor"}
+    params: [{attribute: to}]
+  - id: standoc.xref.undefined.termsource-bibitemid
+    code: STANDOC_38
+    mode: shadow
+    context: "//termsource[@bibitemid]"
+    check: reference_exists
+    args: {attribute: bibitemid, known: "//*[@id]/@anchor"}
+    params: [{attribute: bibitemid}]
+  - id: standoc.xref.undefined.admonition-target
+    code: STANDOC_38
+    mode: shadow
+    context: "//admonition[@target]"
+    check: reference_exists
+    args: {attribute: target, known: "//*[@id]/@anchor"}
+    params: [{attribute: target}]

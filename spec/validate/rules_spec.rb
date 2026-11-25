@@ -60,6 +60,7 @@ RSpec.describe Metanorma::Standoc::Validate::Rules do
       set = rules::RuleSet.load_file(shipped)
       declarative = rules::Engine.new(set, validator: validator)
         .findings(doc, modes: %w(shadow))
+        .select { |f| f.code == "STANDOC_39" }
         .map { |f| [f.code, f.node.path, f.params] }
       expect(declarative).to eq legacy
     end

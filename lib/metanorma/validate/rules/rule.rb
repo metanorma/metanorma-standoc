@@ -14,7 +14,8 @@ module Metanorma
           MODES = %w(enforce shadow).freeze
           ID = /\A[A-Za-z][\w.-]*\z/
           CODE = /\A[A-Z][A-Z0-9]*_\w+\z/
-          NODE_PARAMS = %w(name text).freeze
+          NODE_PARAMS = %w(name text xml).freeze
+          RELATION_PARAMS = NODE_PARAMS
           PROBE = Nokogiri::XML("<probe/>").root
 
           attr_reader :id, :code, :mode, :context, :target, :check, :args,
@@ -55,20 +56,32 @@ module Metanorma
             freeze
           end
 
-          def resolve_params(context_node, subject)
+          # +context+ and +related+ params read the rule's context node and
+          # the second node of a pair (see CheckRegistry's +expand+).
+          def resolve_params(context_node, subject, related: nil)
             node = subject || context_node
             params.map do |param|
               next param unless param.is_a?(Hash)
 
               key, value = param.first
-              key == "attribute" ? node[value] : node_param(node, value)
+              case key
+              when "attribute" then node[value]
+              when "count" then node.xpath("count(#{value})", namespaces).to_i
+              when "context" then node_param(context_node, value)
+              when "related" then node_param(related, value)
+              else node_param(node, value)
+              end
             end
           end
 
           private
 
           def node_param(node, value)
-            value == "name" ? node.name : node.text
+            case value
+            when "name" then node.name
+            when "xml" then node.to_xml
+            else node.text
+            end
           end
 
           def fail_rule(message)
@@ -129,10 +142,23 @@ module Metanorma
               fail_rule("invalid param #{param.inspect}")
             key, value = param.first
             return if key == "node" && NODE_PARAMS.include?(value)
+            return if key == "context" && RELATION_PARAMS.include?(value)
+            return if key == "related" && RELATION_PARAMS.include?(value) &&
+              check.expand
             return if key == "attribute" &&
               Checks::ATTRIBUTE_NAME.match?(value.to_s)
+            return if key == "count" && count_xpath?(value)
 
             fail_rule("invalid param #{param.inspect}")
+          end
+
+          # A count param is the number of nodes an XPath selects from the
+          # context node, e.g. {count: ./body/callout}.
+          def count_xpath?(value)
+            value.is_a?(String) && !value.strip.empty? &&
+              PROBE.xpath("count(#{value})", namespaces).is_a?(Float)
+          rescue Nokogiri::XML::XPath::SyntaxError
+            false
           end
         end
       end
