@@ -343,7 +343,7 @@ RSpec.describe Metanorma::Standoc do
                             <name>division</name>
                          </subdivision>
                          <abbreviation>ISO</abbreviation>
-                         <uri>www.iso.org</uri>
+                         <contact><uri>www.iso.org</uri></contact>
                       </organization>
                    </contributor>
                    <contributor>
@@ -415,7 +415,7 @@ RSpec.describe Metanorma::Standoc do
                          <organization>
                             <name>International Organization for Standardization</name>
                             <abbreviation>ISO</abbreviation>
-                            <uri>www.iso.org</uri>
+                            <contact><uri>www.iso.org</uri></contact>
                          </organization>
                       </owner>
                    </copyright>
@@ -670,7 +670,7 @@ RSpec.describe Metanorma::Standoc do
             <name>International Organization for Standardization</name>
             <subdivision><name>division</name></subdivision>
             <abbreviation>ISO</abbreviation>
-            <uri>www.iso.org</uri>
+            <contact><uri>www.iso.org</uri></contact>
           </organization>
         </contributor>
         <contributor>
@@ -743,7 +743,7 @@ RSpec.describe Metanorma::Standoc do
             <organization>
               <name>International Organization for Standardization</name>
               <abbreviation>ISO</abbreviation>
-              <uri>www.iso.org</uri>
+              <contact><uri>www.iso.org</uri></contact>
             </organization>
           </owner>
         </copyright>

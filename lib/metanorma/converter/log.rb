@@ -227,6 +227,15 @@ module Metanorma
         STANDOC_72: { category: "Update Units",
                       error: "Update records file %s is malformed: %s",
                       severity: 0 },
+        STANDOC_73: { category: "Bibliography",
+                      error: "Legacy AsciiBib contact keys %s are deprecated; " \
+                             "nest them under contact.address (e.g. " \
+                             "contact.address.street)",
+                      severity: 1 },
+        STANDOC_74: { category: "Bibliography",
+                      error: "Contributor is missing a role; defaulting to " \
+                             "author. Set contributor.role:: explicitly",
+                      severity: 1 },
         RELATON_1: { category: "Relaton",
                      error: "(Error from Relaton) %s",
                      severity: 0 },
