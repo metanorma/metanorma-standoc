@@ -273,11 +273,11 @@ module Metanorma
       end
 
       def ol_cleanup(doc)
+        merge_adjacent_lists(doc)
         doc.xpath("//ol[@explicit-type]").each do |x|
           x.delete("explicit-type")
           @log.add("STANDOC_14", x, display: false)
         end
-        merge_adjacent_lists(doc)
       end
 
       # A line comment or a conditional directive flanked by blank lines
@@ -310,8 +310,14 @@ module Metanorma
       end
 
       def mergeable_types?(list, nxt)
-        list.name == "ul" ||
-          (list["type"] || "arabic") == (nxt["type"] || "arabic")
+        list.name == "ul" || list_style(list) == list_style(nxt)
+      end
+
+      # Flavours may drop the type attribute from the list (ISO does, via
+      # ol_attrs), leaving the style the author set only in explicit-type.
+      # That attribute is still present here: it is removed after merging.
+      def list_style(list)
+        list["type"] || list["explicit-type"] || "arabic"
       end
 
       # The first fragment keeps its identity through the merge. The
