@@ -72,3 +72,55 @@ RSpec.describe "AsciiBib legacy contact and id handling" do
     expect(xml).to include('<role type="author"/>')
   end
 end
+
+# metanorma-standoc#1412 follow-up: the authored id:: wins over the
+# clause's derived heading anchor — AsciiBib includes pull foreign
+# drafts' bibitems in, and their heading ids must not shadow the ids
+# the citations name
+RSpec.describe "authored id precedence over the clause anchor" do
+  class AsciiBibHarness
+    include Metanorma::Standoc::Asciibib
+    include Metanorma::Standoc::Utils
+
+    Entry = Struct.new(:code, :params)
+    class LogSpy
+      attr_reader :entries
+
+      def initialize = @entries = []
+
+      def add(code, _node, params: []) = @entries << Entry.new(code, params)
+    end
+
+    attr_reader :log, :refids
+
+    def initialize
+      @log = LogSpy.new
+      @refids = []
+    end
+  end
+
+  it "keeps the authored id when the clause carries a derived anchor" do
+    clause_xml = <<~XML
+      <clause id="_uuid1" anchor="draftmphtest205" bibitem="true">
+        <title>draft-mph-test2-05</title>
+        <dl>
+          <dt>id</dt><dd><p>draft-mph-test2-05</p></dd>
+          <dt>title</dt><dd><p>Draft B Title</p></dd>
+        </dl>
+      </clause>
+    XML
+    clause = Nokogiri::XML(clause_xml).root
+
+    harness = AsciiBibHarness.new
+    bib = harness.dl_bib_extract(clause)
+    harness.validate_ref_dl(bib, clause)
+    converted = Nokogiri::XML(
+      Relaton::Bib::ItemData.new(
+        **Relaton::Bib::HashParserV1.hash_to_bib(bib),
+      ).to_xml,
+    )
+    harness.ref_dl_cleanup_id(converted.root, clause, bib["id"])
+
+    expect(converted.root["anchor"]).to eq("draft-mph-test2-05")
+  end
+end

@@ -27,10 +27,16 @@ module Metanorma
       # string instead.
       def ref_dl_cleanup_id(bibitem, clause, authored_id = nil)
         bibitem["anchor"] = bibitem["id"]
-        authored_id && !authored_id.empty? and
+        # the authored id:: is the citation target and wins over the
+        # clause's derived heading anchor: AsciiBib includes pull a
+        # foreign draft's bibitems in, and their heading ids must not
+        # shadow the authored ids the citations name (metanorma-
+        # standoc#1412 follow-up)
+        if authored_id && !authored_id.empty?
           bibitem["anchor"] = authored_id
-        clause["anchor"] && !/^_/.match(clause["anchor"]) and
+        elsif clause["anchor"] && !/^_/.match?(clause["anchor"])
           bibitem["anchor"] = clause["anchor"]
+        end
         add_id(bibitem)
       end
 
