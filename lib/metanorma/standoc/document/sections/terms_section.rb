@@ -38,6 +38,10 @@ module Metanorma
         # under a "Learning outcomes" terms clause in IHO S5 guidelines).
         attribute :clause, ClauseSection, collection: true
 
+        attribute :definitions,
+                  Metanorma::Standoc::Document::Sections::DefinitionSection,
+                  collection: true
+
         # Term entries
         attribute :terms,
                   Metanorma::Standoc::Document::Terms::Term,
@@ -58,6 +62,7 @@ module Metanorma
           map_element "fmt-xref-label",   to: :fmt_xref_label
           map_element "p",                to: :paragraphs
           map_element "ul",               to: :unordered_lists
+          map_element "definitions",      to: :definitions
           map_element "term",             to: :terms
           map_element "terms",            to: :term_sections
           map_element "clause",           to: :clause
