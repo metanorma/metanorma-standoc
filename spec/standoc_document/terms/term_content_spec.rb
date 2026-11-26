@@ -63,4 +63,27 @@ RSpec.describe Metanorma::Standoc::Document::Terms::Term do
       .to eq(["cargo rice"])
     expect(term.fmt_deprecates.p.first.text).to eq(["DEPRECATED: cargo rice"])
   end
+
+  it "round-trips the presentation name, preferred and admitted channels" do
+    xml = <<~XML
+      <term id="_t1">
+        <fmt-name><span class="fmt-caption-label"><semx element="autonum" source="_t1">3.1</semx><span class="fmt-autonum-delim">.</span></span></fmt-name>
+        <fmt-preferred><p><semx element="preferred" source="_p1">cargo rice</semx></p></fmt-preferred>
+        <fmt-admitted><p><semx element="admitted" source="_a1">brown rice</semx></p></fmt-admitted>
+      </term>
+    XML
+
+    term = described_class.from_xml(xml)
+
+    expect(term.fmt_name)
+      .to be_a(Metanorma::Document::Components::Inline::FmtNameElement)
+    expect(term.fmt_preferred.length).to eq(1)
+    expect(term.fmt_admitted.length).to eq(1)
+
+    out = described_class.from_xml(term.to_xml).to_xml
+    expect(out).to include("3.1")
+    expect(out).to include("cargo rice")
+    expect(out).to include("brown rice")
+    expect(out).to include("<fmt-name")
+  end
 end
