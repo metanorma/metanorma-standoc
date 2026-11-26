@@ -19,6 +19,14 @@ module UuidMock
       counter.to_s
     end
 
+    # The deterministic mint rides the same counter: text-bearing
+    # elements go through stable_uuid (isodoc#861), and the mock keeps
+    # one contiguous numbering for the goldens.
+    allow(Metanorma::Utils).to receive(:stable_uuid) do |*_parts|
+      counter += 1
+      counter.to_s
+    end
+
     # Mock content hashing, preserving these GUIDs instead
     allow_any_instance_of(Metanorma::Standoc::Cleanup)
       .to receive(:contenthash_id_make) do |_instance, doc, *_args|
