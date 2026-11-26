@@ -17,6 +17,7 @@ module Metanorma
             install_xpath_assert(registry)
             install_nested(registry)
             install_reference_exists(registry)
+            GridTermChecks.install(registry)
             registry.register("empty_block") do |subject, _args, validator|
               validator or raise RuleError, "empty_block needs a validator"
               validator.empty_block?(subject)

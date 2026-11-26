@@ -43,14 +43,16 @@ module Metanorma
 
           # Checks that yield several findings per context node, such as
           # pair iteration. Each pair is [finding node, related node]; the
-          # related node is available to params as +related+.
+          # related node is available to params as +related+; an optional third
+          # element of computed values is available as +{value: key}+.
           def expanded_findings(projection, rule)
             projection.xml.xpath(rule.context, rule.namespaces).flat_map do |node|
               rule.check.expand.call(node, rule.args, rule.namespaces)
-                .map do |subject, related|
+                .map do |subject, related, values|
                 Finding.new(rule_id: rule.id, code: rule.code, node: subject,
                             params: rule.resolve_params(node, subject,
-                                                        related: related),
+                                                        related: related,
+                                                        values: values),
                             source_model: projection.source_model)
               end
             end

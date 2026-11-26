@@ -53,3 +53,34 @@ Both export to Schematron and evaluate through `Schematron.evaluate`. Schematron
 asserts once per context node: for `nested` that is once per outer node with
 any offending pair, on the outer node, not once per pair on the inner or
 referencing node. The engine remains the reference for exact findings.
+
+## Cell-grid and term-state checks
+
+These need whole-table or whole-document state, so they are code-backed: they
+have no Schematron mapping and are listed as such on export. Findings may carry
+computed values, read in `params` as `{value: key}` (valid only on checks that
+yield several findings per context node).
+
+`cell_grid` runs on a `table` context. `report: column_overflow` flags each
+cell whose last column index (counted from zero, after rowspans and colspans are
+applied) is greater than the column count taken from `columns` (`colgroup`: the
+`col` elements; `row_cells`: the widest direct `tr` child), finding on the cell,
+with value `columns`. `report: row_mismatch` flags the table when its rows, inside
+`section` (`*`, `thead`, `tbody` or `tfoot`; default `*`), are not all the same
+width. These mirror `Validate#table_validate` (STANDOC_4, STANDOC_5), including
+its quirks: the colgroup and span rules both fire for a table matching both, and
+the column test compares a zero-based index to the count, so a cell is reported
+only when it is two or more columns past the declared width.
+
+`duplicate_designation` runs on the document root. Terms selected by `terms` are
+grouped by the text of each `designation` (nested `index` text ignored, `<domain>`
+text from `prefix` prepended); each group of more than one is a finding on its
+first term, with values `designation` and `locations` (anchors, comma-separated).
+It mirrors `Validate#preferred_validate` (STANDOC_24).
+
+`designation_outside_terms` runs on the document root. Designations selected by
+`designations` that have no ancestor named by `terms` (default `terms`) are grouped
+by their nearest ancestor among `containers`; each group is a finding on that
+container, with value `designations` (hexadecimal-encoded text, comma-separated).
+Designations with no container are skipped. It mirrors `Validate#termsect_validate`
+(STANDOC_25).

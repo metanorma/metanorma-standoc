@@ -233,3 +233,83 @@ rules:
     check: reference_exists
     args: {attribute: target, known: "//*[@id]/@anchor"}
     params: [{attribute: target}]
+
+# Table cell grid (metanorma-standoc#1381). Validate#table_validate runs the
+# column and row checks once for tables with a colgroup and again, with the
+# widest-row column count, for tables with spans; each is its own rule, so a
+# table matching both is reported by both, as the legacy method does.
+# STANDOC_5: cell ends past the column count.
+  - id: standoc.table.column-overflow.colgroup
+    code: STANDOC_5
+    mode: shadow
+    context: "//table[colgroup][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: column_overflow, columns: colgroup}
+    params: [{value: columns}]
+  - id: standoc.table.column-overflow.spans
+    code: STANDOC_5
+    mode: shadow
+    context: "//table[.//*[@colspan] | .//*[@rowspan]][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: column_overflow, columns: row_cells}
+    params: [{value: columns}]
+# STANDOC_4: rows of unequal width.
+  - id: standoc.table.rows-inconsistent.colgroup
+    code: STANDOC_4
+    mode: shadow
+    context: "//table[colgroup][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: row_mismatch}
+    params: [are inconsistent]
+  - id: standoc.table.rows-inconsistent.spans
+    code: STANDOC_4
+    mode: shadow
+    context: "//table[.//*[@colspan] | .//*[@rowspan]][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: row_mismatch}
+    params: [are inconsistent]
+  - id: standoc.table.rowspan-outside-thead
+    code: STANDOC_4
+    mode: shadow
+    context: "//table[.//*[@rowspan]][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: row_mismatch, section: thead}
+    params: [cannot go outside thead]
+  - id: standoc.table.rowspan-outside-tbody
+    code: STANDOC_4
+    mode: shadow
+    context: "//table[.//*[@rowspan]][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: row_mismatch, section: tbody}
+    params: [cannot go outside tbody]
+  - id: standoc.table.rowspan-outside-tfoot
+    code: STANDOC_4
+    mode: shadow
+    context: "//table[.//*[@rowspan]][not(ancestor::metanorma-extension)]"
+    check: cell_grid
+    args: {report: row_mismatch, section: tfoot}
+    params: [cannot go outside tfoot]
+
+# Term state (metanorma-standoc#1381).
+# Validate#preferred_validate (STANDOC_24): the same preferred designation,
+# with its <domain> prefix, on more than one term.
+  - id: standoc.term.preferred-duplicate
+    code: STANDOC_24
+    mode: shadow
+    context: /*
+    check: duplicate_designation
+    args: {terms: //term, designation: ./preferred//name, prefix: ./domain}
+    params: [{value: designation}, {value: locations}]
+# Validate#termsect_validate (STANDOC_25): designation markup in a clause
+# that is not a terms clause.
+  - id: standoc.term.designation-outside-terms
+    code: STANDOC_25
+    mode: shadow
+    context: /*
+    check: designation_outside_terms
+    args:
+      designations: //preferred | //admitted | //deprecates
+      containers: [foreword, introduction, acknowledgements, executivesummary,
+                   abstract, clause, references, terms, definitions, annex,
+                   appendix, indexsect]
+    params: [{value: designations}]
