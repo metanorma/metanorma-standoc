@@ -116,3 +116,34 @@ that parse.
 
 Not migrated, because they call external engines or validate by content: STANDOC_45, 55-59
 and 63 (png_conform, svg_conform), STANDOC_33 and other Plurimath checks.
+
+## Text pattern check
+
+`text_pattern` is code-backed (XPath 1.0 has no regular expressions, so it has no Schematron
+mapping and is listed as code-backed on export). It runs on each context node (typically
+`//p`) and searches the node's text, after removing descendants named in `exclude` (default
+`stem` and `fmt-stem`: formulas are not prose). Arguments:
+
+- `pattern`: a Ruby regular expression, or `words`: a list of words matched as whole words
+  (exactly one of the two). `flags`: a string of `i`, `m`, `x`. Patterns have a two-second
+  match timeout.
+- `report`: `each` (default) gives one finding per distinct match, using the capture groups
+  if the pattern has any (as `String#scan`); `once` gives one finding if anything matches.
+- `message`: a template; each `%s` is replaced by the match. Values for params: `message`
+  and `match`. The default message is the match.
+- `language`: a list of codes. The check runs only if `bibdata/language`, or its primary
+  subtag (`fr` for `fr-FR`), is listed; a document with no language counts as `en`.
+
+The finding is on the context node.
+
+```yaml
+- id: iso.style.contractions
+  code: ISO_77
+  context: //p
+  check: text_pattern
+  args:
+    words: ["don't", "isn't", "it's"]
+    flags: i
+    message: "style: contraction '%s' (use the full form)"
+  params: [{value: message}]
+```

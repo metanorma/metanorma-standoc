@@ -1,0 +1,43 @@
+# Declarative forms of three ISO style rules (metanorma-iso#1732), to show
+# that text_pattern covers them. Fixtures only: nothing in ISO changes.
+schema: metanorma-validation-rules/1
+rules:
+  # StyleAbbrevPluralRule: one finding if the case-sensitive form occurs.
+  - id: iso.style.abbrev-plural
+    code: ISO_64
+    context: //p
+    check: text_pattern
+    args:
+      pattern: '\bMSSs\b'
+      report: once
+      message: "style: 'MSSs' (abbreviated terms are invariant — 'MSS' is not pluralized)"
+    params: [{value: message}]
+  # StyleAOrAnRule: two scans, a finding per distinct match.
+  - id: iso.style.a-before-vowel-sound
+    code: ISO_62
+    context: //p
+    check: text_pattern
+    args:
+      pattern: '\ba\s+(?:hour(?:ly)?|honest(?:ly)?|honesty|hono(?:u)?r(?:ed)?|heir)\b'
+      flags: i
+      message: "wrong article '%s' (use 'an' before a vowel sound)"
+    params: [{value: message}]
+  - id: iso.style.an-before-consonant-sound
+    code: ISO_62
+    context: //p
+    check: text_pattern
+    args:
+      pattern: '\ban\s+(?:europeans?|one(?:[-—][a-z]+)?|users?|useful(?:ness)?|utili[sz]ation|unique|universities|university|union|united|uniform|uniformity|units?|eula)'
+      flags: i
+      message: "wrong article '%s' (use 'a' before a consonant sound)"
+    params: [{value: message}]
+  # StyleDecimalCommaRule's language gate, with a simple pattern.
+  - id: iso.style.decimal-comma
+    code: ISO_143
+    context: //p
+    check: text_pattern
+    args:
+      pattern: '\d+,\d+'
+      language: [fr, de, es]
+      message: "decimal comma '%s'"
+    params: [{value: message}]
