@@ -164,6 +164,53 @@ RSpec.describe Metanorma::Standoc::Cleanup do
     expect(doc.xpath("//*[local-name()='ul']").size).to eq(1)
   end
 
+  it "keeps lists apart when only explicit-type differs" do
+    doc = merge_xml(<<~XML)
+      <metanorma>
+        <sections>
+          <clause>
+            <ol explicit-type="alphabet"><li>a</li></ol>
+            <ol explicit-type="roman"><li>i</li></ol>
+          </clause>
+        </sections>
+      </metanorma>
+    XML
+    expect(doc.xpath("//*[local-name()='ol']").size).to eq(2)
+  end
+
+  it "merges lists with the same explicit-type" do
+    doc = merge_xml(<<~XML)
+      <metanorma>
+        <sections>
+          <clause>
+            <ol explicit-type="alphabet"><li>a</li></ol>
+            <ol explicit-type="alphabet"><li>b</li></ol>
+          </clause>
+        </sections>
+      </metanorma>
+    XML
+    expect(doc.xpath("//*[local-name()='ol']").size).to eq(1)
+  end
+
+  it "keeps loweralpha then lowerroman lists apart end to end" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+
+      == Clause 1
+
+      [loweralpha]
+      . first
+
+      [lowerroman]
+      . second
+    INPUT
+    doc = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    expect(doc.xpath("//*[local-name()='ol']").size).to eq(2)
+  end
+
   it "keeps lists separated by a block apart" do
     doc = merge_xml(<<~XML)
       <metanorma>
