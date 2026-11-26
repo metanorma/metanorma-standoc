@@ -17,7 +17,10 @@ gem "isodoc", "~> 3.7"
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
 gem "parsanol", "~> 1.5"
-gem "relaton", "~> 3.1"
+# relaton 3.1.14 (relaton/relaton cf535198) casts validity begins/ends/revision
+# to a plain xs:date, dropping the time; the bibdata schema requires an ISO 8601
+# dateTime. Stopgap: skip it until validity keeps its time again.
+gem "relaton", "~> 3.1", "!= 3.1.14"
 gem "pubid", "~> 2.0" # 2.0.3+: edition-2 iso artifact
 
 gem "metanorma-plugin-lutaml", "~> 0.7"
