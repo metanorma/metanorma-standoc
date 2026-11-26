@@ -6,13 +6,43 @@ require_relative "blocks_image"
 module Metanorma
   module Standoc
     module Blocks
-      def id_attr(node = nil)
+      def id_attr(node = nil, seed: nil)
         anchor = node&.id
-        { id: "_#{Metanorma::Utils.random_uuid}",
+        { id: "_#{stable_block_id(node, seed: seed)}",
           anchor: anchor && !anchor.empty? ? anchor : nil,
           tag: node&.attr("tag"), columns: node&.attr("columns"),
           "multilingual-rendering": node&.attr("multilingual-rendering") }
           .compact
+      end
+
+      # Deterministic ids for anchor-less elements (isodoc#861): the
+      # document identity, the element's text (or an explicit seed),
+      # and the occurrence ordinal of that text mint a stable UUIDv5 -
+      # a recompile produces the same ids, where the random mint made
+      # every compile's HTML carry different heading and term ids and
+      # the TOC links moved with them. Elements carrying nothing
+      # seedable keep the random mint.
+      def stable_block_id(node, seed: nil)
+        text = seed || stable_seed_text(node)
+        return Metanorma::Utils.random_uuid if text.empty?
+
+        key = [document_seed(node), text]
+        @stable_id_counts ||= Hash.new(0)
+        Metanorma::Utils.stable_uuid(*key, @stable_id_counts[key] += 1)
+      end
+
+      # Sections carry a title, blocks a text; either seeds the mint.
+      def stable_seed_text(node)
+        t = node.respond_to?(:title) ? node.title.to_s.strip : ""
+        t = node.text.to_s.strip if t.empty? && node.respond_to?(:text)
+        t.strip
+      end
+
+      # The basename only: the same source compiled in another
+      # directory must produce the same ids, so the seed stays free of
+      # the build machine's paths.
+      def document_seed(node)
+        File.basename(node&.document&.attributes&.[]("docfile").to_s)
       end
 
       def id_unnum_attrs(node)
