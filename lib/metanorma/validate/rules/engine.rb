@@ -41,14 +41,22 @@ module Metanorma
             end
           end
 
+          # Checks that take four parameters also receive the validator, for
+          # state it holds (document directory, size limits).
+          def expand_node(rule, node)
+            expand = rule.check.expand
+            args = [node, rule.args, rule.namespaces]
+            expand.parameters.size >= 4 and args << @validator
+            expand.call(*args)
+          end
+
           # Checks that yield several findings per context node, such as
           # pair iteration. Each pair is [finding node, related node]; the
           # related node is available to params as +related+; an optional third
           # element of computed values is available as +{value: key}+.
           def expanded_findings(projection, rule)
             projection.xml.xpath(rule.context, rule.namespaces).flat_map do |node|
-              rule.check.expand.call(node, rule.args, rule.namespaces)
-                .map do |subject, related, values|
+              expand_node(rule, node).map do |subject, related, values|
                 Finding.new(rule_id: rule.id, code: rule.code, node: subject,
                             params: rule.resolve_params(node, subject,
                                                         related: related,
