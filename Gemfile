@@ -7,18 +7,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}" }
 gemspec
 gem "metanorma-mirror", "~> 1.0"
 
-# Stopgap: lutaml 0.11.x removed lib/lutaml/xmi.rb, which metanorma-plugin-lutaml
-# 0.7.x still `require`s. Hold lutaml at 0.10.x until plugin-lutaml follows the
-# file to its new home. Remove once resolved:
-# https://github.com/metanorma/metanorma-plugin-lutaml/issues/292
-gem "lutaml", "< 0.11"
-
-# Stopgap: lutaml-lml 0.3.7 turned the gem into a stub alias forwarding
-# require "lutaml/lml" into the lutaml gem — which only carries that file
-# from 0.11.8, inside the cap above. Hold the alias down until the stub
-# ships its lutaml >= 0.11.8 floor.
-gem "lutaml-lml", "< 0.3.7"
-
 # Pin: update units (metanorma-document#122); return to "~> 0.5" once it is released.
 gem "metanorma-document", github: "metanorma/metanorma-document",
                           ref: "b2d7d50b4b1dbb85daa02387dcfb60a745960185"
@@ -28,8 +16,8 @@ gem "isodoc", "~> 3.7"
 # release. Prefer the released gem over a git pin: relaton main has since
 # moved to lutaml-store ~> 0.3, which conflicts with glossarist 2.14's
 # lutaml-store ~> 0.2.0 and makes this bundle unresolvable.
-gem "parsanol", "~> 1.3.123"
-gem "relaton", "~> 3.1.1"
+gem "parsanol", "~> 1.5"
+gem "relaton", "~> 3.1"
 gem "pubid", "~> 2.0" # 2.0.3+: edition-2 iso artifact
 
 gem "metanorma-plugin-lutaml", "~> 0.7"
