@@ -1,6 +1,8 @@
 require "leptris"
 require "leptris/xml/relaxng"
 require "tempfile"
+require "fileutils"
+require "pathname"
 
 module Metanorma
   module Standoc
@@ -28,9 +30,66 @@ module Metanorma
         end
 
         def schema_validate_errors(schema, file_path)
-          rng = Leptris::XML::RelaxNG.parse_file(schema)
+          rng = compiled_schema_rng(schema)
           doc = Leptris::XML.parse(File.read(file_path), readonly: true)
           rng.validate_errors(doc)
+        end
+
+        # The packed toolchain serves gem files from a memfs that the
+        # native file layer cannot see: parse_file opens the path
+        # through libleptris and dies with "cannot open schema file
+        # 'A:/...'" (tebako, metanorma-standoc#1416), while bare
+        # RelaxNG.parse cannot compile a schema that uses <include>
+        # ("include ...: no base URI"). Materialize the schema and its
+        # include closure through Ruby IO into a real directory - each
+        # href resolves against its own source file's directory, and
+        # the staged tree mirrors that geometry - and compile from
+        # there.
+        def compiled_schema_rng(schema_path)
+          Dir.mktmpdir(["metanorma_rng"]) do |dir|
+            staged = stage_schema_closure(File.expand_path(schema_path), dir)
+            Leptris::XML::RelaxNG.parse_file(staged)
+          end
+        end
+
+        def stage_schema_closure(schema_path, dir)
+          top_dir = File.dirname(schema_path)
+          staged = File.join(dir, File.basename(schema_path))
+          FileUtils.mkdir_p(File.dirname(staged))
+          FileUtils.cp(schema_path, staged)
+          copy_include_closure(schema_path, top_dir, dir)
+          staged
+        end
+
+        def copy_include_closure(source, top_dir, dir)
+          pending = [source]
+          visited = []
+          until pending.empty?
+            src = pending.pop
+            next if visited.include?(src)
+
+            visited << src
+            hrefs(src).each do |href|
+              next if href.start_with?("http:", "https:", "file:", "/")
+
+              target = File.expand_path(href, File.dirname(src))
+              next unless File.file?(target)
+
+              stage_include_target(target, top_dir, dir)
+              pending << target
+            end
+          end
+        end
+
+        def stage_include_target(target, top_dir, dir)
+          rel = Pathname.new(target).relative_path_from(Pathname.new(top_dir))
+          staged = File.join(dir, rel.to_s)
+          FileUtils.mkdir_p(File.dirname(staged))
+          FileUtils.cp(target, staged) unless File.exist?(staged)
+        end
+
+        def hrefs(path)
+          File.read(path).scan(/href="([^"]+)"/).flatten
         end
 
         def schema_validate1(file, doc, schema)
