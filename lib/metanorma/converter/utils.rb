@@ -5,7 +5,6 @@ require "json"
 require "pathname"
 require "uuidtools"
 require "metanorma-core"
-require_relative "../../nokogiri/xml/builder"
 require_relative "date_utils"
 
 module Metanorma
