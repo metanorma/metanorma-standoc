@@ -27,6 +27,14 @@ module Metanorma
                   collection: true
         attribute :deprecates, Metanorma::Standoc::Document::Terms::Designation,
                   collection: true
+        attribute :fmt_name,
+                  Metanorma::Document::Components::Inline::FmtNameElement
+        attribute :fmt_preferred,
+                  Metanorma::Document::Components::Inline::FmtPreferredElement,
+                  collection: true
+        attribute :fmt_admitted,
+                  Metanorma::Document::Components::Inline::FmtAdmittedElement,
+                  collection: true
         attribute :fmt_definition,
                   Metanorma::Standoc::Document::Terms::FmtDefinition
         attribute :fmt_deprecates,
@@ -64,6 +72,9 @@ module Metanorma
           map_element "admitted", to: :admitted
           map_element "related", to: :related
           map_element "deprecates", to: :deprecates
+          map_element "fmt-name", to: :fmt_name
+          map_element "fmt-preferred", to: :fmt_preferred
+          map_element "fmt-admitted", to: :fmt_admitted
           map_element "fmt-definition", to: :fmt_definition
           map_element "fmt-deprecates", to: :fmt_deprecates
           map_element "fmt-related", to: :fmt_related

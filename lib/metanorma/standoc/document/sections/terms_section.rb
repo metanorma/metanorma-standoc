@@ -46,6 +46,10 @@ module Metanorma
 
         attribute :clause, ClauseSection, collection: true
 
+        attribute :definitions,
+                  Metanorma::Standoc::Document::Sections::DefinitionSection,
+                  collection: true
+
         # Term entries
         attribute :terms,
                   Metanorma::Standoc::Document::Terms::Term,
@@ -66,6 +70,7 @@ module Metanorma
           map_element "fmt-xref-label",   to: :fmt_xref_label
           map_element "p",                to: :paragraphs
           map_element "ul",               to: :unordered_lists
+          map_element "definitions",      to: :definitions
           map_element "dl",               to: :definition_lists
           map_element "note",             to: :notes
           map_element "term",             to: :terms

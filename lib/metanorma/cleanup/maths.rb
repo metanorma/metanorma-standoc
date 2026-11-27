@@ -28,6 +28,10 @@ module Metanorma
       end
 
       MATHML_NS = "http://www.w3.org/1998/Math/MathML".freeze
+      # unitsml/plurimath emit a stray xml="..." namespace attribute on xml:id carriers;
+      # the xml prefix is always bound, so the attribute is dropped before
+      # the fragment is parsed into the document.
+      XML_NS_DECL = %r{ xml="http://www\.w3\.org/XML/1998/namespace"}
 
       def asciimath_parse(expr, elem)
         if NUMERIC_REGEX.match?(expr)
@@ -43,6 +47,7 @@ module Metanorma
                     end
           Plurimath::Math.parse(expr, "asciimath")
             .to_mathml(**{ display_style: elem["block"] }.merge(unitsml))
+            .gsub(XML_NS_DECL, "")
         end
       end
 

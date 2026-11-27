@@ -202,6 +202,24 @@ RSpec.describe "StandardDocument section models" do
   end
 
   describe Metanorma::Standoc::Document::Sections::TermsSection do
+    it "round-trips a definitions clause inside a terms section" do
+      xml = <<~XML
+        <terms id="_terms">
+          <title>Terms</title>
+          <definitions id="_abbr"><title>Abbreviated terms</title><dl id="_dl"><dt>API</dt><dd><p>Application programming interface</p></dd></dl></definitions>
+          <term id="_t1"><preferred><expression><name>term</name></expression></preferred></term>
+        </terms>
+      XML
+
+      terms = described_class.from_xml(xml)
+
+      expect(terms.definitions.length).to eq(1)
+      expect(terms.terms.length).to eq(1)
+      out = described_class.from_xml(terms.to_xml).to_xml
+      expect(out).to include("Abbreviated terms")
+      expect(out).to include("Application programming interface")
+    end
+
     it "parses a terms section with term entries" do
       xml = <<~XML
         <terms id="_terms">
