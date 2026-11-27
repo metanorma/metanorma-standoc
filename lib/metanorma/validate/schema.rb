@@ -46,8 +46,16 @@ module Metanorma
         # the staged tree mirrors that geometry - and compile from
         # there.
         def compiled_schema_rng(schema_path)
+          expanded = File.expand_path(schema_path)
+          unless File.file?(expanded)
+            # A missing or unreadable schema fails the way it always
+            # has (the clean-abort contract): parse_file raises on the
+            # original path.
+            return Leptris::XML::RelaxNG.parse_file(schema_path)
+          end
+
           Dir.mktmpdir(["metanorma_rng"]) do |dir|
-            staged = stage_schema_closure(File.expand_path(schema_path), dir)
+            staged = stage_schema_closure(expanded, dir)
             Leptris::XML::RelaxNG.parse_file(staged)
           end
         end
