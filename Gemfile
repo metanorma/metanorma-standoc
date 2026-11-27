@@ -31,3 +31,5 @@ gem "metanorma-utils", "~> 2.0.11" # GcBudget (utils#54) + the array-join asciid
 
 gem "svg_conform", "~> 0.2.6" # 0.2.6 ships the corrected metadata
 
+
+gem "ogc-gml", "1.2.3" # 1.2.4's nokogiri->moxml swap breaks UnitsML MathML parity (lutaml/ogc-gml#35); unpin at 1.2.5
