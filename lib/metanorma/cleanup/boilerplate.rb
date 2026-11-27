@@ -98,8 +98,8 @@ module Metanorma
       # +@boilerplate="true"+ Liquid templates. Standoc default just
       # re-runs isodoc_bibdata_parse so any cached i18n / meta state
       # picks up the resolved docidentifier values; flavors that
-      # populate richer derived state (e.g. metanorma-generic's
-      # bibdata_hash) override to refresh that too.
+      # populate richer derived state override to refresh that too
+      # (no fleet flavor overrides this today).
       # See https://github.com/metanorma/metanorma/issues/558.
       def refresh_isodoc_bibdata(xmldoc, _isodoc)
         isodoc_bibdata_parse(xmldoc)
