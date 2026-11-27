@@ -36,7 +36,8 @@ gem "metanorma-plugin-lutaml", "~> 0.7"
 
 eval_gemfile("Gemfile.devel") rescue nil
 
-gem "metanorma-utils", "~> 2.0.11" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56); 2.0.9+ adds the noko_html/AnchorRanges/UUID/encoder perf work
+gem "metanorma-utils", github: "metanorma/metanorma-utils", branch: "main" # GATE: pre-release verification of the noko seam port (#71)
+gem "moxml", github: "lutaml/moxml", branch: "main" # GcBudget (utils#54) + the array-join asciidoctor table cell buffer (utils#55/#56); 2.0.9+ adds the noko_html/AnchorRanges/UUID/encoder perf work
 
 gem "svg_conform", "~> 0.2.6" # 0.2.6 ships the corrected metadata
 
