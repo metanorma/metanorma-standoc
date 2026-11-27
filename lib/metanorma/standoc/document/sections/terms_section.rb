@@ -36,6 +36,14 @@ module Metanorma
 
         # Clause sections nested inside terms (e.g. level definitions
         # under a "Learning outcomes" terms clause in IHO S5 guidelines).
+        attribute :definition_lists,
+                  Metanorma::Document::Components::Lists::DefinitionList,
+                  collection: true
+
+        attribute :notes,
+                  Metanorma::Document::Components::Blocks::NoteBlock,
+                  collection: true
+
         attribute :clause, ClauseSection, collection: true
 
         attribute :definitions,
@@ -63,6 +71,8 @@ module Metanorma
           map_element "p",                to: :paragraphs
           map_element "ul",               to: :unordered_lists
           map_element "definitions",      to: :definitions
+          map_element "dl",               to: :definition_lists
+          map_element "note",             to: :notes
           map_element "term",             to: :terms
           map_element "terms",            to: :term_sections
           map_element "clause",           to: :clause

@@ -40,7 +40,9 @@ Gem::Specification.new do |spec|
   # LutamlJsonschemaPreprocessor shipped in 0.7.74
   spec.add_dependency "metanorma-plugin-lutaml", "~> 0.7", ">= 0.7.74"
   spec.add_dependency "metanorma-plugin-plantuml", "~> 1.0.0"
-  spec.add_dependency "metanorma-utils", "~> 2.0.12"
+  # >= 2.0.13: Metanorma::Utils.stable_uuid - the deterministic
+  # anchor-less element id mint (isodoc#861).
+  spec.add_dependency "metanorma-utils", "~> 2.0.13"
   # moxml 0.6.0 removed the Opal surface (lutaml/moxml#516); owner
   # call to update all to the latest moxml line.
   spec.add_dependency "moxml", "~> 0.6.1"
