@@ -4,22 +4,21 @@ require "spec_helper"
 require "metanorma-core"
 require "fileutils"
 
-# The standoc default title page renders through the flat metadata
-# context: the isodoc titlepage Liquid context does not carry the
-# bibdata object (verified: {{ bibdata.copyright.from }} renders empty
-# where {{ docyear }} renders the year - the object paths work on the
-# cover/boilerplate contexts, not this one). So the title page keeps
-# the flat keys, including the verbatim-copy docyear
-# (= bibdata/copyright/from); the bibdata.* migration of
-# metanorma-standoc#1434 is a two-step change - first teach the
-# titlepage context to carry bibdata (isodoc), then swap the
-# verbatim-copy fields. This spec pins the current contract.
+# The standoc default title page reads the bibdata through Liquid
+# object paths (isodoc#784, carried in the titlepage context since
+# isodoc 3.7.0): docyear is a verbatim copy of
+# bibdata/copyright/from, read through `.first` because `copyright`
+# is an array and Liquid cannot dot-index arrays
+# (metanorma-standoc#1434). The flat keys that isodoc derives
+# (docnumber is the first docidentifier's full text; stage and doctype
+# run through status_print) stay flat, and the flat keys remain
+# available for existing user templates.
 RSpec.describe "default HTML title page" do
   registry = Metanorma::Registry.instance
   registry.register(Metanorma::Standoc::Processor)
   processor = registry.find_processor(:standoc)
 
-  it "renders the copyright year" do
+  it "renders the copyright year through the bibdata object path" do
     FileUtils.rm_f "test.html"
     processor.output(<<~XML, "test.xml", "test.html", :html)
       <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic">
