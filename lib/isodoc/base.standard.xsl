@@ -2331,6 +2331,14 @@
 		</fo:inline>
 	</xsl:template>
 
+	<!-- The presentation XML carries fmt-fn-body elements: mirror copies
+	     of footnote bodies collected at table level. This stylesheet
+	     renders fn bodies from the semantic fn elements (fn_display in
+	     the table footer), so the mirrors would double-render and, in
+	     table scope, emit bare fo:block children of fo:table — invalid
+	     FO that FOP rejects (metanorma-standoc#1446). -->
+	<xsl:template match="ns:fmt-fn-body"/>
+
 	<xsl:template match="ns:dl">
 		<xsl:variable name="isAdded" select="@added"/>
 		<xsl:variable name="isDeleted" select="@deleted"/>
