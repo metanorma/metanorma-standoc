@@ -1630,6 +1630,18 @@ A.<fn id="_" reference="__1"><p id="_">I am a colliding footnote</p>
       Asciidoctor.convert(input_with_docid, *OPTIONS)
     end
 
+    it "re-seeds meta[:bibdata] with the resolved docidentifier" do
+      seen = nil
+      allow_any_instance_of(Metanorma::Standoc::Cleanup)
+        .to receive(:refresh_isodoc_bibdata)
+        .and_wrap_original do |method, xmldoc, isodoc|
+          method.call(xmldoc, isodoc)
+          seen = isodoc.meta.get[:bibdata][:docidentifier]
+        end
+      Asciidoctor.convert(input_with_docid, *OPTIONS)
+      expect(seen).to include(a_hash_including(content: "TEST-1"))
+    end
+
     it "does not fire refresh_isodoc_bibdata for input without " \
        "@boilerplate=true docidentifiers" do
       expect_any_instance_of(Metanorma::Standoc::Cleanup)

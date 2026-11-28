@@ -18,9 +18,8 @@ RSpec.describe "default HTML title page" do
   registry.register(Metanorma::Standoc::Processor)
   processor = registry.find_processor(:standoc)
 
-  it "renders the copyright year through the bibdata object path" do
-    FileUtils.rm_f "test.html"
-    processor.output(<<~XML, "test.xml", "test.html", :html)
+  let(:input) do
+    <<~XML
       <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic">
         <bibdata type="standard">
           <title language="en" type="main">Document title</title>
@@ -34,7 +33,23 @@ RSpec.describe "default HTML title page" do
         <sections/>
       </metanorma>
     XML
-    document = Nokogiri::HTML(File.read("test.html"))
-    expect(document.at_css(".docyear")&.text).to include("2026")
+  end
+
+  def docyear(processor, input)
+    FileUtils.rm_f "test.html"
+    processor.output(input, "test.xml", "test.html", :html)
+    Nokogiri::HTML(File.read("test.html")).at_css(".docyear")&.text
+  end
+
+  it "renders the copyright year through the bibdata object path" do
+    expect(docyear(processor, input)).to include("2026")
+  end
+
+  # isodoc sets meta[:bibdata] to nil when Relaton cannot parse the
+  # bibdata; the year then falls back to the flat docyear key
+  it "falls back to the flat docyear key when meta[:bibdata] is nil" do
+    allow_any_instance_of(IsoDoc::Metadata)
+      .to receive(:bibdata_hash).and_return(nil)
+    expect(docyear(processor, input)).to include("2026")
   end
 end
