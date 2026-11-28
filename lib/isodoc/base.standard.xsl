@@ -4593,20 +4593,36 @@
 		</xsl:call-template>
 	</xsl:variable>
 	<xsl:template match="ns:origin">
-		<fo:basic-link internal-destination="{@bibitemid}" fox:alt-text="{@citeas}">
-			<xsl:if test="normalize-space(@citeas) = ''">
-				<xsl:attribute name="fox:alt-text">
-					<xsl:value-of select="@bibitemid"/>
-				</xsl:attribute>
-			</xsl:if>
-			<fo:inline>
-				<xsl:value-of select="$localized.source"/>
-				<xsl:text>: </xsl:text>
-			</fo:inline>
-			<fo:inline xsl:use-attribute-sets="origin-style">
-				<xsl:apply-templates/>
-			</fo:inline>
-		</fo:basic-link>
+		<xsl:choose>
+			<xsl:when test="normalize-space(@bibitemid) != ''">
+				<fo:basic-link internal-destination="{@bibitemid}" fox:alt-text="{@citeas}">
+					<xsl:if test="normalize-space(@citeas) = ''">
+						<xsl:attribute name="fox:alt-text">
+							<xsl:value-of select="@bibitemid"/>
+						</xsl:attribute>
+					</xsl:if>
+					<fo:inline>
+						<xsl:value-of select="$localized.source"/>
+						<xsl:text>: </xsl:text>
+					</fo:inline>
+					<fo:inline xsl:use-attribute-sets="origin-style">
+						<xsl:apply-templates/>
+					</fo:inline>
+				</fo:basic-link>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- A dangling term source (no resolvable bibitemid) must
+				     not emit fo:basic-link: an empty internal-destination
+				     fails FOP validation (isodoc#938). -->
+				<fo:inline>
+					<xsl:value-of select="$localized.source"/>
+					<xsl:text>: </xsl:text>
+				</fo:inline>
+				<fo:inline xsl:use-attribute-sets="origin-style">
+					<xsl:apply-templates/>
+				</fo:inline>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="ns:modification/ns:p">
@@ -4648,9 +4664,20 @@
 		<xsl:if test="../ns:author">
 			<xsl:text>, </xsl:text>
 		</xsl:if>
-		<fo:basic-link internal-destination="{@bibitemid}" fox:alt-text="{@citeas}">
-			<xsl:apply-templates/>
-		</fo:basic-link>
+		<xsl:choose>
+			<xsl:when test="normalize-space(@bibitemid) != ''">
+				<fo:basic-link internal-destination="{@bibitemid}" fox:alt-text="{@citeas}">
+					<xsl:apply-templates/>
+				</fo:basic-link>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- The termsource <source> wrapper carries no bibitemid of
+				     its own; linking it would emit an empty
+				     internal-destination that fails FOP validation
+				     (isodoc#938). The nested origin provides its own link. -->
+				<xsl:apply-templates/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="ns:author">
