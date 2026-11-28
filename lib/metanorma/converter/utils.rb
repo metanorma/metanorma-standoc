@@ -196,9 +196,17 @@ module Metanorma
         end
       end
 
+      # The whole-document join feeds the cleanup parse, so the one
+      # giant string is irreducible; the copies around it are not.
+      # rstrip! mutates the per-section strings in place (each is
+      # minted by makexml1 and owned by this call), and the trailing
+      # footnote-collapsing pass reuses the buffer through gsub!. The
+      # non-bang forms allocated three further whole-document copies
+      # per compile on plateau-scale documents (standoc#1264).
       def textcleanup(result)
-        text = result.flatten.map(&:rstrip) * "\n"
-        text.gsub(/(?<!\s)\s+<fn /, "<fn ")
+        text = result.flatten.each(&:rstrip!) * "\n"
+        text.gsub!(/(?<!\s)\s+<fn /, "<fn ")
+        text
       end
     end
 

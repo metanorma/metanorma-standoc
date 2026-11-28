@@ -237,7 +237,11 @@ module Metanorma
       end
 
       def element_name_cleanup(xmldoc)
-        xmldoc.traverse { |n| n.name = n.name.tr("_", "-") }
+        i = 0
+        xmldoc.traverse do |n|
+          Metanorma::Utils::GcBudget.gc_when_bloated! if ((i += 1) % 1000).zero?
+          n.name = n.name.tr("_", "-")
+        end
       end
     end
   end
